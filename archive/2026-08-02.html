@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CFO Morning Brief – 02/08/2026</title>
+<style>
+  :root {
+    color-scheme: light;
+    --surface-1: #fcfcfb;
+    --page: #f9f9f7;
+    --ink-1: #0b0b0b;
+    --ink-2: #52514e;
+    --ink-muted: #898781;
+    --grid: #e1e0d9;
+    --baseline: #c3c2b7;
+    --border: rgba(11,11,11,0.10);
+    --s1: #2a78d6; /* blue */
+    --s2: #eb6834; /* orange */
+    --s3: #1baf7a; /* aqua */
+    --s4: #eda100; /* yellow */
+    --good: #0ca30c;
+    --warning: #fab219;
+    --serious: #ec835a;
+    --critical: #d03b3b;
+    --good-text: #006300;
+    --chip-bg: #f0efec;
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --page: #0d0d0d;
+    --ink-1: #ffffff;
+    --ink-2: #c3c2b7;
+    --ink-muted: #898781;
+    --grid: #2c2c2a;
+    --baseline: #383835;
+    --border: rgba(255,255,255,0.10);
+    --s1: #3987e5;
+    --s2: #d95926;
+    --s3: #199e70;
+    --s4: #c98500;
+    --good-text: #0ca30c;
+    --chip-bg: #262624;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --surface-1: #1a1a19;
+      --page: #0d0d0d;
+      --ink-1: #ffffff;
+      --ink-2: #c3c2b7;
+      --grid: #2c2c2a;
+      --baseline: #383835;
+      --border: rgba(255,255,255,0.10);
+      --s1: #3987e5;
+      --s2: #d95926;
+      --s3: #199e70;
+      --s4: #c98500;
+      --good-text: #0ca30c;
+      --chip-bg: #262624;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: var(--page);
+    color: var(--ink-1);
+    line-height: 1.55;
+    font-size: 15px;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 24px 20px 64px; }
+
+  header.hero { padding: 28px 0 18px; display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+  .hero h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; }
+  .hero .sub { color: var(--ink-2); font-size: 13.5px; margin-top: 6px; max-width: 640px; }
+  .theme-btn {
+    border: 1px solid var(--border); background: var(--surface-1); color: var(--ink-1);
+    border-radius: 8px; padding: 7px 12px; font-size: 13px; cursor: pointer;
+  }
+  .legend { font-size: 12.5px; color: var(--ink-muted); margin-top: 8px; }
+
+  nav.toc { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0 22px; position: sticky; top: 0; background: var(--page); padding: 10px 0; z-index: 5; border-bottom: 1px solid var(--grid); }
+  nav.toc a {
+    text-decoration: none; color: var(--ink-2); font-size: 13px;
+    padding: 5px 11px; border-radius: 999px; background: var(--chip-bg); border: 1px solid transparent;
+  }
+  nav.toc a:hover { border-color: var(--border); color: var(--ink-1); }
+
+  /* KPI tiles */
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 26px; }
+  .tile {
+    background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px;
+    padding: 14px 14px 12px;
+  }
+  .tile .k { font-size: 12px; color: var(--ink-muted); margin-bottom: 4px; }
+  .tile .v { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+  .tile .d { font-size: 12.5px; margin-top: 3px; color: var(--ink-2); }
+  .tile .d.up-bad { color: var(--critical); }
+  .tile .d.down { color: var(--good-text); }
+  .tile .src { font-size: 11px; color: var(--ink-muted); margin-top: 6px; }
+
+  section { margin-bottom: 34px; }
+  h2 { font-size: 18px; font-weight: 700; margin-bottom: 12px; padding-top: 8px; letter-spacing: -0.01em; }
+  h2 .n { color: var(--ink-muted); font-weight: 600; margin-right: 6px; }
+
+  .card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; }
+
+  /* Snapshot */
+  .snap { display: grid; gap: 0; }
+  .snap .row { display: grid; grid-template-columns: 190px 1fr; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--grid); }
+  .snap .row:last-child { border-bottom: none; }
+  .snap .lbl { font-size: 13px; color: var(--ink-muted); font-weight: 600; }
+  .snap .val { font-size: 14px; }
+  .snap .row.action .val { font-weight: 600; }
+
+  /* Filter chips */
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .chip {
+    font-size: 12.5px; padding: 5px 12px; border-radius: 999px; cursor: pointer;
+    background: var(--chip-bg); color: var(--ink-2); border: 1px solid transparent; user-select: none;
+  }
+  .chip:hover { border-color: var(--border); }
+  .chip.active { background: var(--s1); color: #fff; font-weight: 600; }
+
+  /* Developments accordion */
+  .dev { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 8px; overflow: hidden; }
+  .dev-head { display: flex; align-items: center; gap: 12px; padding: 12px 16px; cursor: pointer; }
+  .dev-head:hover { background: var(--chip-bg); }
+  .dev .pri {
+    flex: 0 0 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 13px; background: var(--chip-bg); color: var(--ink-2);
+  }
+  .dev[data-p="1"] .pri, .dev[data-p="2"] .pri { background: var(--s1); color: #fff; }
+  .dev .t { flex: 1; font-size: 14px; font-weight: 600; }
+  .dev .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag { font-size: 11px; padding: 2px 9px; border-radius: 999px; background: var(--chip-bg); color: var(--ink-2); white-space: nowrap; }
+  .dev .arrow { color: var(--ink-muted); font-size: 12px; transition: transform .18s; }
+  .dev.open .arrow { transform: rotate(90deg); }
+  .dev-body { display: none; padding: 4px 16px 16px 56px; }
+  .dev.open .dev-body { display: block; }
+  .dev-body dl { display: grid; grid-template-columns: 130px 1fr; gap: 6px 12px; font-size: 13.5px; }
+  .dev-body dt { color: var(--ink-muted); font-weight: 600; }
+  .dev-body dd a { color: var(--s1); }
+  .dev.hidden { display: none; }
+  .facttag { font-size: 11px; font-weight: 700; color: var(--ink-muted); margin-left: 6px; }
+
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th { text-align: left; font-size: 12px; color: var(--ink-muted); font-weight: 600; padding: 8px 10px; border-bottom: 1px solid var(--baseline); }
+  td { padding: 9px 10px; border-bottom: 1px solid var(--grid); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .dir { font-weight: 700; }
+  .dir.up { color: var(--critical); }
+  .dir.down { color: var(--good-text); }
+  .dir.flat { color: var(--ink-muted); }
+
+  .impact { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; font-size: 12.5px; }
+  .impact .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+  .impact.high .dot { background: var(--critical); }
+  .impact.med .dot { background: var(--serious); }
+  .impact.high::after { content: "▲"; font-size: 9px; color: var(--critical); }
+  .impact.med::after { content: "■"; font-size: 9px; color: var(--serious); }
+
+  /* Group cards */
+  .grid4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px; }
+  .gcard { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; border-top: 3px solid var(--s1); }
+  .gcard:nth-child(2) { border-top-color: var(--s2); }
+  .gcard:nth-child(3) { border-top-color: var(--s3); }
+  .gcard:nth-child(4) { border-top-color: var(--s4); }
+  .gcard h3 { font-size: 14px; margin-bottom: 6px; }
+  .gcard .role { font-size: 11.5px; color: var(--ink-muted); display: block; }
+  .gcard p { font-size: 13px; color: var(--ink-2); }
+
+  /* Questions */
+  .q { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--grid); font-size: 14px; }
+  .q:last-child { border-bottom: none; }
+  .q .qn { flex: 0 0 26px; height: 26px; border-radius: 50%; background: var(--s1); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12.5px; }
+
+  /* Next */
+  .next { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
+  .next .card h3 { font-size: 13px; color: var(--ink-muted); margin-bottom: 6px; }
+  .next .card p { font-size: 13.5px; }
+
+  .note { font-size: 12.5px; color: var(--ink-2); background: var(--chip-bg); border-radius: 10px; padding: 12px 14px; margin-top: 14px; border: 1px solid var(--border); }
+  .missing { color: var(--ink-muted); font-style: italic; }
+
+  footer { margin-top: 30px; padding-top: 16px; border-top: 1px solid var(--grid); font-size: 12.5px; color: var(--ink-2); }
+  footer a { color: var(--s1); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+  footer li { margin: 3px 0 3px 18px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <div>
+    <h1>CFO Morning Brief – 02/08/2026</h1>
+    <div class="sub">Nguồn trong cửa sổ 24h: <strong>Vietstock, CafeF</strong>. Reuters, FT, VNEconomy: không có bài truy cập được trong 24h — mục liên quan ghi rõ <em>"Nguồn chưa cung cấp đủ dữ liệu"</em>.</div>
+    <div class="legend">Ký hiệu: <strong>(F)</strong> Fact · <strong>(SO)</strong> Source Opinion · <strong>(I)</strong> Inference — suy luận của bản tin, không phải số liệu nguồn.</div>
+  </div>
+  <button class="theme-btn" id="themeBtn" aria-label="Đổi giao diện sáng/tối">◐ Sáng/Tối</button>
+</header>
+
+<nav class="toc">
+  <a href="#snapshot">1. Snapshot</a>
+  <a href="#dev">2. Top 7</a>
+  <a href="#signals">3. Market Signals</a>
+  <a href="#risk">4. Risk Radar</a>
+  <a href="#group">5. Group H·S·K·HK</a>
+  <a href="#questions">6. Questions</a>
+  <a href="#next">7. What's Next</a>
+</nav>
+
+<div class="tiles">
+  <div class="tile">
+    <div class="k">TPCP Mỹ 30 năm</div>
+    <div class="v">5,28%</div>
+    <div class="d up-bad">▲ Cao nhất từ 2007 (F)</div>
+    <div class="src">Vietstock</div>
+  </div>
+  <div class="tile">
+    <div class="k">Fed Funds Rate</div>
+    <div class="v">3,50–3,75%</div>
+    <div class="d">Giữ nguyên lần thứ 5 (F)</div>
+    <div class="src">Vietstock</div>
+  </div>
+  <div class="tile">
+    <div class="k">USD/VND tự do</div>
+    <div class="v">26.250–280</div>
+    <div class="d">TT 25.338 · VCB 26.090–470 (F)</div>
+    <div class="src">CafeF 01/08</div>
+  </div>
+  <div class="tile">
+    <div class="k">Vàng thế giới</div>
+    <div class="v">$4.043</div>
+    <div class="d down">▼ −57 USD/oz (F)</div>
+    <div class="src">CafeF 01/08</div>
+  </div>
+  <div class="tile">
+    <div class="k">Dầu thô</div>
+    <div class="v">$90</div>
+    <div class="d up-bad">▲ Từ $72, Mỹ–Iran (F)</div>
+    <div class="src">Vietstock</div>
+  </div>
+  <div class="tile">
+    <div class="k">VN-Index</div>
+    <div class="v">&gt;1.700</div>
+    <div class="d">Lấy lại mốc, thanh khoản thấp (F)</div>
+    <div class="src">Vietstock</div>
+  </div>
+</div>
+
+<section id="snapshot">
+  <h2><span class="n">1</span>Executive Snapshot</h2>
+  <div class="card snap">
+    <div class="row"><div class="lbl">Global</div><div class="val">Bán tháo TPCP Mỹ, lợi suất 30Y chạm 5,28% — cao nhất từ 2007; Fed giữ 3,50–3,75% lần thứ 5, nội bộ nghiêng "diều hâu". <span class="facttag">(F)</span></div></div>
+    <div class="row"><div class="lbl">Vietnam</div><div class="val">VN-Index lấy lại mốc 1.700 nhưng tâm lý thận trọng chi phối; tỷ giá trung tâm 25.338, VCB 26.090–26.470, tự do 26.250–26.280. <span class="facttag">(F)</span></div></div>
+    <div class="row"><div class="lbl">Biggest opportunity</div><div class="val">USD mạnh làm tăng giá trị VND của dòng doanh thu USD từ S-US khi quy đổi. <span class="facttag">(I)</span></div></div>
+    <div class="row"><div class="lbl">Biggest risk</div><div class="val">Lãi suất USD "cao hơn, lâu hơn" → chi phí vốn và chi phí hedging qua hub HK tăng. <span class="facttag">(I)</span></div></div>
+    <div class="row action"><div class="lbl">CFO action hôm nay</div><div class="val">Chốt lại vị thế FX và lịch điều chuyển tiền HK→VN trước tuần giao dịch 03–07/08. <span class="facttag">(I)</span></div></div>
+  </div>
+</section>
+
+<section id="dev">
+  <h2><span class="n">2</span>Top 7 Developments <span style="font-size:12px;color:var(--ink-muted);font-weight:400">— bấm từng dòng để xem chi tiết; lọc theo Financial Impact</span></h2>
+  <div class="chips" id="chips">
+    <span class="chip active" data-f="all">Tất cả</span>
+    <span class="chip" data-f="Revenue">Revenue</span>
+    <span class="chip" data-f="Margin">Margin</span>
+    <span class="chip" data-f="Cash">Cash</span>
+    <span class="chip" data-f="FX">FX</span>
+    <span class="chip" data-f="Risk">Risk</span>
+    <span class="chip" data-f="CapAlloc">Capital Allocation</span>
+  </div>
+
+  <div class="dev" data-p="1" data-f="Cash CapAlloc">
+    <div class="dev-head"><div class="pri">1</div><div class="t">Bán tháo TPCP Mỹ; lợi suất 30Y = 5,28%, cao nhất từ 2007 <span class="facttag">(F)</span></div><div class="tags"><span class="tag">Cash</span><span class="tag">Cap. Allocation</span></div><span class="arrow">▶</span></div>
+    <div class="dev-body"><dl>
+      <dt>Why it matters</dt><dd>Chi phí vốn USD dài hạn tăng trên toàn cầu; Chủ tịch Fed St. Louis Musalem coi đây là "thông điệp của thị trường" đòi Fed củng cố uy tín chống lạm phát bằng hành động.</dd>
+      <dt>Chi tiết</dt><dd>Lạm phát Mỹ đang gần gấp đôi mục tiêu 2%; áp lực từ giá năng lượng, thuế quan và làn sóng đầu tư AI. (F/SO)</dd>
+      <dt>CFO Action</dt><dd>Hoãn vay USD dài hạn; khóa lãi suất các khoản vay hiện hữu qua hub HK.</dd>
+      <dt>Nguồn</dt><dd><a href="https://vietstock.vn/2026/08/dot-ban-thao-trai-phieu-phat-tin-hieu-canh-bao-toi-fed-773-1475411.htm" target="_blank" rel="noopener">Vietstock — Đợt bán tháo trái phiếu phát tín hiệu cảnh báo tới Fed</a></dd>
+    </dl></div>
+  </div>
+
+  <div class="dev" data-p="2" data-f="Risk FX">
+    <div class="dev-head"><div class="pri">2</div><div class="t">Fed giữ 3,50–3,75% lần thứ 5; Musalem ủng hộ +25bp, 3 thành viên FOMC bất đồng <span class="facttag">(F)</span></div><div class="tags"><span class="tag">Risk</span><span class="tag">FX</span></div><span class="arrow">▶</span></div>
+    <div class="dev-body"><dl>
+      <dt>Why it matters</dt><dd>Kịch bản tăng lãi suất trong H2 là thực tế, không còn là rủi ro đuôi — trì hoãn hôm nay có thể đồng nghĩa tăng mạnh hơn sau này (SO).</dd>
+      <dt>CFO Action</dt><dd>Cập nhật kịch bản lãi suất trong forecast H2; stress-test chi phí vốn hợp nhất.</dd>
+      <dt>Nguồn</dt><dd><a href="https://vietstock.vn/2026/08/dot-ban-thao-trai-phieu-phat-tin-hieu-canh-bao-toi-fed-773-1475411.htm" target="_blank" rel="noopener">Vietstock</a></dd>
+    </dl></div>
+  </div>
+
+  <div class="dev" data-p="3" data-f="FX">
+    <div class="dev-head"><div class="pri">3</div><div class="t">USD duy trì mức cao; VCB 26.090–26.470, tự do 26.250–26.280 <span class="facttag">(F)</span></div><div class="tags"><span class="tag">FX</span></div><span class="arrow">▶</span></div>
+    <div class="dev-body"><dl>
+      <dt>Why it matters</dt><dd>Ảnh hưởng trực tiếp giá trị hợp đồng ký qua HK và COGS nhập khẩu; tỷ giá trung tâm 25.338 không đổi — NHNN chưa phát tín hiệu can thiệp mới.</dd>
+      <dt>CFO Action</dt><dd>Rà soát tỷ lệ hedging; tận dụng natural hedge giữa doanh thu USD (S-US) và chi phí VND.</dd>
+      <dt>Nguồn</dt><dd><a href="https://cafef.vn/ly-do-gia-vang-giam-manh-188260801095311459.chn" target="_blank" rel="noopener">CafeF 01/08 — Lý do giá vàng giảm mạnh</a></dd>
+    </dl></div>
+  </div>
+
+  <div class="dev" data-p="4" data-f="Margin">
+    <div class="dev-head"><div class="pri">4</div><div class="t">Giá dầu tăng từ 72 → 90 USD/thùng do căng thẳng Mỹ–Iran <span class="facttag">(F)</span></div><div class="tags"><span class="tag">Margin</span></div><span class="arrow">▶</span></div>
+    <div class="dev-body"><dl>
+      <dt>Why it matters</dt><dd>Chi phí logistics xuyên biên giới tăng — trực tiếp bào mòn margin của mô hình bán hàng đa quốc gia.</dd>
+      <dt>CFO Action</dt><dd>Cập nhật đơn giá vận chuyển vào P&amp;L forecast Q3; đàm phán điều khoản phụ phí nhiên liệu.</dd>
+      <dt>Nguồn</dt><dd><a href="https://vietstock.vn/2026/08/dot-ban-thao-trai-phieu-phat-tin-hieu-canh-bao-toi-fed-773-1475411.htm" target="_blank" rel="noopener">Vietstock</a></dd>
+    </dl></div>
+  </div>
+
+  <div class="dev" data-p="5" data-f="Revenue">
+    <div class="dev-head"><div class="pri">5</div><div class="t">Lãi suất vay thế chấp Mỹ cao nhất 1 năm <span class="facttag">(F)</span></div><div class="tags"><span class="tag">Revenue</span></div><span class="arrow">▶</span></div>
+    <div class="dev-body"><dl>
+      <dt>Why it matters</dt><dd>Leading indicator cho sức mua người tiêu dùng Mỹ — thị trường doanh thu chủ lực của S-US (I).</dd>
+      <dt>CFO Action</dt><dd>Theo dõi conversion rate và AOV thị trường Mỹ ngay trong tuần này.</dd>
+      <dt>Nguồn</dt><dd><a href="https://vietstock.vn/2026/08/my-lai-suat-vay-the-chap-tang-vot-len-muc-cao-nhat-trong-mot-nam-772-1475398.htm" target="_blank" rel="noopener">Vietstock — Lãi suất vay thế chấp Mỹ cao nhất một năm</a></dd>
+    </dl></div>
+  </div>
+
+  <div class="dev" data-p="6" data-f="CapAlloc">
+    <div class="dev-head"><div class="pri">6</div><div class="t">VN-Index lấy lại mốc 1.700; thanh khoản dưới trung bình 20 phiên, "tâm lý thận trọng vẫn chi phối" <span class="facttag">(F/SO)</span></div><div class="tags"><span class="tag">Cap. Allocation</span></div><span class="arrow">▶</span></div>
+    <div class="dev-body"><dl>
+      <dt>Why it matters</dt><dd>Cửa sổ huy động vốn trong nước chưa thuận lợi; tuần 27–31/07 phục hồi nhưng phiên 31/07 chịu chốt lời, khối ngoại bán ròng phiên cuối tuần (mua ròng nhẹ cả tuần ở chứng quyền).</dd>
+      <dt>CFO Action</dt><dd>Chưa kích hoạt kế hoạch huy động vốn / thoái vốn trong nước.</dd>
+      <dt>Nguồn</dt><dd><a href="https://vietstock.vn/2026/08/vietstock-weekly-03-07082026-tam-ly-than-trong-van-chi-phoi-1636-1474933.htm" target="_blank" rel="noopener">Vietstock Weekly 03–07/08</a> · <a href="https://vietstock.vn/2026/08/nhung-co-phieu-nao-giup-vn-index-lay-lai-moc-1700-diem-830-1474890.htm" target="_blank" rel="noopener">VN-Index lấy lại mốc 1.700</a></dd>
+    </dl></div>
+  </div>
+
+  <div class="dev" data-p="7" data-f="Risk">
+    <div class="dev-head"><div class="pri">7</div><div class="t">Vàng thế giới −57 USD còn $4.043/oz; SJC 137–141 triệu/lượng (−2,2 triệu) <span class="facttag">(F)</span></div><div class="tags"><span class="tag">Risk</span></div><span class="arrow">▶</span></div>
+    <div class="dev-body"><dl>
+      <dt>Why it matters</dt><dd>Xác nhận tín hiệu USD mạnh chứ không phải biến động riêng của vàng; chênh lệch trong nước–thế giới ~12 triệu/lượng.</dd>
+      <dt>CFO Action</dt><dd>Không dùng vàng làm nơi trú ẩn treasury; giữ kỷ luật quản trị USD/VND.</dd>
+      <dt>Nguồn</dt><dd><a href="https://cafef.vn/ly-do-gia-vang-giam-manh-188260801095311459.chn" target="_blank" rel="noopener">CafeF 01/08</a></dd>
+    </dl></div>
+  </div>
+</section>
+
+<section id="signals">
+  <h2><span class="n">3</span>Market Signals</h2>
+  <div class="card" style="padding:6px 12px; overflow-x:auto;">
+    <table>
+      <thead><tr><th>Indicator</th><th>Direction</th><th>CFO Interpretation</th></tr></thead>
+      <tbody>
+        <tr><td>Growth</td><td class="missing">Nguồn chưa cung cấp đủ dữ liệu</td><td>—</td></tr>
+        <tr><td>Inflation (Mỹ)</td><td><span class="dir up">▲</span> ~gấp đôi mục tiêu 2% (F)</td><td>Fed khó nới lỏng; chi phí vốn USD neo cao</td></tr>
+        <tr><td>Interest rates</td><td><span class="dir flat">■</span> Fed giữ, thiên hướng tăng (F/SO)</td><td>Ưu tiên vốn VND cho nhu cầu ngắn hạn nếu chênh lệch lãi suất thu hẹp</td></tr>
+        <tr><td>FX</td><td><span class="dir up">▲</span> USD mạnh; VND ổn định (F)</td><td>Chưa căng thẳng, nhưng còn dư địa VND mất giá nếu Fed tăng</td></tr>
+        <tr><td>Consumer demand (Mỹ)</td><td><span class="dir down">▼</span> gián tiếp qua lãi suất thế chấp (I)</td><td>Cảnh giác với kế hoạch doanh thu S-US Q3</td></tr>
+        <tr><td>Commodity / logistics</td><td><span class="dir up">▲</span> Dầu 72→90 USD (F)</td><td>Áp lực chi phí fulfillment xuyên biên giới</td></tr>
+        <tr><td>Capital markets</td><td><span class="dir flat">■</span> VN-Index &gt;1.700, thanh khoản thấp; TPCP Mỹ bị bán tháo (F)</td><td>Thị trường vốn hai đầu đều không rẻ — bảo toàn cash</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="risk">
+  <h2><span class="n">4</span>Risk Radar</h2>
+  <div class="card" style="padding:6px 12px; overflow-x:auto;">
+    <table>
+      <thead><tr><th>Risk</th><th style="text-align:right">Probability</th><th>Impact</th><th>Time Horizon</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr><td>Fed tăng lãi suất trong H2 (I)</td><td class="num">~50–60%</td><td><span class="impact high"><span class="dot"></span>Cao</span></td><td>1–3 tháng</td><td>Stress-test chi phí vốn HK; khóa lãi suất</td></tr>
+        <tr><td>VND mất giá thêm nếu USD tiếp tục mạnh (I)</td><td class="num">~40%</td><td><span class="impact high"><span class="dot"></span>Cao</span></td><td>1–6 tháng</td><td>Tăng tỷ lệ hedge dòng nhập khẩu; đẩy nhanh thu hồi công nợ USD</td></tr>
+        <tr><td>Dầu leo thang vì căng thẳng Mỹ–Iran (I)</td><td class="num">~40%</td><td><span class="impact med"><span class="dot"></span>Trung bình</span></td><td>Ngay</td><td>Đàm phán lại hợp đồng logistics có điều khoản nhiên liệu</td></tr>
+        <tr><td>Thanh khoản TTCK VN thấp kéo dài (SO)</td><td class="num">~50%</td><td><span class="impact med"><span class="dot"></span>Trung bình</span></td><td>1–3 tháng</td><td>Không phụ thuộc thị trường vốn trong nước cho capex</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="group">
+  <h2><span class="n">5</span>Implications for Our Group</h2>
+  <div class="grid4">
+    <div class="gcard"><h3>H <span class="role">Brand · IP · R&amp;D</span></h3><p>Lãi suất cao toàn cầu → chi phí tài trợ R&amp;D tăng; ưu tiên dự án IRR cao, hoãn dự án biên. (I)</p></div>
+    <div class="gcard"><h3>S <span class="role">Sales &amp; Markets</span></h3><p>USD mạnh có lợi khi quy đổi doanh thu Mỹ, nhưng sức mua Mỹ có dấu hiệu yếu — theo dõi sát demand. (I)</p></div>
+    <div class="gcard"><h3>K <span class="role">Digital Marketing · Content</span></h3><p>Khách hàng có thể cắt ngân sách marketing nếu chi phí vốn tăng — bảo vệ pipeline bằng hợp đồng dài hạn. (I)</p></div>
+    <div class="gcard"><h3>HK <span class="role">Treasury · Cross-border Hub</span></h3><p>Tâm điểm hôm nay: lợi suất USD 5,28% vừa là rủi ro vay, vừa là cơ hội sinh lời ngắn hạn cho cash USD nhàn rỗi. (I)</p></div>
+  </div>
+</section>
+
+<section id="questions">
+  <h2><span class="n">6</span>Questions CFO Should Ask Today</h2>
+  <div class="card">
+    <div class="q"><div class="qn">1</div><div>Nếu Fed tăng 25–50bp trong Q4, chi phí vốn hợp nhất của Group tăng bao nhiêu — và HK đã khóa được bao nhiêu % dư nợ lãi suất thả nổi?</div></div>
+    <div class="q"><div class="qn">2</div><div>Cash USD nhàn rỗi tại HK đang hưởng lợi suất bao nhiêu so với mức 5,28% thị trường đang trả — chúng ta đang bỏ phí bao nhiêu?</div></div>
+    <div class="q"><div class="qn">3</div><div>Nếu doanh thu S-US giảm 10% vì tiêu dùng Mỹ yếu, điểm hòa vốn của K và S bị ảnh hưởng thế nào?</div></div>
+  </div>
+</section>
+
+<section id="next">
+  <h2><span class="n">7</span>What's Next?</h2>
+  <div class="next">
+    <div class="card"><h3>TODAY (Chủ nhật)</h3><p>Chốt vị thế FX, lịch điều chuyển tiền tuần tới; brief team treasury trước phiên 03/08.</p></div>
+    <div class="card"><h3>THIS WEEK</h3><p>Theo dõi phiên mở cửa 03/08 (tâm lý thận trọng — Vietstock). Dữ liệu vĩ mô Mỹ trong tuần: <span class="missing">Nguồn chưa cung cấp đủ dữ liệu.</span></p></div>
+    <div class="card"><h3>THIS MONTH</h3><p>Theo dõi phát ngôn Fed sau bất đồng nội bộ. Lịch sự kiện cụ thể: <span class="missing">Nguồn chưa cung cấp đủ dữ liệu.</span></p></div>
+  </div>
+  <div class="note"><strong>Bối cảnh ngoài cửa sổ 24h</strong> (VNEconomy 24–25/07 — ghi chú riêng, không xếp hạng): Mỹ áp thuế bổ sung 12,5% theo Mục 301 với hàng Việt Nam từ 24/07 — rủi ro trực tiếp cho S-US · 500 DN niêm yết báo lãi Q2 +19,7% YoY · Người Việt chi ~1.611 tỷ đồng/ngày mua sắm online.</div>
+</section>
+
+<footer>
+  <strong>Sources</strong> (bấm để đọc chi tiết):
+  <ul>
+    <li><a href="https://vietstock.vn/2026/08/dot-ban-thao-trai-phieu-phat-tin-hieu-canh-bao-toi-fed-773-1475411.htm" target="_blank" rel="noopener">Vietstock — Đợt bán tháo trái phiếu phát tín hiệu cảnh báo tới Fed</a></li>
+    <li><a href="https://vietstock.vn/2026/08/my-lai-suat-vay-the-chap-tang-vot-len-muc-cao-nhat-trong-mot-nam-772-1475398.htm" target="_blank" rel="noopener">Vietstock — Mỹ: Lãi suất vay thế chấp cao nhất một năm</a></li>
+    <li><a href="https://vietstock.vn/2026/08/vietstock-weekly-03-07082026-tam-ly-than-trong-van-chi-phoi-1636-1474933.htm" target="_blank" rel="noopener">Vietstock Weekly 03–07/08/2026 — Tâm lý thận trọng vẫn chi phối</a></li>
+    <li><a href="https://vietstock.vn/2026/08/nhung-co-phieu-nao-giup-vn-index-lay-lai-moc-1700-diem-830-1474890.htm" target="_blank" rel="noopener">Vietstock — Những cổ phiếu giúp VN-Index lấy lại mốc 1.700</a></li>
+    <li><a href="https://vietstock.vn/2026/08/thi-truong-chung-quyen-tuan-03-07082026-do-lua-cung-thi-truong-co-so-1636-1474851.htm" target="_blank" rel="noopener">Vietstock — Thị trường chứng quyền tuần 03–07/08</a></li>
+    <li><a href="https://cafef.vn/ly-do-gia-vang-giam-manh-188260801095311459.chn" target="_blank" rel="noopener">CafeF 01/08 — Lý do giá vàng giảm mạnh (kèm tỷ giá)</a></li>
+    <li><a href="https://vneconomy.vn/" target="_blank" rel="noopener">VNEconomy — bối cảnh 24–25/07 (ngoài cửa sổ 24h)</a></li>
+  </ul>
+  <p style="margin-top:10px;color:var(--ink-muted)">Bản tin tổng hợp tự động theo khung CFO Morning Brief · Dữ liệu ngày 02/08/2026 · Chỉ dùng nội dung nguồn cung cấp, phần suy luận đánh dấu (I).</p>
+</footer>
+
+</div>
+<script>
+  // Theme toggle
+  var btn = document.getElementById('themeBtn');
+  btn.addEventListener('click', function() {
+    var r = document.documentElement;
+    var isDark = r.getAttribute('data-theme') === 'dark' ||
+      (!r.getAttribute('data-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    r.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  });
+
+  // Accordion
+  document.querySelectorAll('.dev-head').forEach(function(h) {
+    h.addEventListener('click', function() {
+      h.parentElement.classList.toggle('open');
+    });
+  });
+
+  // Filter chips
+  var chips = document.querySelectorAll('#chips .chip');
+  chips.forEach(function(c) {
+    c.addEventListener('click', function() {
+      chips.forEach(function(x) { x.classList.remove('active'); });
+      c.classList.add('active');
+      var f = c.getAttribute('data-f');
+      document.querySelectorAll('.dev').forEach(function(d) {
+        var tags = d.getAttribute('data-f').split(' ');
+        d.classList.toggle('hidden', f !== 'all' && tags.indexOf(f) === -1);
+      });
+    });
+  });
+</script>
+</body>
+</html>
