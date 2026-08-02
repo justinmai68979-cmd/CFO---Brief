@@ -181,6 +181,23 @@
   footer li { margin: 3px 0 3px 18px; }
   footer a { text-decoration: none; }
   footer a:hover { text-decoration: underline; }
+
+  /* ===== Top-level tabs ===== */
+  .tabbar { display: flex; justify-content: center; flex-wrap: wrap; border-top: 3px double var(--rule); border-bottom: 1px solid var(--rule); margin-top: 12px; position: sticky; top: 0; background: var(--paper); z-index: 20; font-family: system-ui, sans-serif; }
+  .tabbar button { background: none; border: none; cursor: pointer; padding: 12px 18px; font-size: 12.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-2); border-bottom: 3px solid transparent; }
+  .tabbar button:hover { color: var(--accent); }
+  .tabbar button.active { color: var(--ink); border-bottom-color: var(--ink); }
+  .tabpanel { display: none; }
+  .tabpanel.active { display: block; }
+  nav.toc { position: static; }
+
+  .quotebox { background: var(--surface); border: 1px solid var(--hair); border-left: 4px solid var(--accent); padding: 18px 22px; margin: 8px 0 16px; }
+  .quotebox .qt { font-size: 21px; line-height: 1.45; font-style: italic; }
+  .quotebox .who { font-family: system-ui, sans-serif; font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin-top: 10px; }
+  .callout { font-family: system-ui, sans-serif; font-size: 13px; background: var(--warn-bg); border: 1px solid var(--hair); border-left: 3px solid var(--accent); padding: 12px 14px; margin-top: 12px; }
+  .twocol { display: grid; grid-template-columns: 1.5fr 1fr; gap: 18px; }
+  @media (max-width: 820px) { .twocol { grid-template-columns: 1fr; } }
+  .stamp { font-family: system-ui, sans-serif; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 14px 0 4px; }
 </style>
 </head>
 <body>
@@ -203,6 +220,14 @@
   <div class="legend">(F) Fact · (SO) Source Opinion · (I) Inference — suy luận của bản tin. Reuters/FT/VNEconomy: không có bài truy cập được trong 24h.</div>
 </header>
 
+<div class="tabbar" id="tabbar">
+  <button class="active" data-tab="tab-brief">Bản tin hôm nay</button>
+  <button data-tab="tab-mindset">Mindset &amp; Kỹ năng</button>
+  <button data-tab="tab-tax">Thuế &amp; Chính sách</button>
+  <button data-tab="tab-tech">Công nghệ &amp; CFO</button>
+</div>
+
+<div class="tabpanel active" id="tab-brief">
 <nav class="toc">
   <a href="#front">Trang nhất</a>
   <a href="#dev">Top 7</a>
@@ -480,6 +505,151 @@
   </div>
   <p style="font-family:system-ui,sans-serif;font-size:12.5px;color:var(--ink-2);background:var(--warn-bg);border:1px solid var(--hair);padding:12px 14px;margin-top:14px;"><strong>Bối cảnh ngoài cửa sổ 24h</strong> (VNEconomy 24–25/07): Mỹ áp thuế bổ sung 12,5% theo Mục 301 với hàng Việt Nam từ 24/07 — rủi ro trực tiếp cho S-US · 500 DN niêm yết báo lãi Q2 +19,7% YoY · Người Việt chi ~1.611 tỷ đồng/ngày mua sắm online.</p>
 </section>
+</div><!-- /tab-brief -->
+
+<!-- ===== TAB: MINDSET ===== -->
+<div class="tabpanel" id="tab-mindset">
+  <div class="stamp">Chuyên mục rèn luyện · nội dung xoay vòng mỗi ngày · Ấn bản 02/08/2026</div>
+
+  <div class="kicker">Tư duy hôm nay · Kỷ luật đối diện vấn đề</div>
+  <h2 style="font-size:clamp(22px,3vw,30px);line-height:1.2;margin-bottom:10px;">"Problems don't age well" — nguyên tắc Jamie Dimon và bản đồ vấn đề của người đứng đầu tài chính</h2>
+  <div class="quotebox">
+    <div class="qt">"Vấn đề không tự đẹp lên theo thời gian. Hãy lôi nó ra ánh sáng ngay hôm nay."</div>
+    <div class="who">Jamie Dimon · Chairman &amp; CEO, JPMorganChase — nguyên tắc quản trị được ông nhắc lại nhiều năm trong thư cổ đông và phỏng vấn</div>
+  </div>
+  <p style="margin-bottom:10px;">Dimon bắt đầu ngày từ ~5h sáng bằng việc đọc — báo chí, báo cáo nội bộ, dữ liệu thị trường — trước khi bất kỳ cuộc họp nào diễn ra. Điều ông đòi hỏi ở đội ngũ không phải sự lạc quan, mà là <strong>danh sách sự thật khó chịu</strong>: khoản nợ nào đang xấu đi, khách hàng nào đang rời bỏ, giả định nào trong kế hoạch đã sai. Với một CFO, đây là kỷ luật đáng học nhất: báo cáo hay nhất không phải báo cáo đẹp nhất, mà là báo cáo <em>nói thật sớm nhất</em>.</p>
+  <div class="callout"><strong>Áp dụng hôm nay:</strong> mở sổ tay, viết 3 "sự thật khó chịu" của tài chính Group mà bạn đang tránh nhìn (một khoản công nợ, một giả định doanh thu, một chi phí đang phình). Đặt lịch xử lý cái đầu tiên trong tuần này — trước khi nó "già đi".</div>
+
+  <section class="sec">
+    <div class="sechead"><span class="secno">B</span><h2>Thói quen hàng ngày của những người đứng đầu</h2><span class="note">đúc kết từ phát ngôn &amp; thực hành được ghi nhận công khai</span></div>
+    <div class="card" style="padding:6px 12px;overflow-x:auto;">
+      <table>
+        <thead><tr><th>Người</th><th>Thói quen / nguyên tắc</th><th>Vì sao hiệu quả</th><th>Cách bạn áp dụng ở quy mô Group</th></tr></thead>
+        <tbody>
+          <tr><td><b class="vb">Warren Buffett</b><br><span style="color:var(--muted);font-size:11px">Berkshire Hathaway</span></td><td>Đọc 5–6 giờ mỗi ngày; chỉ quyết định trong "vòng tròn hiểu biết"</td><td>Lợi thế kép của kiến thức tích lũy; tránh sai lầm ở lĩnh vực không hiểu</td><td>Chặn 45 phút đọc mỗi sáng trước khi mở email; từ chối phê duyệt khoản đầu tư bạn không giải thích được bằng 1 trang giấy</td></tr>
+          <tr><td><b class="vb">Ruth Porat</b><br><span style="color:var(--muted);font-size:11px">President &amp; CIO Alphabet, cựu CFO Morgan Stanley</span></td><td>Kỷ luật phân bổ vốn: mọi sáng kiến phải cạnh tranh vốn như nhau; dám nói "không" với dự án của chính CEO</td><td>Biến phòng tài chính từ "người ghi sổ" thành "người gác cổng giá trị"</td><td>Lập một bảng xếp hạng IRR duy nhất cho mọi đề xuất capex của cả H, S, K, HK — không có ngoại lệ theo cảm tình</td></tr>
+          <tr><td><b class="vb">Jeff Bezos</b><br><span style="color:var(--muted);font-size:11px">Amazon</span></td><td>Cấm slide trong họp lãnh đạo — thay bằng memo 6 trang đọc im lặng đầu giờ</td><td>Viết văn xuôi buộc tư duy phải liền mạch; slide che giấu lỗ hổng logic</td><td>Yêu cầu đề xuất ngân sách lớn của 4 công ty nộp dạng memo: bối cảnh → số liệu → rủi ro → đề nghị</td></tr>
+          <tr><td><b class="vb">Tim Cook</b><br><span style="color:var(--muted);font-size:11px">Apple</span></td><td>Dậy ~4–5h; tự đọc phản hồi khách hàng; vận hành chuỗi cung ứng bằng số liệu từng đơn vị</td><td>Người đứng đầu chạm dữ liệu gốc, không chỉ nghe báo cáo đã lọc</td><td>Mỗi tuần một lần, tự mở dữ liệu bán hàng thô của S — đừng chỉ đọc bản tóm tắt của cấp dưới</td></tr>
+          <tr><td><b class="vb">Phạm Nhật Vượng</b><br><span style="color:var(--muted);font-size:11px">Vingroup</span></td><td>"Mãi mãi tinh thần khởi nghiệp" — tốc độ thực thi là văn hóa; đã quyết là làm đến cùng, sai thì sửa nhanh</td><td>Ở thị trường biến động, tốc độ ra quyết định là một loại lợi nhuận</td><td>Đặt SLA cho chính phòng tài chính: mọi yêu cầu phê duyệt phải có câu trả lời trong 48h</td></tr>
+          <tr><td><b class="vb">Trần Đình Long</b><br><span style="color:var(--muted);font-size:11px">Hòa Phát</span></td><td>Bảo thủ về tiền mặt và nợ vay; chỉ mở rộng vào lĩnh vực hiểu sâu, đi đến cùng chuỗi giá trị</td><td>Doanh nghiệp sống sót qua chu kỳ nhờ bảng cân đối, không nhờ câu chuyện</td><td>Giữ kỷ luật "tháng tiền mặt tối thiểu" cho cả Group ngay cả khi cơ hội đầu tư hấp dẫn</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sechead"><span class="secno">C</span><h2>Kỹ năng tuần này · Kể chuyện bằng con số</h2></div>
+    <div class="twocol">
+      <div class="card" style="padding:16px 18px;">
+        <p style="font-family:system-ui,sans-serif;font-size:13.5px;margin-bottom:10px;">CFO giỏi nhất không trình bày số liệu — họ trình bày <strong>quyết định kèm bằng chứng</strong>. Khung 3 bước dùng cho mọi cuộc họp HĐQT:</p>
+        <table>
+          <tbody>
+            <tr><td><b>1. Kết luận trước</b></td><td>Mở đầu bằng câu trả lời: "Chúng ta nên khóa lãi suất 60% dư nợ HK ngay tháng này." Không dẫn dắt vòng vo.</td></tr>
+            <tr><td><b>2. Ba con số đắt nhất</b></td><td>Chỉ giữ 3 số liệu làm thay đổi quyết định — mọi số khác đưa vào phụ lục.</td></tr>
+            <tr><td><b>3. Điều gì làm tôi sai</b></td><td>Tự nêu kịch bản khiến khuyến nghị của mình sai — trước khi bị hỏi. Đây là điều tạo niềm tin nhanh nhất với HĐQT.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card" style="padding:16px 18px;">
+        <h3 style="font-size:15px;margin-bottom:8px;">Giá sách của CFO</h3>
+        <p style="font-family:system-ui,sans-serif;font-size:13px;color:var(--ink-2);margin-bottom:8px;">Ba cuốn đáng đọc lại hàng năm:</p>
+        <div class="q"><div class="qn">1</div><div><strong>The Outsiders</strong> — William Thorndike: 8 CEO tạo lợi nhuận phi thường chỉ bằng kỷ luật phân bổ vốn.</div></div>
+        <div class="q"><div class="qn">2</div><div><strong>Only the Paranoid Survive</strong> — Andy Grove: nhận diện "điểm uốn chiến lược" trước khi nó nghiền nát mô hình kinh doanh.</div></div>
+        <div class="q"><div class="qn">3</div><div><strong>Poor Charlie's Almanack</strong> — Charlie Munger: mô hình tư duy đa ngành và nghệ thuật tránh ngu ngốc thay vì cố thông minh.</div></div>
+        <div class="callout"><strong>Câu hỏi tự vấn cuối ngày:</strong> Hôm nay tôi ra quyết định nào bằng dữ liệu, quyết định nào bằng quán tính? Nếu tôi là CFO đối thủ nhìn vào Group, tôi sẽ tấn công điểm yếu nào trước?</div>
+      </div>
+    </div>
+  </section>
+</div><!-- /tab-mindset -->
+
+<!-- ===== TAB: TAX ===== -->
+<div class="tabpanel" id="tab-tax">
+  <div class="stamp">Hồ sơ chuyên đề · cập nhật khi có văn bản/dự thảo mới · Ấn bản 02/08/2026</div>
+
+  <div class="kicker">Thuế &amp; Chính sách · Việt Nam</div>
+  <h2 style="font-size:clamp(22px,3vw,30px);line-height:1.2;margin-bottom:10px;">2026: năm hệ thống thuế Việt Nam đổi mới toàn diện — bản đồ tác động cho chủ doanh nghiệp</h2>
+  <p style="margin-bottom:14px;color:var(--ink-2);">Ba luật thuế lớn (TNCN, GTGT, quản lý thuế) cùng chuyển động trong năm 2026, cộng với thuế tối thiểu toàn cầu đã vận hành — với một tập đoàn 4 công ty có hub tài chính tại Hồng Kông, đây là tab cần mở mỗi tuần. <span class="facttag">(F/I)</span></p>
+
+  <section class="sec">
+    <div class="sechead"><span class="secno">A</span><h2>Đang &amp; sắp hiệu lực</h2><span class="note">nguồn: einvoice.vn tổng hợp luật 2026 · Vietstock · (F)</span></div>
+    <div class="card" style="padding:6px 12px;overflow-x:auto;">
+      <table>
+        <thead><tr><th>Văn bản / quy định</th><th>Hiệu lực</th><th>Nội dung chính</th><th>Tác động ngắn hạn</th><th>Tác động dài hạn</th><th>Nên làm gì</th></tr></thead>
+        <tbody>
+          <tr><td><b class="vb">Giảm trừ gia cảnh mới</b></td><td class="num">01/01/2026</td><td>Bản thân 15,5 triệu/tháng (186tr/năm); người phụ thuộc 6,2 triệu/tháng — tăng &gt;40%</td><td>Thuế TNCN người lao động giảm → lương thực nhận tăng mà DN không tốn thêm</td><td>Giảm áp lực đàm phán tăng lương 2026–27</td><td>Cho HR tính lại gross–net toàn Group; dùng làm "khoản tăng lương miễn phí" trong review lương</td></tr>
+          <tr><td><b class="vb">Luật Thuế TNCN sửa đổi</b></td><td class="num">01/07/2026</td><td>Biểu thuế còn 5 bậc (từ 7); hộ/cá nhân kinh doanh miễn thuế đến 500 triệu đồng doanh thu/năm; chuyển nhượng BĐS 2% giá giao dịch; vàng miếng 0,1%</td><td>Chi phí thuế của nhân sự thu nhập cao thay đổi theo bậc mới; hộ KD online dưới 500tr được miễn</td><td>Hệ sinh thái seller nhỏ trên sàn TMĐT dễ thở hơn → tốt cho hàng hóa S nội địa</td><td>Mô phỏng lại chi phí nhân sự C-level theo biểu 5 bậc trước 01/07</td></tr>
+          <tr><td><b class="vb">Thuế TMĐT — sàn khấu trừ nộp thay</b></td><td class="num">Đang vận hành</td><td>Sàn TMĐT khấu trừ, kê khai, nộp thuế thay hộ/cá nhân kinh doanh trên sàn</td><td>Take-rate thực tế của seller thay đổi → mặt bằng giá niêm yết</td><td>Minh bạch hóa toàn ngành — lợi thế cho người chơi tuân thủ sẵn như S</td><td>Đưa biến "thuế khấu trừ tại sàn" vào mô hình pricing của S-VN</td></tr>
+          <tr><td><b class="vb">TTĐB thuốc lá, rượu bia</b></td><td class="num">01/01/2026</td><td>Thuốc lá lên 65%, lộ trình tăng tiếp; bia bắt đầu lộ trình từ 2027</td><td>Không trực tiếp với Group</td><td>Tín hiệu: nhà nước sẵn sàng dùng thuế điều tiết hành vi tiêu dùng</td><td>Ghi nhận — theo dõi nếu mở ngành hàng liên quan</td></tr>
+          <tr><td><b class="vb">Ưu đãi TNDN điện tử/bán dẫn + NĐ 274/2026</b></td><td class="num">2026 · 21/08</td><td>Ưu đãi thuế TNDN khi đạt tiêu chí R&amp;D, nội địa hóa; NĐ 274 thêm ưu đãi 5% dự án công nghệ cao/xanh</td><td>Cơ hội giảm thuế suất hiệu dụng cho hoạt động R&amp;D của H tại VN</td><td>Định hình lại bài toán "đặt R&amp;D ở đâu" trong cấu trúc Group</td><td>Giao thuế + pháp chế trả lời trước 31/08: pipeline R&amp;D của H có đủ điều kiện không, giá trị ưu đãi ước tính bao nhiêu</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sechead"><span class="secno">B</span><h2>Đặc biệt với cấu trúc Group H–S–K–HK</h2><span class="note">hai hồ sơ thường trực — không mới nhưng đắt nhất</span></div>
+    <div class="twocol">
+      <div class="card" style="padding:16px 18px;">
+        <h3 style="font-size:16px;margin-bottom:6px;">Thuế tối thiểu toàn cầu 15% (Pillar 2)</h3>
+        <p style="font-family:system-ui,sans-serif;font-size:13px;color:var(--ink-2);margin-bottom:8px;">Việt Nam áp dụng từ kỳ tính thuế 2024 (Nghị quyết 107/2023/QH15) với tập đoàn đa quốc gia doanh thu hợp nhất ≥750 triệu EUR. Ngay cả khi Group chưa chạm ngưỡng, <strong>logic của nó đã thay đổi luật chơi hub tài chính</strong>: lợi nhuận dồn về nơi thuế suất thấp (HK 8,25–16,5%) ngày càng dễ bị "truy thu bổ sung" về nơi phát sinh hoạt động thực.</p>
+        <div class="callout"><strong>Ví dụ định lượng (I):</strong> nếu ETR của công ty HK là 12% và Group thuộc diện áp dụng, phần thiếu 3 điểm % có thể bị thu bổ sung tại VN — lợi ích chuyển giá về HK gần như biến mất. Bài toán đúng không còn là "thuế thấp nhất ở đâu" mà là "chất hoạt động thực (substance) đặt ở đâu".</div>
+      </div>
+      <div class="card" style="padding:16px 18px;">
+        <h3 style="font-size:16px;margin-bottom:6px;">Chuyển giá — Nghị định 132/2020</h3>
+        <p style="font-family:system-ui,sans-serif;font-size:13px;color:var(--ink-2);margin-bottom:8px;">Bốn công ty H–S–K–HK giao dịch nội bộ liên tục (bản quyền, dịch vụ marketing, điều phối vốn) = đối tượng kinh điển của thanh tra chuyển giá. Trần lãi vay được trừ 30% EBITDA; hồ sơ xác định giá giao dịch liên kết (Local file, Master file) phải sẵn sàng <em>trước</em> khi bị hỏi.</p>
+        <div class="callout"><strong>Nên làm gì:</strong> chuẩn hóa hợp đồng nội bộ 4 công ty với benchmark giá thị trường độc lập; rà soát phí bản quyền H→S và phí dịch vụ K→S mỗi quý; lưu hồ sơ chứng minh HK có nhân sự và chức năng thật, không chỉ là hộp thư.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sechead"><span class="secno">C</span><h2>Dự thảo đang theo dõi</h2><span class="note">mục này tự cập nhật khi nguồn đưa tin mới</span></div>
+    <div class="card" style="padding:6px 12px;overflow-x:auto;">
+      <table>
+        <thead><tr><th>Dự thảo</th><th>Trạng thái</th><th>Ảnh hưởng nếu thông qua</th><th>Hành động</th></tr></thead>
+        <tbody>
+          <tr><td>Các văn bản hướng dẫn Luật Thuế TNCN sửa đổi (thông tư, nghị định chi tiết biểu 5 bậc)</td><td>Chờ ban hành trước 01/07/2026</td><td>Quyết định cách tính cụ thể cho thu nhập từ ESOP, thưởng cổ phiếu — ảnh hưởng chính sách đãi ngộ C-level</td><td>Theo dõi trong tab này hàng tuần; chưa chốt chính sách thưởng cổ phần mới cho tới khi có hướng dẫn</td></tr>
+          <tr><td colspan="4" class="missing">Trong 24h qua nguồn chưa đưa dự thảo mới — danh sách sẽ dài ra theo từng ấn bản.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div><!-- /tab-tax -->
+
+<!-- ===== TAB: TECH ===== -->
+<div class="tabpanel" id="tab-tech">
+  <div class="stamp">Chuyên mục CFO số · một ý tưởng khả dụng mỗi ngày · Ấn bản 02/08/2026</div>
+
+  <div class="kicker">Công nghệ &amp; Chuyển đổi số tài chính</div>
+  <h2 style="font-size:clamp(22px,3vw,30px);line-height:1.2;margin-bottom:10px;">2026: AI rời khỏi "công cụ thử nghiệm", trở thành lớp vận hành của phòng tài chính</h2>
+  <p style="margin-bottom:10px;color:var(--ink-2);">Ba dịch chuyển lớn của năm nay (GRF CPAs &amp; Advisors): AI nhúng thẳng vào ERP/FP&amp;A/AP thay vì đứng riêng; dữ liệu chuyển từ dashboard tĩnh sang <strong>ra quyết định real-time trong luồng công việc</strong>; và giao diện hội thoại — hỏi hệ thống bằng ngôn ngữ tự nhiên thay vì kéo báo cáo. <span class="facttag">(SO)</span> Với một tập đoàn TMĐT 4 công ty, điều này nghĩa là: bài toán không phải "mua phần mềm gì" mà là <strong>"dữ liệu 4 công ty đã đủ sạch để máy đọc chưa".</strong> <span class="facttag">(I)</span></p>
+
+  <section class="sec">
+    <div class="sechead"><span class="secno">A</span><h2>Bản đồ công cụ theo nhịp vận hành</h2><span class="note">ví dụ vendor từ nguồn — nguyên tắc quan trọng hơn tên phần mềm</span></div>
+    <div class="card" style="padding:6px 12px;overflow-x:auto;">
+      <table>
+        <thead><tr><th>Nhịp</th><th>Bài toán</th><th>Cách làm / công cụ (ví dụ)</th><th>Lợi ích</th><th>Bước đầu tiên cho Group</th></tr></thead>
+        <tbody>
+          <tr><td><b class="vb">Hàng ngày</b></td><td>Biết chính xác tiền đang ở đâu trên 4 công ty, 3 múi giờ</td><td>Cash dashboard nối API ngân hàng (HK + VN + US); AI agent tự bắt hóa đơn, khớp giao dịch, gán mã chi phí (kiểu BILL)</td><td>Hết cảnh chờ kế toán tổng hợp cuối ngày; phát hiện bất thường trong vài giờ thay vì cuối tháng</td><td>Liệt kê mọi tài khoản ngân hàng của H/S/K/HK và hỏi từng ngân hàng về API — miễn phí, làm được tuần này</td></tr>
+          <tr><td><b class="vb">Hàng tuần</b></td><td>Kiểm soát chi tiêu trước khi tiền đi, không phải sau</td><td>Chính sách chi nhúng vào luồng duyệt (kiểu Ramp tích hợp Teams/ERP): AI nhắc sai chính sách ngay lúc tạo đề nghị</td><td>Giảm duyệt tay, giảm chi vượt ngân sách marketing của K</td><td>Chuẩn hóa 1 bộ hạng mục chi phí chung cho 4 công ty — điều kiện tiên quyết của mọi tự động hóa</td></tr>
+          <tr><td><b class="vb">Hàng tháng</b></td><td>Đóng sổ nhanh, đối soát liên công ty H↔S↔K↔HK</td><td>"Continuous close": đối soát chạy hằng ngày bằng rule + AI duyệt bút toán lặp (kiểu Sage Intacct predictive workflows)</td><td>Đóng sổ từ 10–15 ngày xuống 3–5 ngày; giảm 30–50% giờ công kế toán tổng hợp (I — mục tiêu ngành)</td><td>Đo baseline: hiện Group đóng sổ hợp nhất mất mấy ngày? Không đo thì không cải thiện được</td></tr>
+          <tr><td><b class="vb">Hàng quý</b></td><td>Forecast theo driver, không theo cảm tính</td><td>Rolling forecast 13 tuần dòng tiền + mô hình driver-based; AI sinh kịch bản ngay trong Excel (kiểu Vena)</td><td>HĐQT thấy 3 kịch bản kèm xác suất thay vì 1 con số chết</td><td>Chọn 5 driver doanh thu của S (traffic, conversion, AOV, tỷ giá, take-rate) làm xương sống mô hình</td></tr>
+          <tr><td><b class="vb">Hàng năm</b></td><td>Kế hoạch vốn &amp; ngân sách gắn chiến lược</td><td>Scenario planning: mô phỏng thuế quan, tỷ giá, lãi suất trên cùng một mô hình dữ liệu</td><td>Quyết định capex/tài trợ dựa trên dải kết quả, không phải điểm ước tính</td><td>Bắt đầu từ chính brief này: 3 rủi ro trong Risk Radar → 3 kịch bản ngân sách 2027</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sechead"><span class="secno">B</span><h2>Lộ trình 90 ngày cho Group</h2></div>
+    <div class="next">
+      <div><h3>Ngày 0–30 · Nhìn thấy</h3><p>Một bảng điều khiển tiền mặt duy nhất cho 4 công ty, cập nhật hằng ngày qua API ngân hàng. Chuẩn hóa hệ thống tài khoản kế toán chung. Chưa mua gì lớn — dùng sheet + API trước.</p></div>
+      <div><h3>Ngày 30–60 · Tự động</h3><p>Tự động hóa 2 việc ngốn giờ công nhất: đối soát liên công ty HK↔S↔K và bắt hóa đơn đầu vào của K. Đo số giờ tiết kiệm — đó là business case cho giai đoạn sau.</p></div>
+      <div><h3>Ngày 60–90 · Dự báo</h3><p>Rolling forecast 13 tuần dòng tiền hợp nhất, driver-based cho S. Ra mắt "close calendar" mục tiêu 5 ngày. Từ đây mới nói chuyện chọn nền tảng FP&amp;A dài hạn.</p></div>
+    </div>
+    <div class="callout" style="margin-top:14px;"><strong>Nguyên tắc không đổi (I):</strong> AI không thay CFO — nó thay phần việc lặp lại của phòng tài chính. Phán đoán, đạo đức số liệu và trách nhiệm trước HĐQT vẫn là con người. Tự động hóa dữ liệu xấu chỉ tạo ra sai số nhanh hơn: sạch dữ liệu trước, mua công cụ sau.</div>
+  </section>
+</div><!-- /tab-tech -->
 
 <footer>
   <h4>Sources — bấm để đọc bài gốc</h4>
@@ -493,6 +663,8 @@
     <li><a href="https://vietstock.vn/2026/07/loat-chinh-sach-kinh-te-moi-co-hieu-luc-tu-thang-8-nam-2026-761-1472102.htm" target="_blank" rel="noopener">Vietstock — Loạt chính sách kinh tế mới có hiệu lực từ tháng 8/2026</a></li>
     <li><a href="https://tapchinganhang.gov.vn/thu-hut-fdi-vao-viet-nam-6-thang-dau-nam-2026-va-trien-vong-17575.html" target="_blank" rel="noopener">Tạp chí Ngân hàng (NHNN) — Thu hút FDI vào Việt Nam 6 tháng đầu 2026 và triển vọng</a></li>
     <li><a href="https://vneconomy.vn/" target="_blank" rel="noopener">VNEconomy — bối cảnh 24–25/07 (ngoài cửa sổ 24h)</a></li>
+    <li><a href="https://einvoice.vn/tin-tuc/chinh-sach-thue-2026" target="_blank" rel="noopener">einvoice.vn — Toàn cảnh chính sách thuế 2026 (tab Thuế)</a></li>
+    <li><a href="https://www.grfcpa.com/resource/2026-finance-tech-trends-ai-updates-cfos-should-watch/" target="_blank" rel="noopener">GRF CPAs &amp; Advisors — 2026 Finance Tech Trends (tab Công nghệ)</a></li>
   </ul>
   <p style="margin-top:12px;color:var(--muted)">Bản tin tổng hợp tự động theo khung CFO Morning Brief · Ấn bản 02/08/2026 · Biểu đồ là minh họa dựng từ số liệu nguồn mô tả · Chỉ dùng nội dung nguồn cung cấp, phần suy luận đánh dấu (I) · Lưu trữ các số cũ: <a href="./archive/2026-08-02.html">./archive/</a></p>
 </footer>
@@ -508,6 +680,16 @@
   });
   document.querySelectorAll('.dev-head').forEach(function(h) {
     h.addEventListener('click', function() { h.parentElement.classList.toggle('open'); });
+  });
+  var tabs = document.querySelectorAll('#tabbar button');
+  tabs.forEach(function(b) {
+    b.addEventListener('click', function() {
+      tabs.forEach(function(x) { x.classList.remove('active'); });
+      b.classList.add('active');
+      var id = b.getAttribute('data-tab');
+      document.querySelectorAll('.tabpanel').forEach(function(p) { p.classList.toggle('active', p.id === id); });
+      window.scrollTo({ top: 0 });
+    });
   });
   var chips = document.querySelectorAll('#chips .chip');
   chips.forEach(function(c) {
