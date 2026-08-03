@@ -5,7 +5,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CFO Morning Brief – 02/08/2026</title>
 <style>
+  /* ============================================================
+     HỆ THỐNG CHỮ — CFO Morning Brief
+     Font: bộ serif có đủ dấu tiếng Việt (tránh Georgia vì thiếu
+     glyph Việt → chữ bị rơi font giữa dòng, giãn cách lỗi).
+     Thang cỡ chữ: 11 · 12 · 13 · 15 · 17 · 19 · 22 · 26 · 34
+     Thang khoảng cách: 4 · 8 · 12 · 16 · 24 · 32 · 44
+     ============================================================ */
   :root {
+    --serif: "Noto Serif", Cambria, "Palatino Linotype", "Times New Roman", Times, serif;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+    --t-micro: 11px;   /* nhãn chữ hoa */
+    --t-xs:    12px;   /* chú thích, meta */
+    --t-sm:    13px;   /* nội dung bảng, ghi chú UI */
+    --t-base:  15px;   /* UI thường */
+    --t-body:  17px;   /* văn xuôi serif */
+    --t-h4:    19px;
+    --t-h3:    22px;
+    --t-h2:    26px;
+
+    --lh-tight: 1.2;
+    --lh-head:  1.28;
+    --lh-ui:    1.5;
+    --lh-prose: 1.62;
+
+    --sp1: 4px; --sp2: 8px; --sp3: 12px; --sp4: 16px; --sp5: 24px; --sp6: 32px; --sp7: 44px;
+
     color-scheme: light;
     --paper: #f7f6f1;
     --surface: #fffffe;
@@ -17,23 +43,14 @@
     --accent: #0f5499;
     --up-bad: #c0392b;
     --down-good: #0a7a3d;
-    --chip-bg: #edecE5;
+    --chip-bg: #edece5;
     --warn-bg: #fdf6e3;
   }
   :root[data-theme="dark"] {
     color-scheme: dark;
-    --paper: #121210;
-    --surface: #1c1c1a;
-    --ink: #f4f3ee;
-    --ink-2: #c9c7bd;
-    --muted: #8f8d84;
-    --hair: #33322d;
-    --rule: #e8e6de;
-    --accent: #5da3e0;
-    --up-bad: #e07868;
-    --down-good: #4fbf7f;
-    --chip-bg: #262622;
-    --warn-bg: #262115;
+    --paper: #121210; --surface: #1c1c1a; --ink: #f4f3ee; --ink-2: #c9c7bd;
+    --muted: #8f8d84; --hair: #33322d; --rule: #e8e6de; --accent: #5da3e0;
+    --up-bad: #e07868; --down-good: #4fbf7f; --chip-bg: #262622; --warn-bg: #262115;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
@@ -43,161 +60,250 @@
       --up-bad: #e07868; --down-good: #4fbf7f; --chip-bg: #262622; --warn-bg: #262115;
     }
   }
+
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: Georgia, "Times New Roman", serif; background: var(--paper); color: var(--ink); line-height: 1.55; font-size: 16px; }
-  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 22px 70px; }
+  body {
+    font-family: var(--serif);
+    font-size: var(--t-body);
+    line-height: var(--lh-prose);
+    background: var(--paper);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  p { margin-bottom: var(--sp3); }
+  p:last-child { margin-bottom: 0; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 22px var(--sp7); }
   a { color: var(--accent); }
+  h1, h2, h3, h4 { line-height: var(--lh-head); font-weight: 700; letter-spacing: -0.005em; }
+  strong, b { font-weight: 700; }
 
-  /* ===== Ticker strip ===== */
-  .ticker { display: flex; gap: 0; overflow-x: auto; border-bottom: 1px solid var(--hair); padding: 8px 0; font-family: system-ui, sans-serif; }
-  .ticker .ti { flex: 1 0 auto; min-width: 128px; padding: 0 14px; border-right: 1px solid var(--hair); }
+  /* nhãn chữ hoa dùng chung — mọi nơi cùng một công thức */
+  .kicker, .byline, .stamp, .railhead, .wl, .tk, .secno, nav.toc a,
+  .tabbar button, th, .tag, .masthead .dateline, .next h3, .gcard .role {
+    font-family: var(--sans);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    font-weight: 700;
+  }
+
+  /* ===== Dải chỉ số thị trường ===== */
+  .ticker { display: flex; overflow-x: auto; border-bottom: 1px solid var(--hair); padding: var(--sp2) 0; }
+  .ticker .ti { flex: 1 0 auto; min-width: 136px; padding: 0 var(--sp4); border-right: 1px solid var(--hair); }
   .ticker .ti:last-child { border-right: none; }
-  .ticker .tk { font-size: 10.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
-  .ticker .tv { font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; }
-  .ticker .td { font-size: 11.5px; }
-  .ticker .td.bad { color: var(--up-bad); } .ticker .td.good { color: var(--down-good); } .ticker .td.flat { color: var(--muted); }
+  .ticker .tk { font-size: var(--t-micro); color: var(--muted); line-height: 1.4; }
+  .ticker .tv { font-family: var(--sans); font-size: var(--t-base); font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1.35; margin-top: 2px; }
+  .ticker .td { font-family: var(--sans); font-size: var(--t-xs); line-height: 1.4; margin-top: 1px; }
+  .ticker .td.bad { color: var(--up-bad); }
+  .ticker .td.good { color: var(--down-good); }
+  .ticker .td.flat { color: var(--muted); }
 
-  /* ===== Masthead ===== */
-  .masthead { text-align: center; padding: 26px 0 12px; position: relative; }
-  .masthead h1 { font-size: clamp(34px, 6vw, 54px); font-weight: 700; letter-spacing: .01em; line-height: 1.05; }
-  .masthead .dateline { display: flex; align-items: center; gap: 14px; margin-top: 14px; font-family: system-ui, sans-serif; font-size: 11.5px; text-transform: uppercase; letter-spacing: .12em; color: var(--ink-2); }
-  .masthead .dateline::before, .masthead .dateline::after { content: ""; flex: 1; border-top: 1px solid var(--rule); }
-  .theme-btn { position: absolute; right: 0; top: 30px; border: 1px solid var(--hair); background: var(--surface); color: var(--ink); border-radius: 6px; padding: 6px 11px; font-size: 12.5px; cursor: pointer; font-family: system-ui, sans-serif; }
-  .legend { text-align: center; font-family: system-ui, sans-serif; font-size: 11.5px; color: var(--muted); padding: 8px 0 0; }
+  /* ===== Măng-sét ===== */
+  .masthead { display: flex; flex-direction: column; align-items: center; padding: var(--sp5) 0 var(--sp3); }
+  .theme-btn {
+    order: -1; align-self: flex-end; margin-bottom: var(--sp2);
+    font-family: var(--sans); font-size: var(--t-xs); cursor: pointer;
+    border: 1px solid var(--hair); background: var(--surface); color: var(--ink);
+    border-radius: 6px; padding: 6px 11px;
+  }
+  .masthead h1 { font-size: clamp(32px, 5.6vw, 50px); line-height: 1.06; letter-spacing: .005em; text-align: center; }
+  .masthead .dateline {
+    display: flex; align-items: center; gap: var(--sp3); width: 100%;
+    margin-top: var(--sp3); font-size: var(--t-micro); letter-spacing: .1em;
+    color: var(--ink-2); line-height: 1.5; text-align: center;
+  }
+  .masthead .dateline::before, .masthead .dateline::after { content: ""; flex: 1 1 24px; border-top: 1px solid var(--rule); }
+  .legend { font-family: var(--sans); font-size: var(--t-xs); line-height: 1.5; color: var(--muted); text-align: center; margin-top: var(--sp2); }
 
-  nav.toc { display: flex; gap: 2px; flex-wrap: wrap; justify-content: center; margin: 12px 0 0; position: sticky; top: 0; background: var(--paper); padding: 9px 0; z-index: 9; border-top: 3px double var(--rule); border-bottom: 1px solid var(--rule); font-family: system-ui, sans-serif; }
-  nav.toc a { text-decoration: none; color: var(--ink-2); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; padding: 3px 11px; border-right: 1px solid var(--hair); }
+  /* ===== Thanh tab ===== */
+  .tabbar {
+    display: flex; justify-content: center; flex-wrap: wrap;
+    border-top: 3px double var(--rule); border-bottom: 1px solid var(--rule);
+    margin-top: var(--sp3); position: sticky; top: 0; background: var(--paper); z-index: 20;
+  }
+  .tabbar button {
+    background: none; border: none; border-bottom: 3px solid transparent; cursor: pointer;
+    padding: var(--sp3) var(--sp4); font-size: var(--t-xs); color: var(--ink-2); line-height: 1.4;
+  }
+  .tabbar button:hover { color: var(--accent); }
+  .tabbar button.active { color: var(--ink); border-bottom-color: var(--ink); }
+  .tabpanel { display: none; padding-top: var(--sp5); }
+  .tabpanel.active { display: block; }
+
+  /* ===== Mục lục trong tab 1 ===== */
+  nav.toc { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px; padding-bottom: var(--sp4); border-bottom: 1px solid var(--hair); }
+  nav.toc a { font-size: var(--t-micro); font-weight: 600; color: var(--muted); text-decoration: none; padding: 2px var(--sp3); border-right: 1px solid var(--hair); line-height: 1.5; }
   nav.toc a:last-child { border-right: none; }
   nav.toc a:hover { color: var(--accent); }
 
-  /* ===== Front page grid ===== */
-  .front { display: grid; grid-template-columns: 1.9fr 1fr; gap: 0 28px; padding: 26px 0 8px; }
-  .front .lead { padding-right: 28px; border-right: 1px solid var(--hair); }
-  @media (max-width: 760px) { .front { grid-template-columns: 1fr; } .front .lead { padding-right: 0; border-right: none; border-bottom: 1px solid var(--hair); padding-bottom: 20px; margin-bottom: 20px; } }
+  /* ===== Trang nhất ===== */
+  .front { display: grid; grid-template-columns: 1.9fr 1fr; gap: 0 var(--sp6); padding-top: var(--sp5); }
+  .front .lead { padding-right: var(--sp6); border-right: 1px solid var(--hair); }
+  @media (max-width: 780px) {
+    .front { grid-template-columns: 1fr; }
+    .front .lead { padding-right: 0; border-right: none; border-bottom: 1px solid var(--hair); padding-bottom: var(--sp5); margin-bottom: var(--sp5); }
+  }
+  .kicker { font-size: var(--t-micro); color: var(--accent); margin-bottom: var(--sp2); line-height: 1.4; }
+  .lead h2.head { font-size: clamp(25px, 3.2vw, 34px); line-height: var(--lh-tight); margin-bottom: var(--sp3); text-wrap: balance; }
+  .lead .deck { font-size: var(--t-h4); line-height: 1.45; color: var(--ink-2); margin-bottom: var(--sp4); }
+  .byline { font-size: var(--t-micro); font-weight: 600; color: var(--muted); margin-bottom: var(--sp3); line-height: 1.5; }
+  .lead p.body { font-size: var(--t-body); margin-bottom: var(--sp3); }
+  .lead p.body:last-child { margin-bottom: 0; }
 
-  .kicker { font-family: system-ui, sans-serif; font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--accent); margin-bottom: 8px; }
-  .lead h2.head { font-size: clamp(24px, 3.4vw, 34px); line-height: 1.16; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 10px; }
-  .lead .deck { font-size: 16.5px; color: var(--ink-2); margin-bottom: 14px; }
-  .figure { margin: 6px 0 10px; }
+  .figure { margin: var(--sp2) 0 var(--sp3); }
   .figure svg { width: 100%; height: auto; display: block; border: 1px solid var(--hair); background: var(--surface); }
-  .figure figcaption { font-family: system-ui, sans-serif; font-size: 11.5px; color: var(--muted); padding-top: 6px; }
-  .byline { font-family: system-ui, sans-serif; font-size: 12px; color: var(--muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: .05em; }
-  .lead p.body { margin-bottom: 10px; font-size: 15.5px; }
-  .facttag { font-family: system-ui, sans-serif; font-size: 10.5px; font-weight: 700; color: var(--muted); }
+  .figure figcaption { font-family: var(--sans); font-size: var(--t-xs); line-height: 1.5; color: var(--muted); padding-top: var(--sp2); }
 
-  /* What's News rail */
-  .rail h3.railhead { font-family: system-ui, sans-serif; font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: .12em; border-bottom: 2px solid var(--rule); padding-bottom: 6px; margin-bottom: 12px; }
-  .wn { padding: 10px 0; border-bottom: 1px solid var(--hair); font-size: 14.5px; }
+  .facttag { font-family: var(--sans); font-size: var(--t-micro); font-weight: 700; color: var(--muted); white-space: nowrap; }
+
+  /* Cột What's News */
+  .rail .railhead { font-size: var(--t-xs); letter-spacing: .1em; border-bottom: 2px solid var(--rule); padding-bottom: var(--sp2); margin-bottom: var(--sp3); line-height: 1.4; }
+  .wn { padding: var(--sp3) 0; border-bottom: 1px solid var(--hair); font-size: var(--t-base); line-height: 1.55; }
   .wn:last-child { border-bottom: none; }
-  .wn .wl { font-family: system-ui, sans-serif; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); display: block; margin-bottom: 2px; }
-  .wn.action { background: var(--warn-bg); margin: 8px -10px 0; padding: 10px; border: 1px solid var(--hair); border-left: 3px solid var(--accent); }
+  .wn .wl { display: block; font-size: var(--t-micro); color: var(--muted); margin-bottom: var(--sp1); line-height: 1.4; }
+  .wn.action { background: var(--warn-bg); border: 1px solid var(--hair); border-left: 3px solid var(--accent); margin: var(--sp3) 0 0; padding: var(--sp3); }
 
-  /* photo feature row */
-  .featurerow { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; padding: 18px 0 6px; border-top: 3px double var(--rule); margin-top: 18px; }
-  .feat { border-right: 1px solid var(--hair); padding-right: 18px; }
+  /* Hàng 3 tin có biểu đồ */
+  .featurerow { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: var(--sp5); border-top: 3px double var(--rule); margin-top: var(--sp5); padding-top: var(--sp5); }
+  .feat { border-right: 1px solid var(--hair); padding-right: var(--sp5); }
   .feat:last-child { border-right: none; padding-right: 0; }
   .feat svg { width: 100%; height: auto; display: block; border: 1px solid var(--hair); background: var(--surface); }
-  .feat h4 { font-size: 16px; margin: 8px 0 3px; line-height: 1.25; }
-  .feat p { font-family: system-ui, sans-serif; font-size: 12.5px; color: var(--ink-2); }
-  @media (max-width: 760px) { .feat { border-right: none; padding-right: 0; border-bottom: 1px solid var(--hair); padding-bottom: 14px; } }
+  .feat h4 { font-size: var(--t-h4); margin: var(--sp3) 0 var(--sp1); }
+  .feat p { font-family: var(--sans); font-size: var(--t-sm); line-height: var(--lh-ui); color: var(--ink-2); }
+  @media (max-width: 780px) {
+    .feat { border-right: none; padding-right: 0; border-bottom: 1px solid var(--hair); padding-bottom: var(--sp4); }
+    .feat:last-child { border-bottom: none; padding-bottom: 0; }
+  }
 
-  /* ===== Sections ===== */
-  section.sec { margin-top: 34px; }
-  .sechead { display: flex; align-items: baseline; gap: 12px; border-top: 3px double var(--rule); padding-top: 10px; margin-bottom: 14px; }
-  .sechead h2 { font-size: 21px; font-weight: 700; }
-  .sechead .secno { font-family: system-ui, sans-serif; font-size: 11px; font-weight: 700; color: var(--paper); background: var(--ink); padding: 2px 8px; letter-spacing: .05em; }
-  .sechead .note { font-family: system-ui, sans-serif; font-size: 12px; color: var(--muted); }
+  /* ===== Khối section ===== */
+  section.sec { margin-top: var(--sp6); }
+  .sechead { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--sp3); border-top: 3px double var(--rule); padding-top: var(--sp3); margin-bottom: var(--sp4); }
+  .sechead h2 { font-size: var(--t-h3); }
+  .sechead .secno { font-size: var(--t-micro); color: var(--paper); background: var(--ink); padding: 3px var(--sp2); line-height: 1.4; }
+  .sechead .note { font-family: var(--sans); font-size: var(--t-xs); font-weight: 400; color: var(--muted); line-height: 1.5; }
 
-  .card { background: var(--surface); border: 1px solid var(--hair); padding: 4px 14px; }
-  table { width: 100%; border-collapse: collapse; font-size: 13.5px; font-family: system-ui, sans-serif; }
-  th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); font-weight: 700; padding: 10px 10px 7px; border-bottom: 2px solid var(--rule); }
-  td { padding: 10px; border-bottom: 1px solid var(--hair); vertical-align: top; }
+  /* ===== Thẻ &  bảng ===== */
+  .card { background: var(--surface); border: 1px solid var(--hair); padding: var(--sp4) var(--sp5); }
+  .card.pad > *:last-child { margin-bottom: 0; }
+  .card.tablewrap { padding: 0 var(--sp3); overflow-x: auto; }
+  .cardtitle { font-size: var(--t-h4); margin-bottom: var(--sp2); }
+  .uinote { font-family: var(--sans); font-size: var(--t-sm); line-height: var(--lh-ui); color: var(--ink-2); margin-bottom: var(--sp3); }
+  .lede { font-size: var(--t-h4); line-height: 1.5; color: var(--ink-2); margin-bottom: var(--sp4); }
+  .tabpanel:not(#tab-brief) > p, .tabpanel:not(#tab-brief) > .lede, .tabpanel > .tabhead { max-width: 76ch; }
+  .prose p { margin-bottom: var(--sp3); }
+  .prose p:last-child { margin-bottom: 0; }
+  .tabhead { font-size: clamp(24px, 3.1vw, 32px); line-height: var(--lh-tight); margin-bottom: var(--sp3); text-wrap: balance; }
+  .stamp { font-size: var(--t-micro); color: var(--muted); margin-bottom: var(--sp4); line-height: 1.5; }
+  .srcname { display: inline-block; font-family: var(--sans); font-size: var(--t-micro); font-weight: 400; letter-spacing: 0; text-transform: none; color: var(--muted); line-height: 1.45; margin-top: 2px; }
+
+  table { width: 100%; border-collapse: collapse; font-family: var(--sans); font-size: var(--t-sm); line-height: var(--lh-ui); }
+  th { text-align: left; font-size: var(--t-micro); color: var(--muted); padding: var(--sp3) var(--sp3) var(--sp2); border-bottom: 2px solid var(--rule); line-height: 1.4; }
+  td { padding: var(--sp3); border-bottom: 1px solid var(--hair); vertical-align: top; }
   tr:last-child td { border-bottom: none; }
-  td.num { text-align: right; font-variant-numeric: tabular-nums; }
-  td b.vb { font-size: 14px; }
-  .dir { font-weight: 700; } .dir.up { color: var(--up-bad); } .dir.down { color: var(--down-good); } .dir.flat { color: var(--muted); }
-  .impact { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; font-size: 12.5px; white-space: nowrap; }
-  .impact .dot { width: 9px; height: 9px; border-radius: 50%; }
-  .impact.high .dot { background: var(--up-bad); } .impact.med .dot { background: #d98e04; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  td .vb, td b.vb { display: inline-block; font-size: var(--t-base); font-weight: 700; line-height: 1.4; }
+  .dir { font-weight: 700; }
+  .dir.up { color: var(--up-bad); } .dir.down { color: var(--down-good); } .dir.flat { color: var(--muted); }
+  .impact { display: inline-flex; align-items: center; gap: var(--sp2); font-size: var(--t-sm); font-weight: 600; white-space: nowrap; }
+  .impact .dot { width: 9px; height: 9px; border-radius: 50%; flex: 0 0 auto; }
+  .impact.high .dot { background: var(--up-bad); }
+  .impact.med .dot { background: #d98e04; }
   .missing { color: var(--muted); font-style: italic; }
 
-  /* chips + accordion */
-  .chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; font-family: system-ui, sans-serif; }
-  .chip { font-size: 12px; padding: 5px 13px; border-radius: 999px; cursor: pointer; background: var(--chip-bg); color: var(--ink-2); border: 1px solid transparent; user-select: none; }
+  /* ===== Chip lọc + accordion Top 7 ===== */
+  .chips { display: flex; flex-wrap: wrap; gap: var(--sp2); margin-bottom: var(--sp3); }
+  .chip { font-family: var(--sans); font-size: var(--t-xs); line-height: 1.5; padding: 5px var(--sp3); border-radius: 999px; cursor: pointer; user-select: none; background: var(--chip-bg); color: var(--ink-2); border: 1px solid transparent; }
   .chip:hover { border-color: var(--muted); }
   .chip.active { background: var(--ink); color: var(--paper); font-weight: 700; }
+
   .dev { background: var(--surface); border: 1px solid var(--hair); margin-bottom: -1px; }
-  .dev-head { display: flex; align-items: center; gap: 12px; padding: 13px 16px; cursor: pointer; }
+  .dev-head { display: flex; align-items: baseline; gap: var(--sp3); padding: var(--sp3) var(--sp4); cursor: pointer; }
   .dev-head:hover { background: var(--chip-bg); }
-  .dev .pri { font-family: Georgia, serif; flex: 0 0 30px; font-size: 24px; font-weight: 700; color: var(--muted); text-align: center; }
+  .dev .pri { flex: 0 0 26px; font-size: var(--t-h3); font-weight: 700; color: var(--muted); text-align: center; line-height: 1.25; }
   .dev[data-p="1"] .pri, .dev[data-p="2"] .pri { color: var(--accent); }
-  .dev .t { flex: 1; font-size: 15.5px; font-weight: 700; line-height: 1.3; }
-  .dev .tags { display: flex; gap: 6px; flex-wrap: wrap; font-family: system-ui, sans-serif; }
-  .tag { font-size: 10.5px; text-transform: uppercase; letter-spacing: .05em; padding: 2px 9px; background: var(--chip-bg); color: var(--ink-2); white-space: nowrap; }
-  .dev .arrow { color: var(--muted); font-size: 12px; transition: transform .18s; font-family: system-ui, sans-serif; }
+  .dev .t { flex: 1 1 260px; font-size: var(--t-h4); font-weight: 700; line-height: 1.32; }
+  .dev .tags { display: flex; flex-wrap: wrap; gap: var(--sp2); }
+  .tag { font-size: var(--t-micro); font-weight: 600; padding: 3px var(--sp2); background: var(--chip-bg); color: var(--ink-2); white-space: nowrap; line-height: 1.45; }
+  .dev .arrow { font-family: var(--sans); font-size: var(--t-xs); color: var(--muted); transition: transform .18s; }
   .dev.open .arrow { transform: rotate(90deg); }
-  .dev-body { display: none; padding: 2px 18px 16px 58px; }
+  .dev-body { display: none; padding: 0 var(--sp5) var(--sp4) 66px; }
   .dev.open .dev-body { display: block; }
-  .dev-body dl { display: grid; grid-template-columns: 130px 1fr; gap: 7px 12px; font-size: 13.5px; font-family: system-ui, sans-serif; }
-  .dev-body dt { color: var(--muted); font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: .05em; padding-top: 2px; }
+  .dev-body dl { display: grid; grid-template-columns: 128px 1fr; gap: var(--sp2) var(--sp3); font-family: var(--sans); font-size: var(--t-sm); line-height: var(--lh-ui); }
+  .dev-body dt { font-size: var(--t-micro); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding-top: 1px; }
   .dev.hidden { display: none; }
+  @media (max-width: 620px) {
+    .dev-body { padding-left: var(--sp4); }
+    .dev-body dl { grid-template-columns: 1fr; gap: 2px; }
+    .dev-body dd { margin-bottom: var(--sp2); }
+  }
 
-  /* Vietnam focus */
-  .vnGrid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 18px; }
-  @media (max-width: 820px) { .vnGrid { grid-template-columns: 1fr; } }
-  .fdi { background: var(--surface); border: 1px solid var(--hair); padding: 16px 18px; }
-  .fdi h3 { font-size: 17px; margin-bottom: 4px; }
-  .fdi .sub { font-family: system-ui, sans-serif; font-size: 12px; color: var(--muted); margin-bottom: 10px; }
-  .fdi .big { display: flex; gap: 22px; margin: 10px 0 4px; }
-  .fdi .big .n { font-size: 26px; font-weight: 700; font-variant-numeric: tabular-nums; }
-  .fdi .big .l { font-family: system-ui, sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
-  .fdi .big .pct { font-family: system-ui, sans-serif; font-size: 12px; font-weight: 700; color: var(--down-good); }
-  .fdi ul { font-family: system-ui, sans-serif; font-size: 13px; color: var(--ink-2); margin: 8px 0 0 16px; }
-  .fdi li { margin: 4px 0; }
-  .fdi .cfoline { font-family: system-ui, sans-serif; font-size: 13px; margin-top: 12px; padding: 10px 12px; background: var(--warn-bg); border-left: 3px solid var(--accent); }
+  /* ===== Mục Việt Nam ===== */
+  .vnGrid { display: grid; grid-template-columns: 1.5fr 1fr; gap: var(--sp5); align-items: start; }
+  @media (max-width: 860px) { .vnGrid { grid-template-columns: 1fr; } }
+  .fdi { background: var(--surface); border: 1px solid var(--hair); padding: var(--sp4) var(--sp5); }
+  .fdi h3 { font-size: var(--t-h4); margin-bottom: var(--sp1); }
+  .fdi .sub { font-family: var(--sans); font-size: var(--t-xs); line-height: var(--lh-ui); color: var(--muted); margin-bottom: var(--sp3); }
+  .fdi svg { width: 100%; height: auto; display: block; margin-bottom: var(--sp2); }
+  .fdi ul { font-family: var(--sans); font-size: var(--t-sm); line-height: var(--lh-ui); color: var(--ink-2); padding-left: var(--sp4); margin-top: var(--sp2); }
+  .fdi li { margin-bottom: var(--sp1); }
+  .callout, .cfoline { font-family: var(--sans); font-size: var(--t-sm); line-height: var(--lh-ui); background: var(--warn-bg); border: 1px solid var(--hair); border-left: 3px solid var(--accent); padding: var(--sp3) var(--sp4); margin-top: var(--sp3); }
 
-  /* group cards */
-  .grid4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 0; border: 1px solid var(--hair); background: var(--surface); }
-  .gcard { padding: 16px 18px; border-right: 1px solid var(--hair); }
+  /* ===== Thẻ 4 công ty ===== */
+  .grid4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); border: 1px solid var(--hair); background: var(--surface); }
+  .gcard { padding: var(--sp4) var(--sp5); border-right: 1px solid var(--hair); }
   .gcard:last-child { border-right: none; }
-  @media (max-width: 900px) { .gcard { border-right: none; border-bottom: 1px solid var(--hair); } .gcard:last-child { border-bottom: none; } }
-  .gcard h3 { font-size: 22px; }
-  .gcard .role { font-family: system-ui, sans-serif; font-size: 10.5px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); display: block; margin: 2px 0 8px; }
-  .gcard p { font-family: system-ui, sans-serif; font-size: 13px; color: var(--ink-2); }
+  @media (max-width: 920px) {
+    .gcard { border-right: none; border-bottom: 1px solid var(--hair); }
+    .gcard:last-child { border-bottom: none; }
+  }
+  .gcard h3 { font-size: var(--t-h3); line-height: 1.2; }
+  .gcard .role { display: block; font-size: var(--t-micro); color: var(--muted); margin: var(--sp1) 0 var(--sp2); line-height: 1.45; }
+  .gcard p { font-family: var(--sans); font-size: var(--t-sm); line-height: var(--lh-ui); color: var(--ink-2); }
 
-  .q { display: flex; gap: 14px; padding: 13px 0; border-bottom: 1px solid var(--hair); font-size: 15.5px; }
-  .q:last-child { border-bottom: none; }
-  .q .qn { font-family: Georgia, serif; flex: 0 0 26px; font-size: 22px; font-weight: 700; color: var(--accent); }
+  /* ===== Danh sách đánh số ===== */
+  .q { display: flex; gap: var(--sp3); padding: var(--sp3) 0; border-bottom: 1px solid var(--hair); font-size: var(--t-base); line-height: 1.55; }
+  .q:last-child { border-bottom: none; padding-bottom: 0; }
+  .q:first-child { padding-top: 0; }
+  .q .qn { flex: 0 0 24px; font-size: var(--t-h4); font-weight: 700; color: var(--accent); line-height: 1.35; }
 
-  .next { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 0; border: 1px solid var(--hair); background: var(--surface); }
-  .next > div { padding: 15px 18px; border-right: 1px solid var(--hair); }
+  /* ===== What's Next / lộ trình ===== */
+  .next { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); border: 1px solid var(--hair); background: var(--surface); }
+  .next > div { padding: var(--sp4) var(--sp5); border-right: 1px solid var(--hair); }
   .next > div:last-child { border-right: none; }
-  @media (max-width: 800px) { .next > div { border-right: none; border-bottom: 1px solid var(--hair); } .next > div:last-child { border-bottom: none; } }
-  .next h3 { font-family: system-ui, sans-serif; font-size: 11.5px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: 7px; }
-  .next p { font-size: 14px; }
+  @media (max-width: 820px) {
+    .next > div { border-right: none; border-bottom: 1px solid var(--hair); }
+    .next > div:last-child { border-bottom: none; }
+  }
+  .next h3 { font-size: var(--t-micro); letter-spacing: .1em; color: var(--muted); margin-bottom: var(--sp2); line-height: 1.4; }
+  .next p { font-size: var(--t-base); line-height: 1.55; }
 
-  footer { margin-top: 40px; padding-top: 14px; border-top: 3px double var(--rule); font-family: system-ui, sans-serif; font-size: 12.5px; color: var(--ink-2); }
-  footer h4 { font-size: 11.5px; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 8px; }
-  footer li { margin: 3px 0 3px 18px; }
+  /* ===== Trích dẫn ===== */
+  .quotebox { background: var(--surface); border: 1px solid var(--hair); border-left: 4px solid var(--accent); padding: var(--sp5); margin: var(--sp3) 0 var(--sp4); }
+  .quotebox .qt { font-size: var(--t-h3); line-height: 1.45; font-style: italic; text-wrap: pretty; }
+  .quotebox .who { font-family: var(--sans); font-size: var(--t-xs); font-weight: 600; color: var(--muted); margin-top: var(--sp3); line-height: var(--lh-ui); }
+
+  .twocol { display: grid; grid-template-columns: 1.5fr 1fr; gap: var(--sp5); align-items: start; }
+  @media (max-width: 860px) { .twocol { grid-template-columns: 1fr; } }
+
+  /* ===== Chân trang ===== */
+  footer { margin-top: var(--sp7); padding-top: var(--sp4); border-top: 3px double var(--rule); font-family: var(--sans); font-size: var(--t-sm); line-height: var(--lh-ui); color: var(--ink-2); }
+  footer h4 { font-family: var(--sans); font-size: var(--t-micro); text-transform: uppercase; letter-spacing: .1em; margin-bottom: var(--sp2); line-height: 1.4; }
+  footer ul { padding-left: var(--sp4); }
+  footer li { margin-bottom: var(--sp1); }
   footer a { text-decoration: none; }
   footer a:hover { text-decoration: underline; }
-
-  /* ===== Top-level tabs ===== */
-  .tabbar { display: flex; justify-content: center; flex-wrap: wrap; border-top: 3px double var(--rule); border-bottom: 1px solid var(--rule); margin-top: 12px; position: sticky; top: 0; background: var(--paper); z-index: 20; font-family: system-ui, sans-serif; }
-  .tabbar button { background: none; border: none; cursor: pointer; padding: 12px 18px; font-size: 12.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-2); border-bottom: 3px solid transparent; }
-  .tabbar button:hover { color: var(--accent); }
-  .tabbar button.active { color: var(--ink); border-bottom-color: var(--ink); }
-  .tabpanel { display: none; }
-  .tabpanel.active { display: block; }
-  nav.toc { position: static; }
-
-  .quotebox { background: var(--surface); border: 1px solid var(--hair); border-left: 4px solid var(--accent); padding: 18px 22px; margin: 8px 0 16px; }
-  .quotebox .qt { font-size: 21px; line-height: 1.45; font-style: italic; }
-  .quotebox .who { font-family: system-ui, sans-serif; font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin-top: 10px; }
-  .callout { font-family: system-ui, sans-serif; font-size: 13px; background: var(--warn-bg); border: 1px solid var(--hair); border-left: 3px solid var(--accent); padding: 12px 14px; margin-top: 12px; }
-  .twocol { display: grid; grid-template-columns: 1.5fr 1fr; gap: 18px; }
-  @media (max-width: 820px) { .twocol { grid-template-columns: 1fr; } }
-  .stamp { font-family: system-ui, sans-serif; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 14px 0 4px; }
+  @media (max-width: 640px) {
+    .wrap { padding: 0 16px var(--sp6); }
+    .tabbar { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; }
+    .tabbar button { padding: 11px 14px; white-space: nowrap; }
+    .masthead { padding-top: var(--sp4); }
+    .masthead .dateline { justify-content: center; letter-spacing: .06em; }
+    .masthead .dateline::before, .masthead .dateline::after { display: none; }
+    nav.toc { gap: 0; }
+    nav.toc a { padding: 2px var(--sp2); }
+    .ticker .ti { min-width: 124px; padding: 0 var(--sp3); }
+  }
+  footer .fine { margin-top: var(--sp3); font-size: var(--t-xs); color: var(--muted); line-height: var(--lh-ui); }
 </style>
 </head>
 <body>
@@ -399,7 +505,7 @@
 <section class="sec" id="vietnam">
   <div class="sechead"><span class="secno">03</span><h2>Việt Nam · Kinh tế &amp; Chính sách</h2><span class="note">mục mới — chính sách, dòng vốn, môi trường kinh doanh</span></div>
   <div class="vnGrid">
-    <div class="card" style="padding:6px 12px; overflow-x:auto;">
+    <div class="card tablewrap">
       <table>
         <thead><tr><th>Văn bản mới — hiệu lực tháng 8</th><th>Từ ngày</th><th>Nội dung chính (F)</th><th>Ý nghĩa với Group (I)</th></tr></thead>
         <tbody>
@@ -440,7 +546,7 @@
 <!-- ===== SIGNALS ===== -->
 <section class="sec" id="signals">
   <div class="sechead"><span class="secno">04</span><h2>Market Signals</h2></div>
-  <div class="card" style="padding:6px 12px; overflow-x:auto;">
+  <div class="card tablewrap">
     <table>
       <thead><tr><th>Indicator</th><th>Direction</th><th>CFO Interpretation</th></tr></thead>
       <tbody>
@@ -460,7 +566,7 @@
 <!-- ===== RISK ===== -->
 <section class="sec" id="risk">
   <div class="sechead"><span class="secno">05</span><h2>Risk Radar</h2></div>
-  <div class="card" style="padding:6px 12px; overflow-x:auto;">
+  <div class="card tablewrap">
     <table>
       <thead><tr><th>Risk</th><th style="text-align:right">Probability</th><th>Impact</th><th>Time Horizon</th><th>Action</th></tr></thead>
       <tbody>
@@ -488,7 +594,7 @@
 <!-- ===== QUESTIONS ===== -->
 <section class="sec" id="questions">
   <div class="sechead"><span class="secno">07</span><h2>Questions CFO Should Ask Today</h2></div>
-  <div class="card" style="padding: 6px 18px;">
+  <div class="card pad">
     <div class="q"><div class="qn">1</div><div>Nếu Fed tăng 25–50bp trong Q4, chi phí vốn hợp nhất của Group tăng bao nhiêu — và HK đã khóa được bao nhiêu % dư nợ lãi suất thả nổi?</div></div>
     <div class="q"><div class="qn">2</div><div>Cash USD nhàn rỗi tại HK đang hưởng lợi suất bao nhiêu so với mức 5,28% thị trường đang trả — chúng ta đang bỏ phí bao nhiêu?</div></div>
     <div class="q"><div class="qn">3</div><div>Trước 15/08, ai trong Group chịu trách nhiệm trả lời: NĐ 274 và TT 31 giúp giảm được bao nhiêu chi phí vốn cho pipeline R&amp;D và tài sản số của H/K?</div></div>
@@ -503,7 +609,7 @@
     <div><h3>This Week</h3><p>Phiên mở cửa 03/08 (tâm lý thận trọng — Vietstock). 10/08: NĐ 218 vận tải hiệu lực. Dữ liệu vĩ mô Mỹ trong tuần: <span class="missing">nguồn chưa cung cấp đủ dữ liệu.</span></p></div>
     <div><h3>This Month</h3><p>15/08: TT 29 &amp; TT 31 (NHNN) hiệu lực · 21/08: NĐ 274 ưu đãi đầu tư &amp; NĐ 273 hàng miễn thuế · 31/08: NĐ 281 đất đai. Theo dõi phát ngôn Fed sau bất đồng nội bộ.</p></div>
   </div>
-  <p style="font-family:system-ui,sans-serif;font-size:12.5px;color:var(--ink-2);background:var(--warn-bg);border:1px solid var(--hair);padding:12px 14px;margin-top:14px;"><strong>Bối cảnh ngoài cửa sổ 24h</strong> (VNEconomy 24–25/07): Mỹ áp thuế bổ sung 12,5% theo Mục 301 với hàng Việt Nam từ 24/07 — rủi ro trực tiếp cho S-US · 500 DN niêm yết báo lãi Q2 +19,7% YoY · Người Việt chi ~1.611 tỷ đồng/ngày mua sắm online.</p>
+  <p class="callout"><strong>Bối cảnh ngoài cửa sổ 24h</strong> (VNEconomy 24–25/07): Mỹ áp thuế bổ sung 12,5% theo Mục 301 với hàng Việt Nam từ 24/07 — rủi ro trực tiếp cho S-US · 500 DN niêm yết báo lãi Q2 +19,7% YoY · Người Việt chi ~1.611 tỷ đồng/ngày mua sắm online.</p>
 </section>
 </div><!-- /tab-brief -->
 
@@ -512,26 +618,26 @@
   <div class="stamp">Chuyên mục rèn luyện · nội dung xoay vòng mỗi ngày · Ấn bản 02/08/2026</div>
 
   <div class="kicker">Tư duy hôm nay · Kỷ luật đối diện vấn đề</div>
-  <h2 style="font-size:clamp(22px,3vw,30px);line-height:1.2;margin-bottom:10px;">"Problems don't age well" — nguyên tắc Jamie Dimon và bản đồ vấn đề của người đứng đầu tài chính</h2>
+  <h2 class="tabhead">"Problems don't age well" — nguyên tắc Jamie Dimon và bản đồ vấn đề của người đứng đầu tài chính</h2>
   <div class="quotebox">
     <div class="qt">"Vấn đề không tự đẹp lên theo thời gian. Hãy lôi nó ra ánh sáng ngay hôm nay."</div>
     <div class="who">Jamie Dimon · Chairman &amp; CEO, JPMorganChase — nguyên tắc quản trị được ông nhắc lại nhiều năm trong thư cổ đông và phỏng vấn</div>
   </div>
-  <p style="margin-bottom:10px;">Dimon bắt đầu ngày từ ~5h sáng bằng việc đọc — báo chí, báo cáo nội bộ, dữ liệu thị trường — trước khi bất kỳ cuộc họp nào diễn ra. Điều ông đòi hỏi ở đội ngũ không phải sự lạc quan, mà là <strong>danh sách sự thật khó chịu</strong>: khoản nợ nào đang xấu đi, khách hàng nào đang rời bỏ, giả định nào trong kế hoạch đã sai. Với một CFO, đây là kỷ luật đáng học nhất: báo cáo hay nhất không phải báo cáo đẹp nhất, mà là báo cáo <em>nói thật sớm nhất</em>.</p>
+  <p>Dimon bắt đầu ngày từ ~5h sáng bằng việc đọc — báo chí, báo cáo nội bộ, dữ liệu thị trường — trước khi bất kỳ cuộc họp nào diễn ra. Điều ông đòi hỏi ở đội ngũ không phải sự lạc quan, mà là <strong>danh sách sự thật khó chịu</strong>: khoản nợ nào đang xấu đi, khách hàng nào đang rời bỏ, giả định nào trong kế hoạch đã sai. Với một CFO, đây là kỷ luật đáng học nhất: báo cáo hay nhất không phải báo cáo đẹp nhất, mà là báo cáo <em>nói thật sớm nhất</em>.</p>
   <div class="callout"><strong>Áp dụng hôm nay:</strong> mở sổ tay, viết 3 "sự thật khó chịu" của tài chính Group mà bạn đang tránh nhìn (một khoản công nợ, một giả định doanh thu, một chi phí đang phình). Đặt lịch xử lý cái đầu tiên trong tuần này — trước khi nó "già đi".</div>
 
   <section class="sec">
     <div class="sechead"><span class="secno">B</span><h2>Thói quen hàng ngày của những người đứng đầu</h2><span class="note">đúc kết từ phát ngôn &amp; thực hành được ghi nhận công khai</span></div>
-    <div class="card" style="padding:6px 12px;overflow-x:auto;">
+    <div class="card tablewrap">
       <table>
         <thead><tr><th>Người</th><th>Thói quen / nguyên tắc</th><th>Vì sao hiệu quả</th><th>Cách bạn áp dụng ở quy mô Group</th></tr></thead>
         <tbody>
-          <tr><td><b class="vb">Warren Buffett</b><br><span style="color:var(--muted);font-size:11px">Berkshire Hathaway</span></td><td>Đọc 5–6 giờ mỗi ngày; chỉ quyết định trong "vòng tròn hiểu biết"</td><td>Lợi thế kép của kiến thức tích lũy; tránh sai lầm ở lĩnh vực không hiểu</td><td>Chặn 45 phút đọc mỗi sáng trước khi mở email; từ chối phê duyệt khoản đầu tư bạn không giải thích được bằng 1 trang giấy</td></tr>
-          <tr><td><b class="vb">Ruth Porat</b><br><span style="color:var(--muted);font-size:11px">President &amp; CIO Alphabet, cựu CFO Morgan Stanley</span></td><td>Kỷ luật phân bổ vốn: mọi sáng kiến phải cạnh tranh vốn như nhau; dám nói "không" với dự án của chính CEO</td><td>Biến phòng tài chính từ "người ghi sổ" thành "người gác cổng giá trị"</td><td>Lập một bảng xếp hạng IRR duy nhất cho mọi đề xuất capex của cả H, S, K, HK — không có ngoại lệ theo cảm tình</td></tr>
-          <tr><td><b class="vb">Jeff Bezos</b><br><span style="color:var(--muted);font-size:11px">Amazon</span></td><td>Cấm slide trong họp lãnh đạo — thay bằng memo 6 trang đọc im lặng đầu giờ</td><td>Viết văn xuôi buộc tư duy phải liền mạch; slide che giấu lỗ hổng logic</td><td>Yêu cầu đề xuất ngân sách lớn của 4 công ty nộp dạng memo: bối cảnh → số liệu → rủi ro → đề nghị</td></tr>
-          <tr><td><b class="vb">Tim Cook</b><br><span style="color:var(--muted);font-size:11px">Apple</span></td><td>Dậy ~4–5h; tự đọc phản hồi khách hàng; vận hành chuỗi cung ứng bằng số liệu từng đơn vị</td><td>Người đứng đầu chạm dữ liệu gốc, không chỉ nghe báo cáo đã lọc</td><td>Mỗi tuần một lần, tự mở dữ liệu bán hàng thô của S — đừng chỉ đọc bản tóm tắt của cấp dưới</td></tr>
-          <tr><td><b class="vb">Phạm Nhật Vượng</b><br><span style="color:var(--muted);font-size:11px">Vingroup</span></td><td>"Mãi mãi tinh thần khởi nghiệp" — tốc độ thực thi là văn hóa; đã quyết là làm đến cùng, sai thì sửa nhanh</td><td>Ở thị trường biến động, tốc độ ra quyết định là một loại lợi nhuận</td><td>Đặt SLA cho chính phòng tài chính: mọi yêu cầu phê duyệt phải có câu trả lời trong 48h</td></tr>
-          <tr><td><b class="vb">Trần Đình Long</b><br><span style="color:var(--muted);font-size:11px">Hòa Phát</span></td><td>Bảo thủ về tiền mặt và nợ vay; chỉ mở rộng vào lĩnh vực hiểu sâu, đi đến cùng chuỗi giá trị</td><td>Doanh nghiệp sống sót qua chu kỳ nhờ bảng cân đối, không nhờ câu chuyện</td><td>Giữ kỷ luật "tháng tiền mặt tối thiểu" cho cả Group ngay cả khi cơ hội đầu tư hấp dẫn</td></tr>
+          <tr><td><b class="vb">Warren Buffett</b><br><span class="srcname">Berkshire Hathaway</span></td><td>Đọc 5–6 giờ mỗi ngày; chỉ quyết định trong "vòng tròn hiểu biết"</td><td>Lợi thế kép của kiến thức tích lũy; tránh sai lầm ở lĩnh vực không hiểu</td><td>Chặn 45 phút đọc mỗi sáng trước khi mở email; từ chối phê duyệt khoản đầu tư bạn không giải thích được bằng 1 trang giấy</td></tr>
+          <tr><td><b class="vb">Ruth Porat</b><br><span class="srcname">President &amp; CIO Alphabet, cựu CFO Morgan Stanley</span></td><td>Kỷ luật phân bổ vốn: mọi sáng kiến phải cạnh tranh vốn như nhau; dám nói "không" với dự án của chính CEO</td><td>Biến phòng tài chính từ "người ghi sổ" thành "người gác cổng giá trị"</td><td>Lập một bảng xếp hạng IRR duy nhất cho mọi đề xuất capex của cả H, S, K, HK — không có ngoại lệ theo cảm tình</td></tr>
+          <tr><td><b class="vb">Jeff Bezos</b><br><span class="srcname">Amazon</span></td><td>Cấm slide trong họp lãnh đạo — thay bằng memo 6 trang đọc im lặng đầu giờ</td><td>Viết văn xuôi buộc tư duy phải liền mạch; slide che giấu lỗ hổng logic</td><td>Yêu cầu đề xuất ngân sách lớn của 4 công ty nộp dạng memo: bối cảnh → số liệu → rủi ro → đề nghị</td></tr>
+          <tr><td><b class="vb">Tim Cook</b><br><span class="srcname">Apple</span></td><td>Dậy ~4–5h; tự đọc phản hồi khách hàng; vận hành chuỗi cung ứng bằng số liệu từng đơn vị</td><td>Người đứng đầu chạm dữ liệu gốc, không chỉ nghe báo cáo đã lọc</td><td>Mỗi tuần một lần, tự mở dữ liệu bán hàng thô của S — đừng chỉ đọc bản tóm tắt của cấp dưới</td></tr>
+          <tr><td><b class="vb">Phạm Nhật Vượng</b><br><span class="srcname">Vingroup</span></td><td>"Mãi mãi tinh thần khởi nghiệp" — tốc độ thực thi là văn hóa; đã quyết là làm đến cùng, sai thì sửa nhanh</td><td>Ở thị trường biến động, tốc độ ra quyết định là một loại lợi nhuận</td><td>Đặt SLA cho chính phòng tài chính: mọi yêu cầu phê duyệt phải có câu trả lời trong 48h</td></tr>
+          <tr><td><b class="vb">Trần Đình Long</b><br><span class="srcname">Hòa Phát</span></td><td>Bảo thủ về tiền mặt và nợ vay; chỉ mở rộng vào lĩnh vực hiểu sâu, đi đến cùng chuỗi giá trị</td><td>Doanh nghiệp sống sót qua chu kỳ nhờ bảng cân đối, không nhờ câu chuyện</td><td>Giữ kỷ luật "tháng tiền mặt tối thiểu" cho cả Group ngay cả khi cơ hội đầu tư hấp dẫn</td></tr>
         </tbody>
       </table>
     </div>
@@ -540,8 +646,8 @@
   <section class="sec">
     <div class="sechead"><span class="secno">C</span><h2>Kỹ năng tuần này · Kể chuyện bằng con số</h2></div>
     <div class="twocol">
-      <div class="card" style="padding:16px 18px;">
-        <p style="font-family:system-ui,sans-serif;font-size:13.5px;margin-bottom:10px;">CFO giỏi nhất không trình bày số liệu — họ trình bày <strong>quyết định kèm bằng chứng</strong>. Khung 3 bước dùng cho mọi cuộc họp HĐQT:</p>
+      <div class="card pad">
+        <p class="uinote">CFO giỏi nhất không trình bày số liệu — họ trình bày <strong>quyết định kèm bằng chứng</strong>. Khung 3 bước dùng cho mọi cuộc họp HĐQT:</p>
         <table>
           <tbody>
             <tr><td><b>1. Kết luận trước</b></td><td>Mở đầu bằng câu trả lời: "Chúng ta nên khóa lãi suất 60% dư nợ HK ngay tháng này." Không dẫn dắt vòng vo.</td></tr>
@@ -550,9 +656,9 @@
           </tbody>
         </table>
       </div>
-      <div class="card" style="padding:16px 18px;">
-        <h3 style="font-size:15px;margin-bottom:8px;">Giá sách của CFO</h3>
-        <p style="font-family:system-ui,sans-serif;font-size:13px;color:var(--ink-2);margin-bottom:8px;">Ba cuốn đáng đọc lại hàng năm:</p>
+      <div class="card pad">
+        <h3 class="cardtitle">Giá sách của CFO</h3>
+        <p class="uinote">Ba cuốn đáng đọc lại hàng năm:</p>
         <div class="q"><div class="qn">1</div><div><strong>The Outsiders</strong> — William Thorndike: 8 CEO tạo lợi nhuận phi thường chỉ bằng kỷ luật phân bổ vốn.</div></div>
         <div class="q"><div class="qn">2</div><div><strong>Only the Paranoid Survive</strong> — Andy Grove: nhận diện "điểm uốn chiến lược" trước khi nó nghiền nát mô hình kinh doanh.</div></div>
         <div class="q"><div class="qn">3</div><div><strong>Poor Charlie's Almanack</strong> — Charlie Munger: mô hình tư duy đa ngành và nghệ thuật tránh ngu ngốc thay vì cố thông minh.</div></div>
@@ -567,12 +673,12 @@
   <div class="stamp">Hồ sơ chuyên đề · cập nhật khi có văn bản/dự thảo mới · Ấn bản 02/08/2026</div>
 
   <div class="kicker">Thuế &amp; Chính sách · Việt Nam</div>
-  <h2 style="font-size:clamp(22px,3vw,30px);line-height:1.2;margin-bottom:10px;">2026: năm hệ thống thuế Việt Nam đổi mới toàn diện — bản đồ tác động cho chủ doanh nghiệp</h2>
-  <p style="margin-bottom:14px;color:var(--ink-2);">Ba luật thuế lớn (TNCN, GTGT, quản lý thuế) cùng chuyển động trong năm 2026, cộng với thuế tối thiểu toàn cầu đã vận hành — với một tập đoàn 4 công ty có hub tài chính tại Hồng Kông, đây là tab cần mở mỗi tuần. <span class="facttag">(F/I)</span></p>
+  <h2 class="tabhead">2026: năm hệ thống thuế Việt Nam đổi mới toàn diện — bản đồ tác động cho chủ doanh nghiệp</h2>
+  <p class="lede">Ba luật thuế lớn (TNCN, GTGT, quản lý thuế) cùng chuyển động trong năm 2026, cộng với thuế tối thiểu toàn cầu đã vận hành — với một tập đoàn 4 công ty có hub tài chính tại Hồng Kông, đây là tab cần mở mỗi tuần. <span class="facttag">(F/I)</span></p>
 
   <section class="sec">
     <div class="sechead"><span class="secno">A</span><h2>Đang &amp; sắp hiệu lực</h2><span class="note">nguồn: einvoice.vn tổng hợp luật 2026 · Vietstock · (F)</span></div>
-    <div class="card" style="padding:6px 12px;overflow-x:auto;">
+    <div class="card tablewrap">
       <table>
         <thead><tr><th>Văn bản / quy định</th><th>Hiệu lực</th><th>Nội dung chính</th><th>Tác động ngắn hạn</th><th>Tác động dài hạn</th><th>Nên làm gì</th></tr></thead>
         <tbody>
@@ -589,14 +695,14 @@
   <section class="sec">
     <div class="sechead"><span class="secno">B</span><h2>Đặc biệt với cấu trúc Group H–S–K–HK</h2><span class="note">hai hồ sơ thường trực — không mới nhưng đắt nhất</span></div>
     <div class="twocol">
-      <div class="card" style="padding:16px 18px;">
-        <h3 style="font-size:16px;margin-bottom:6px;">Thuế tối thiểu toàn cầu 15% (Pillar 2)</h3>
-        <p style="font-family:system-ui,sans-serif;font-size:13px;color:var(--ink-2);margin-bottom:8px;">Việt Nam áp dụng từ kỳ tính thuế 2024 (Nghị quyết 107/2023/QH15) với tập đoàn đa quốc gia doanh thu hợp nhất ≥750 triệu EUR. Ngay cả khi Group chưa chạm ngưỡng, <strong>logic của nó đã thay đổi luật chơi hub tài chính</strong>: lợi nhuận dồn về nơi thuế suất thấp (HK 8,25–16,5%) ngày càng dễ bị "truy thu bổ sung" về nơi phát sinh hoạt động thực.</p>
+      <div class="card pad">
+        <h3 class="cardtitle">Thuế tối thiểu toàn cầu 15% (Pillar 2)</h3>
+        <p class="uinote">Việt Nam áp dụng từ kỳ tính thuế 2024 (Nghị quyết 107/2023/QH15) với tập đoàn đa quốc gia doanh thu hợp nhất ≥750 triệu EUR. Ngay cả khi Group chưa chạm ngưỡng, <strong>logic của nó đã thay đổi luật chơi hub tài chính</strong>: lợi nhuận dồn về nơi thuế suất thấp (HK 8,25–16,5%) ngày càng dễ bị "truy thu bổ sung" về nơi phát sinh hoạt động thực.</p>
         <div class="callout"><strong>Ví dụ định lượng (I):</strong> nếu ETR của công ty HK là 12% và Group thuộc diện áp dụng, phần thiếu 3 điểm % có thể bị thu bổ sung tại VN — lợi ích chuyển giá về HK gần như biến mất. Bài toán đúng không còn là "thuế thấp nhất ở đâu" mà là "chất hoạt động thực (substance) đặt ở đâu".</div>
       </div>
-      <div class="card" style="padding:16px 18px;">
-        <h3 style="font-size:16px;margin-bottom:6px;">Chuyển giá — Nghị định 132/2020</h3>
-        <p style="font-family:system-ui,sans-serif;font-size:13px;color:var(--ink-2);margin-bottom:8px;">Bốn công ty H–S–K–HK giao dịch nội bộ liên tục (bản quyền, dịch vụ marketing, điều phối vốn) = đối tượng kinh điển của thanh tra chuyển giá. Trần lãi vay được trừ 30% EBITDA; hồ sơ xác định giá giao dịch liên kết (Local file, Master file) phải sẵn sàng <em>trước</em> khi bị hỏi.</p>
+      <div class="card pad">
+        <h3 class="cardtitle">Chuyển giá — Nghị định 132/2020</h3>
+        <p class="uinote">Bốn công ty H–S–K–HK giao dịch nội bộ liên tục (bản quyền, dịch vụ marketing, điều phối vốn) = đối tượng kinh điển của thanh tra chuyển giá. Trần lãi vay được trừ 30% EBITDA; hồ sơ xác định giá giao dịch liên kết (Local file, Master file) phải sẵn sàng <em>trước</em> khi bị hỏi.</p>
         <div class="callout"><strong>Nên làm gì:</strong> chuẩn hóa hợp đồng nội bộ 4 công ty với benchmark giá thị trường độc lập; rà soát phí bản quyền H→S và phí dịch vụ K→S mỗi quý; lưu hồ sơ chứng minh HK có nhân sự và chức năng thật, không chỉ là hộp thư.</div>
       </div>
     </div>
@@ -604,7 +710,7 @@
 
   <section class="sec">
     <div class="sechead"><span class="secno">C</span><h2>Dự thảo đang theo dõi</h2><span class="note">mục này tự cập nhật khi nguồn đưa tin mới</span></div>
-    <div class="card" style="padding:6px 12px;overflow-x:auto;">
+    <div class="card tablewrap">
       <table>
         <thead><tr><th>Dự thảo</th><th>Trạng thái</th><th>Ảnh hưởng nếu thông qua</th><th>Hành động</th></tr></thead>
         <tbody>
@@ -621,12 +727,12 @@
   <div class="stamp">Chuyên mục CFO số · một ý tưởng khả dụng mỗi ngày · Ấn bản 02/08/2026</div>
 
   <div class="kicker">Công nghệ &amp; Chuyển đổi số tài chính</div>
-  <h2 style="font-size:clamp(22px,3vw,30px);line-height:1.2;margin-bottom:10px;">2026: AI rời khỏi "công cụ thử nghiệm", trở thành lớp vận hành của phòng tài chính</h2>
-  <p style="margin-bottom:10px;color:var(--ink-2);">Ba dịch chuyển lớn của năm nay (GRF CPAs &amp; Advisors): AI nhúng thẳng vào ERP/FP&amp;A/AP thay vì đứng riêng; dữ liệu chuyển từ dashboard tĩnh sang <strong>ra quyết định real-time trong luồng công việc</strong>; và giao diện hội thoại — hỏi hệ thống bằng ngôn ngữ tự nhiên thay vì kéo báo cáo. <span class="facttag">(SO)</span> Với một tập đoàn TMĐT 4 công ty, điều này nghĩa là: bài toán không phải "mua phần mềm gì" mà là <strong>"dữ liệu 4 công ty đã đủ sạch để máy đọc chưa".</strong> <span class="facttag">(I)</span></p>
+  <h2 class="tabhead">2026: AI rời khỏi "công cụ thử nghiệm", trở thành lớp vận hành của phòng tài chính</h2>
+  <p class="lede">Ba dịch chuyển lớn của năm nay (GRF CPAs &amp; Advisors): AI nhúng thẳng vào ERP/FP&amp;A/AP thay vì đứng riêng; dữ liệu chuyển từ dashboard tĩnh sang <strong>ra quyết định real-time trong luồng công việc</strong>; và giao diện hội thoại — hỏi hệ thống bằng ngôn ngữ tự nhiên thay vì kéo báo cáo. <span class="facttag">(SO)</span> Với một tập đoàn TMĐT 4 công ty, điều này nghĩa là: bài toán không phải "mua phần mềm gì" mà là <strong>"dữ liệu 4 công ty đã đủ sạch để máy đọc chưa".</strong> <span class="facttag">(I)</span></p>
 
   <section class="sec">
     <div class="sechead"><span class="secno">A</span><h2>Bản đồ công cụ theo nhịp vận hành</h2><span class="note">ví dụ vendor từ nguồn — nguyên tắc quan trọng hơn tên phần mềm</span></div>
-    <div class="card" style="padding:6px 12px;overflow-x:auto;">
+    <div class="card tablewrap">
       <table>
         <thead><tr><th>Nhịp</th><th>Bài toán</th><th>Cách làm / công cụ (ví dụ)</th><th>Lợi ích</th><th>Bước đầu tiên cho Group</th></tr></thead>
         <tbody>
@@ -647,7 +753,7 @@
       <div><h3>Ngày 30–60 · Tự động</h3><p>Tự động hóa 2 việc ngốn giờ công nhất: đối soát liên công ty HK↔S↔K và bắt hóa đơn đầu vào của K. Đo số giờ tiết kiệm — đó là business case cho giai đoạn sau.</p></div>
       <div><h3>Ngày 60–90 · Dự báo</h3><p>Rolling forecast 13 tuần dòng tiền hợp nhất, driver-based cho S. Ra mắt "close calendar" mục tiêu 5 ngày. Từ đây mới nói chuyện chọn nền tảng FP&amp;A dài hạn.</p></div>
     </div>
-    <div class="callout" style="margin-top:14px;"><strong>Nguyên tắc không đổi (I):</strong> AI không thay CFO — nó thay phần việc lặp lại của phòng tài chính. Phán đoán, đạo đức số liệu và trách nhiệm trước HĐQT vẫn là con người. Tự động hóa dữ liệu xấu chỉ tạo ra sai số nhanh hơn: sạch dữ liệu trước, mua công cụ sau.</div>
+    <div class="callout"><strong>Nguyên tắc không đổi (I):</strong> AI không thay CFO — nó thay phần việc lặp lại của phòng tài chính. Phán đoán, đạo đức số liệu và trách nhiệm trước HĐQT vẫn là con người. Tự động hóa dữ liệu xấu chỉ tạo ra sai số nhanh hơn: sạch dữ liệu trước, mua công cụ sau.</div>
   </section>
 </div><!-- /tab-tech -->
 
@@ -666,7 +772,7 @@
     <li><a href="https://einvoice.vn/tin-tuc/chinh-sach-thue-2026" target="_blank" rel="noopener">einvoice.vn — Toàn cảnh chính sách thuế 2026 (tab Thuế)</a></li>
     <li><a href="https://www.grfcpa.com/resource/2026-finance-tech-trends-ai-updates-cfos-should-watch/" target="_blank" rel="noopener">GRF CPAs &amp; Advisors — 2026 Finance Tech Trends (tab Công nghệ)</a></li>
   </ul>
-  <p style="margin-top:12px;color:var(--muted)">Bản tin tổng hợp tự động theo khung CFO Morning Brief · Ấn bản 02/08/2026 · Biểu đồ là minh họa dựng từ số liệu nguồn mô tả · Chỉ dùng nội dung nguồn cung cấp, phần suy luận đánh dấu (I) · Lưu trữ các số cũ: <a href="./archive/2026-08-02.html">./archive/</a></p>
+  <p class="fine">Bản tin tổng hợp tự động theo khung CFO Morning Brief · Ấn bản 02/08/2026 · Biểu đồ là minh họa dựng từ số liệu nguồn mô tả · Chỉ dùng nội dung nguồn cung cấp, phần suy luận đánh dấu (I) · Lưu trữ các số cũ: <a href="./archive/2026-08-02.html">./archive/</a></p>
 </footer>
 
 </div>
