@@ -6,11 +6,14 @@
 <title>CFO Morning Brief – 02/08/2026</title>
 <style>
   /* ============================================================
-     HỆ THỐNG CHỮ — CFO Morning Brief
-     Font: bộ serif có đủ dấu tiếng Việt (tránh Georgia vì thiếu
-     glyph Việt → chữ bị rơi font giữa dòng, giãn cách lỗi).
+     HỆ THỐNG CHỮ + MÀU — CFO Morning Brief
+     Font: bộ serif có đủ dấu tiếng Việt. KHÔNG dùng font thiếu
+     glyph Việt (chữ sẽ rơi font giữa dòng, giãn cách lỗi).
      Thang cỡ chữ: 11 · 12 · 13 · 15 · 17 · 19 · 22 · 26 · 34
      Thang khoảng cách: 4 · 8 · 12 · 16 · 24 · 32 · 44
+     GIAO DIỆN: CHỈ CÓ NỀN SÁNG. Không dark mode, không theme toggle.
+     Bảng màu theo lối The Guardian: xanh măng-sét, đỏ tin nóng,
+     vàng đánh dấu điểm nhấn, dải màu section để phân vùng nội dung.
      ============================================================ */
   :root {
     --serif: "Noto Serif", Cambria, "Palatino Linotype", "Times New Roman", Times, serif;
@@ -32,36 +35,40 @@
 
     --sp1: 4px; --sp2: 8px; --sp3: 12px; --sp4: 16px; --sp5: 24px; --sp6: 32px; --sp7: 44px;
 
-    color-scheme: light;
-    --paper: #f7f6f1;
-    --surface: #fffffe;
-    --ink: #111111;
-    --ink-2: #40403c;
-    --muted: #77756e;
-    --hair: #d8d6cc;
-    --rule: #111111;
-    --accent: #0f5499;
-    --up-bad: #c0392b;
-    --down-good: #0a7a3d;
-    --chip-bg: #edece5;
-    --warn-bg: #fdf6e3;
-  }
-  :root[data-theme="dark"] {
-    color-scheme: dark;
-    --paper: #121210; --surface: #1c1c1a; --ink: #f4f3ee; --ink-2: #c9c7bd;
-    --muted: #8f8d84; --hair: #33322d; --rule: #e8e6de; --accent: #5da3e0;
-    --up-bad: #e07868; --down-good: #4fbf7f; --chip-bg: #262622; --warn-bg: #262115;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      color-scheme: dark;
-      --paper: #121210; --surface: #1c1c1a; --ink: #f4f3ee; --ink-2: #c9c7bd;
-      --muted: #8f8d84; --hair: #33322d; --rule: #e8e6de; --accent: #5da3e0;
-      --up-bad: #e07868; --down-good: #4fbf7f; --chip-bg: #262622; --warn-bg: #262115;
-    }
+    /* ---- BẢNG MÀU (chỉ nền sáng) ---- */
+    color-scheme: light only;
+    --paper: #f6f6f4;
+    --surface: #ffffff;
+    --ink: #121212;
+    --ink-2: #3d3d3a;
+    --muted: #6e6c66;
+    --hair: #dcdad2;
+    --rule: #121212;
+
+    --brand: #052962;      /* xanh măng-sét Guardian */
+    --brand-2: #0a4b8f;
+    --accent: #c70000;     /* đỏ tin nóng */
+    --link: #0a5eb0;
+    --hl: #ffe500;         /* vàng đánh dấu */
+    --hl-soft: #fff8c4;
+    --up-bad: #c70000;
+    --down-good: #077a3c;
+    --warn: #b45309;
+    --chip-bg: #ecebe5;
+    --warn-bg: #fff8e1;
+
+    /* dải màu luân phiên cho các section */
+    --sec: var(--brand);
+    --c1: #052962; --c2: #c70000; --c3: #077a3c;
+    --c4: #a1197f; --c5: #b45309; --c6: #0f6f8c;
+
+    --shadow-1: 0 1px 2px rgba(18,18,18,.06);
+    --shadow-2: 0 6px 18px rgba(5,41,98,.10);
+    --ease: cubic-bezier(.2,.6,.25,1);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
   body {
     font-family: var(--serif);
     font-size: var(--t-body);
@@ -74,21 +81,44 @@
   p { margin-bottom: var(--sp3); }
   p:last-child { margin-bottom: 0; }
   .wrap { max-width: 1080px; margin: 0 auto; padding: 0 22px var(--sp7); }
-  a { color: var(--accent); }
+  a { color: var(--link); }
   h1, h2, h3, h4 { line-height: var(--lh-head); font-weight: 700; letter-spacing: -0.005em; }
   strong, b { font-weight: 700; }
+  ::selection { background: var(--hl); color: var(--ink); }
 
   /* nhãn chữ hoa dùng chung — mọi nơi cùng một công thức */
   .kicker, .byline, .stamp, .railhead, .wl, .tk, .secno, nav.toc a,
-  .tabbar button, th, .tag, .masthead .dateline, .next h3, .gcard .role {
+  .tabbar button, th, .tag, .masthead .dateline, .next h3, .gcard .role, .badge {
     font-family: var(--sans);
     text-transform: uppercase;
     letter-spacing: .08em;
     font-weight: 700;
   }
 
+  /* ===== Đánh dấu điểm nhấn ===== */
+  /* .hl — bút dạ vàng cho cụm từ/con số quan trọng trong văn xuôi */
+  .hl {
+    background-image: linear-gradient(transparent 58%, var(--hl) 58%);
+    padding: 0 2px;
+    font-weight: 700;
+  }
+  /* .badge — nhãn phân loại tin: nóng / mới / theo dõi / tốt */
+  .badge {
+    display: inline-block; font-size: var(--t-micro); line-height: 1.45;
+    padding: 2px var(--sp2); border-radius: 3px; white-space: nowrap;
+    background: var(--chip-bg); color: var(--ink-2); vertical-align: middle;
+  }
+  .badge.crit  { background: var(--accent); color: #fff; }
+  .badge.new   { background: var(--brand); color: #fff; }
+  .badge.watch { background: var(--warn-bg); color: var(--warn); box-shadow: inset 0 0 0 1px #e6c98a; }
+  .badge.ok    { background: #e4f4ea; color: var(--down-good); box-shadow: inset 0 0 0 1px #a8d9bd; }
+  .badge.mark  { background: var(--hl); color: var(--ink); }
+
   /* ===== Dải chỉ số thị trường ===== */
-  .ticker { display: flex; overflow-x: auto; border-bottom: 1px solid var(--hair); padding: var(--sp2) 0; }
+  .ticker {
+    display: flex; overflow-x: auto; padding: var(--sp2) 0;
+    background: var(--surface); border-bottom: 1px solid var(--hair);
+  }
   .ticker .ti { flex: 1 0 auto; min-width: 136px; padding: 0 var(--sp4); border-right: 1px solid var(--hair); }
   .ticker .ti:last-child { border-right: none; }
   .ticker .tk { font-size: var(--t-micro); color: var(--muted); line-height: 1.4; }
@@ -98,41 +128,54 @@
   .ticker .td.good { color: var(--down-good); }
   .ticker .td.flat { color: var(--muted); }
 
-  /* ===== Măng-sét ===== */
-  .masthead { display: flex; flex-direction: column; align-items: center; padding: var(--sp5) 0 var(--sp3); }
-  .theme-btn {
-    order: -1; align-self: flex-end; margin-bottom: var(--sp2);
-    font-family: var(--sans); font-size: var(--t-xs); cursor: pointer;
-    border: 1px solid var(--hair); background: var(--surface); color: var(--ink);
-    border-radius: 6px; padding: 6px 11px;
+  /* ===== Măng-sét (khối xanh Guardian) ===== */
+  .masthead {
+    display: flex; flex-direction: column; align-items: center;
+    background: var(--brand);
+    background-image: linear-gradient(180deg, #063a86 0%, var(--brand) 68%);
+    color: #fff;
+    padding: var(--sp5) var(--sp4) var(--sp4);
+    border-bottom: 4px solid var(--hl);
+    margin-bottom: var(--sp1);
   }
-  .masthead h1 { font-size: clamp(32px, 5.6vw, 50px); line-height: 1.06; letter-spacing: .005em; text-align: center; }
+  .masthead h1 { font-size: clamp(32px, 5.6vw, 50px); line-height: 1.06; letter-spacing: .005em; text-align: center; color: #fff; }
   .masthead .dateline {
     display: flex; align-items: center; gap: var(--sp3); width: 100%;
     margin-top: var(--sp3); font-size: var(--t-micro); letter-spacing: .1em;
-    color: var(--ink-2); line-height: 1.5; text-align: center;
+    color: #e9eefb; line-height: 1.5; text-align: center;
   }
-  .masthead .dateline::before, .masthead .dateline::after { content: ""; flex: 1 1 24px; border-top: 1px solid var(--rule); }
+  .masthead .dateline::before, .masthead .dateline::after { content: ""; flex: 1 1 24px; border-top: 1px solid rgba(255,255,255,.45); }
   .legend { font-family: var(--sans); font-size: var(--t-xs); line-height: 1.5; color: var(--muted); text-align: center; margin-top: var(--sp2); }
+  .masthead .legend { color: #cfdcf5; }
 
   /* ===== Thanh tab ===== */
   .tabbar {
     display: flex; justify-content: center; flex-wrap: wrap;
-    border-top: 3px double var(--rule); border-bottom: 1px solid var(--rule);
-    margin-top: var(--sp3); position: sticky; top: 0; background: var(--paper); z-index: 20;
+    border-bottom: 1px solid var(--hair);
+    margin-top: var(--sp3); position: sticky; top: 0; background: var(--surface); z-index: 20;
+    box-shadow: var(--shadow-1);
   }
   .tabbar button {
-    background: none; border: none; border-bottom: 3px solid transparent; cursor: pointer;
+    position: relative; background: none; border: none; cursor: pointer;
     padding: var(--sp3) var(--sp4); font-size: var(--t-xs); color: var(--ink-2); line-height: 1.4;
+    transition: color .18s var(--ease);
   }
-  .tabbar button:hover { color: var(--accent); }
-  .tabbar button.active { color: var(--ink); border-bottom-color: var(--ink); }
+  .tabbar button::after {
+    content: ""; position: absolute; left: var(--sp3); right: var(--sp3); bottom: 0; height: 3px;
+    background: var(--brand); transform: scaleX(0); transform-origin: left;
+    transition: transform .22s var(--ease);
+  }
+  .tabbar button:hover { color: var(--brand); }
+  .tabbar button:hover::after { transform: scaleX(.45); background: var(--hair); }
+  .tabbar button.active { color: var(--brand); }
+  .tabbar button.active::after { transform: scaleX(1); background: var(--brand); }
   .tabpanel { display: none; padding-top: var(--sp5); }
-  .tabpanel.active { display: block; }
+  .tabpanel.active { display: block; animation: panelIn .3s var(--ease) both; }
+  @keyframes panelIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
   /* ===== Mục lục trong tab 1 ===== */
   nav.toc { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px; padding-bottom: var(--sp4); border-bottom: 1px solid var(--hair); }
-  nav.toc a { font-size: var(--t-micro); font-weight: 600; color: var(--muted); text-decoration: none; padding: 2px var(--sp3); border-right: 1px solid var(--hair); line-height: 1.5; }
+  nav.toc a { font-size: var(--t-micro); font-weight: 600; color: var(--muted); text-decoration: none; padding: 2px var(--sp3); border-right: 1px solid var(--hair); line-height: 1.5; transition: color .16s var(--ease); }
   nav.toc a:last-child { border-right: none; }
   nav.toc a:hover { color: var(--accent); }
 
@@ -144,6 +187,7 @@
     .front .lead { padding-right: 0; border-right: none; border-bottom: 1px solid var(--hair); padding-bottom: var(--sp5); margin-bottom: var(--sp5); }
   }
   .kicker { font-size: var(--t-micro); color: var(--accent); margin-bottom: var(--sp2); line-height: 1.4; }
+  .kicker::before { content: ""; display: inline-block; width: 22px; height: 3px; background: var(--accent); vertical-align: middle; margin-right: var(--sp2); transform: translateY(-1px); }
   .lead h2.head { font-size: clamp(25px, 3.2vw, 34px); line-height: var(--lh-tight); margin-bottom: var(--sp3); text-wrap: balance; }
   .lead .deck { font-size: var(--t-h4); line-height: 1.45; color: var(--ink-2); margin-bottom: var(--sp4); }
   .byline { font-size: var(--t-micro); font-weight: 600; color: var(--muted); margin-bottom: var(--sp3); line-height: 1.5; }
@@ -151,23 +195,31 @@
   .lead p.body:last-child { margin-bottom: 0; }
 
   .figure { margin: var(--sp2) 0 var(--sp3); }
-  .figure svg { width: 100%; height: auto; display: block; border: 1px solid var(--hair); background: var(--surface); }
+  .figure svg { width: 100%; height: auto; display: block; border: 1px solid var(--hair); border-top: 3px solid var(--brand); background: var(--surface); }
   .figure figcaption { font-family: var(--sans); font-size: var(--t-xs); line-height: 1.5; color: var(--muted); padding-top: var(--sp2); }
 
   .facttag { font-family: var(--sans); font-size: var(--t-micro); font-weight: 700; color: var(--muted); white-space: nowrap; }
 
   /* Cột What's News */
-  .rail .railhead { font-size: var(--t-xs); letter-spacing: .1em; border-bottom: 2px solid var(--rule); padding-bottom: var(--sp2); margin-bottom: var(--sp3); line-height: 1.4; }
+  .rail .railhead { font-size: var(--t-xs); letter-spacing: .1em; color: var(--brand); border-bottom: 3px solid var(--brand); padding-bottom: var(--sp2); margin-bottom: var(--sp3); line-height: 1.4; }
   .wn { padding: var(--sp3) 0; border-bottom: 1px solid var(--hair); font-size: var(--t-base); line-height: 1.55; }
   .wn:last-child { border-bottom: none; }
-  .wn .wl { display: block; font-size: var(--t-micro); color: var(--muted); margin-bottom: var(--sp1); line-height: 1.4; }
-  .wn.action { background: var(--warn-bg); border: 1px solid var(--hair); border-left: 3px solid var(--accent); margin: var(--sp3) 0 0; padding: var(--sp3); }
+  .wn .wl { display: block; font-size: var(--t-micro); color: var(--accent); margin-bottom: var(--sp1); line-height: 1.4; }
+  .wn.action {
+    background: var(--hl-soft); border: 1px solid #ecd98a; border-left: 4px solid var(--hl);
+    margin: var(--sp3) 0 0; padding: var(--sp3);
+  }
+  .wn.action .wl { color: var(--warn); }
 
   /* Hàng 3 tin có biểu đồ */
-  .featurerow { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: var(--sp5); border-top: 3px double var(--rule); margin-top: var(--sp5); padding-top: var(--sp5); }
-  .feat { border-right: 1px solid var(--hair); padding-right: var(--sp5); }
+  .featurerow { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: var(--sp5); border-top: 3px solid var(--ink); margin-top: var(--sp5); padding-top: var(--sp5); }
+  .feat { border-right: 1px solid var(--hair); padding-right: var(--sp5); transition: transform .2s var(--ease); }
+  .feat:hover { transform: translateY(-3px); }
   .feat:last-child { border-right: none; padding-right: 0; }
-  .feat svg { width: 100%; height: auto; display: block; border: 1px solid var(--hair); background: var(--surface); }
+  .feat svg { width: 100%; height: auto; display: block; border: 1px solid var(--hair); border-top: 3px solid var(--sec); background: var(--surface); }
+  .feat:nth-child(1) { --sec: var(--c1); }
+  .feat:nth-child(2) { --sec: var(--c2); }
+  .feat:nth-child(3) { --sec: var(--c3); }
   .feat h4 { font-size: var(--t-h4); margin: var(--sp3) 0 var(--sp1); }
   .feat p { font-family: var(--sans); font-size: var(--t-sm); line-height: var(--lh-ui); color: var(--ink-2); }
   @media (max-width: 780px) {
@@ -175,17 +227,31 @@
     .feat:last-child { border-bottom: none; padding-bottom: 0; }
   }
 
-  /* ===== Khối section ===== */
+  /* ===== Khối section — mỗi section một màu ===== */
   section.sec { margin-top: var(--sp6); }
-  .sechead { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--sp3); border-top: 3px double var(--rule); padding-top: var(--sp3); margin-bottom: var(--sp4); }
+  section.sec:nth-of-type(6n+1) { --sec: var(--c1); }
+  section.sec:nth-of-type(6n+2) { --sec: var(--c2); }
+  section.sec:nth-of-type(6n+3) { --sec: var(--c3); }
+  section.sec:nth-of-type(6n+4) { --sec: var(--c4); }
+  section.sec:nth-of-type(6n+5) { --sec: var(--c5); }
+  section.sec:nth-of-type(6n+6) { --sec: var(--c6); }
+  .sechead {
+    display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--sp3);
+    border-top: 4px solid var(--sec); padding-top: var(--sp3); margin-bottom: var(--sp4);
+  }
   .sechead h2 { font-size: var(--t-h3); }
-  .sechead .secno { font-size: var(--t-micro); color: var(--paper); background: var(--ink); padding: 3px var(--sp2); line-height: 1.4; }
+  .sechead .secno { font-size: var(--t-micro); color: #fff; background: var(--sec); padding: 3px var(--sp2); border-radius: 2px; line-height: 1.4; }
   .sechead .note { font-family: var(--sans); font-size: var(--t-xs); font-weight: 400; color: var(--muted); line-height: 1.5; }
 
-  /* ===== Thẻ &  bảng ===== */
-  .card { background: var(--surface); border: 1px solid var(--hair); padding: var(--sp4) var(--sp5); }
+  /* ===== Thẻ & bảng ===== */
+  .card {
+    background: var(--surface); border: 1px solid var(--hair); padding: var(--sp4) var(--sp5);
+    box-shadow: var(--shadow-1); transition: box-shadow .22s var(--ease), transform .22s var(--ease);
+  }
+  .card:hover { box-shadow: var(--shadow-2); transform: translateY(-2px); }
   .card.pad > *:last-child { margin-bottom: 0; }
   .card.tablewrap { padding: 0 var(--sp3); overflow-x: auto; }
+  .card.accent { border-top: 4px solid var(--sec); }
   .cardtitle { font-size: var(--t-h4); margin-bottom: var(--sp2); }
   .uinote { font-family: var(--sans); font-size: var(--t-sm); line-height: var(--lh-ui); color: var(--ink-2); margin-bottom: var(--sp3); }
   .lede { font-size: var(--t-h4); line-height: 1.5; color: var(--ink-2); margin-bottom: var(--sp4); }
@@ -197,39 +263,64 @@
   .srcname { display: inline-block; font-family: var(--sans); font-size: var(--t-micro); font-weight: 400; letter-spacing: 0; text-transform: none; color: var(--muted); line-height: 1.45; margin-top: 2px; }
 
   table { width: 100%; border-collapse: collapse; font-family: var(--sans); font-size: var(--t-sm); line-height: var(--lh-ui); }
-  th { text-align: left; font-size: var(--t-micro); color: var(--muted); padding: var(--sp3) var(--sp3) var(--sp2); border-bottom: 2px solid var(--rule); line-height: 1.4; }
+  th { text-align: left; font-size: var(--t-micro); color: var(--brand); padding: var(--sp3) var(--sp3) var(--sp2); border-bottom: 2px solid var(--brand); line-height: 1.4; }
   td { padding: var(--sp3); border-bottom: 1px solid var(--hair); vertical-align: top; }
+  tbody tr { transition: background .16s var(--ease); }
+  tbody tr:hover { background: #f4f7fd; }
   tr:last-child td { border-bottom: none; }
   td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
   td .vb, td b.vb { display: inline-block; font-size: var(--t-base); font-weight: 700; line-height: 1.4; }
+  tr.key td { background: var(--hl-soft); }
+  tr.key td:first-child { box-shadow: inset 3px 0 0 var(--hl); }
   .dir { font-weight: 700; }
   .dir.up { color: var(--up-bad); } .dir.down { color: var(--down-good); } .dir.flat { color: var(--muted); }
   .impact { display: inline-flex; align-items: center; gap: var(--sp2); font-size: var(--t-sm); font-weight: 600; white-space: nowrap; }
-  .impact .dot { width: 9px; height: 9px; border-radius: 50%; flex: 0 0 auto; }
-  .impact.high .dot { background: var(--up-bad); }
-  .impact.med .dot { background: #d98e04; }
+  .impact .dot { width: 9px; height: 9px; border-radius: 50%; flex: 0 0 auto; background: var(--muted); }
+  .impact.high .dot { background: var(--accent); box-shadow: 0 0 0 3px rgba(199,0,0,.15); }
+  .impact.med .dot { background: #d98e04; box-shadow: 0 0 0 3px rgba(217,142,4,.15); }
+  .impact.low .dot { background: var(--down-good); box-shadow: 0 0 0 3px rgba(7,122,60,.14); }
   .missing { color: var(--muted); font-style: italic; }
 
   /* ===== Chip lọc + accordion Top 7 ===== */
   .chips { display: flex; flex-wrap: wrap; gap: var(--sp2); margin-bottom: var(--sp3); }
-  .chip { font-family: var(--sans); font-size: var(--t-xs); line-height: 1.5; padding: 5px var(--sp3); border-radius: 999px; cursor: pointer; user-select: none; background: var(--chip-bg); color: var(--ink-2); border: 1px solid transparent; }
-  .chip:hover { border-color: var(--muted); }
-  .chip.active { background: var(--ink); color: var(--paper); font-weight: 700; }
+  .chip {
+    font-family: var(--sans); font-size: var(--t-xs); line-height: 1.5; padding: 5px var(--sp3);
+    border-radius: 999px; cursor: pointer; user-select: none;
+    background: var(--chip-bg); color: var(--ink-2); border: 1px solid transparent;
+    transition: background .16s var(--ease), color .16s var(--ease), border-color .16s var(--ease);
+  }
+  .chip:hover { border-color: var(--brand); color: var(--brand); }
+  .chip.active { background: var(--brand); color: #fff; font-weight: 700; border-color: var(--brand); }
 
-  .dev { background: var(--surface); border: 1px solid var(--hair); margin-bottom: -1px; }
+  .dev {
+    background: var(--surface); border: 1px solid var(--hair); border-left: 4px solid var(--hair);
+    margin-bottom: -1px;
+    transition: border-left-color .2s var(--ease), box-shadow .2s var(--ease);
+  }
+  .dev:hover { box-shadow: var(--shadow-1); }
+  .dev[data-p="1"], .dev[data-p="2"], .dev[data-p="3"] { border-left-color: var(--accent); }
+  .dev[data-p="4"], .dev[data-p="5"] { border-left-color: var(--brand); }
+  .dev.open { border-left-color: var(--brand-2); box-shadow: var(--shadow-2); position: relative; z-index: 1; }
   .dev-head { display: flex; align-items: baseline; gap: var(--sp3); padding: var(--sp3) var(--sp4); cursor: pointer; }
-  .dev-head:hover { background: var(--chip-bg); }
+  .dev-head:hover { background: #f4f7fd; }
   .dev .pri { flex: 0 0 26px; font-size: var(--t-h3); font-weight: 700; color: var(--muted); text-align: center; line-height: 1.25; }
-  .dev[data-p="1"] .pri, .dev[data-p="2"] .pri { color: var(--accent); }
+  .dev[data-p="1"] .pri, .dev[data-p="2"] .pri, .dev[data-p="3"] .pri { color: var(--accent); }
   .dev .t { flex: 1 1 260px; font-size: var(--t-h4); font-weight: 700; line-height: 1.32; }
+  .dev.key .dev-head { background: var(--hl-soft); }
+  .dev.key .dev-head:hover { background: #fdf3ae; }
   .dev .tags { display: flex; flex-wrap: wrap; gap: var(--sp2); }
-  .tag { font-size: var(--t-micro); font-weight: 600; padding: 3px var(--sp2); background: var(--chip-bg); color: var(--ink-2); white-space: nowrap; line-height: 1.45; }
-  .dev .arrow { font-family: var(--sans); font-size: var(--t-xs); color: var(--muted); transition: transform .18s; }
+  .tag { font-size: var(--t-micro); font-weight: 600; padding: 3px var(--sp2); background: var(--chip-bg); color: var(--ink-2); white-space: nowrap; line-height: 1.45; border-radius: 2px; }
+  .tag.rev { background: #e8f0fb; color: var(--brand); }
+  .tag.risk { background: #fdeaea; color: var(--accent); }
+  .tag.cash { background: #e4f4ea; color: var(--down-good); }
+  .tag.fx { background: #f6e9f4; color: var(--c4); }
+  .dev .arrow { font-family: var(--sans); font-size: var(--t-xs); color: var(--muted); transition: transform .18s var(--ease); }
   .dev.open .arrow { transform: rotate(90deg); }
   .dev-body { display: none; padding: 0 var(--sp5) var(--sp4) 66px; }
-  .dev.open .dev-body { display: block; }
+  .dev.open .dev-body { display: block; animation: bodyIn .24s var(--ease) both; }
+  @keyframes bodyIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
   .dev-body dl { display: grid; grid-template-columns: 128px 1fr; gap: var(--sp2) var(--sp3); font-family: var(--sans); font-size: var(--t-sm); line-height: var(--lh-ui); }
-  .dev-body dt { font-size: var(--t-micro); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding-top: 1px; }
+  .dev-body dt { font-size: var(--t-micro); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--brand); padding-top: 1px; }
   .dev.hidden { display: none; }
   @media (max-width: 620px) {
     .dev-body { padding-left: var(--sp4); }
@@ -240,23 +331,37 @@
   /* ===== Mục Việt Nam ===== */
   .vnGrid { display: grid; grid-template-columns: 1.5fr 1fr; gap: var(--sp5); align-items: start; }
   @media (max-width: 860px) { .vnGrid { grid-template-columns: 1fr; } }
-  .fdi { background: var(--surface); border: 1px solid var(--hair); padding: var(--sp4) var(--sp5); }
+  .fdi {
+    background: var(--surface); border: 1px solid var(--hair); border-top: 4px solid var(--sec);
+    padding: var(--sp4) var(--sp5); box-shadow: var(--shadow-1);
+    transition: box-shadow .22s var(--ease), transform .22s var(--ease);
+  }
+  .fdi:hover { box-shadow: var(--shadow-2); transform: translateY(-2px); }
   .fdi h3 { font-size: var(--t-h4); margin-bottom: var(--sp1); }
   .fdi .sub { font-family: var(--sans); font-size: var(--t-xs); line-height: var(--lh-ui); color: var(--muted); margin-bottom: var(--sp3); }
   .fdi svg { width: 100%; height: auto; display: block; margin-bottom: var(--sp2); }
   .fdi ul { font-family: var(--sans); font-size: var(--t-sm); line-height: var(--lh-ui); color: var(--ink-2); padding-left: var(--sp4); margin-top: var(--sp2); }
   .fdi li { margin-bottom: var(--sp1); }
-  .callout, .cfoline { font-family: var(--sans); font-size: var(--t-sm); line-height: var(--lh-ui); background: var(--warn-bg); border: 1px solid var(--hair); border-left: 3px solid var(--accent); padding: var(--sp3) var(--sp4); margin-top: var(--sp3); }
+  .callout, .cfoline {
+    font-family: var(--sans); font-size: var(--t-sm); line-height: var(--lh-ui);
+    background: var(--hl-soft); border: 1px solid #ecd98a; border-left: 4px solid var(--hl);
+    padding: var(--sp3) var(--sp4); margin-top: var(--sp3);
+  }
 
   /* ===== Thẻ 4 công ty ===== */
-  .grid4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); border: 1px solid var(--hair); background: var(--surface); }
-  .gcard { padding: var(--sp4) var(--sp5); border-right: 1px solid var(--hair); }
+  .grid4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); border: 1px solid var(--hair); background: var(--surface); box-shadow: var(--shadow-1); }
+  .gcard { padding: var(--sp4) var(--sp5); border-right: 1px solid var(--hair); border-top: 4px solid var(--sec); transition: background .18s var(--ease); }
+  .gcard:nth-child(1) { --sec: var(--c1); }
+  .gcard:nth-child(2) { --sec: var(--c2); }
+  .gcard:nth-child(3) { --sec: var(--c3); }
+  .gcard:nth-child(4) { --sec: var(--c4); }
+  .gcard:hover { background: #fafbfe; }
   .gcard:last-child { border-right: none; }
   @media (max-width: 920px) {
     .gcard { border-right: none; border-bottom: 1px solid var(--hair); }
     .gcard:last-child { border-bottom: none; }
   }
-  .gcard h3 { font-size: var(--t-h3); line-height: 1.2; }
+  .gcard h3 { font-size: var(--t-h3); line-height: 1.2; color: var(--sec); }
   .gcard .role { display: block; font-size: var(--t-micro); color: var(--muted); margin: var(--sp1) 0 var(--sp2); line-height: 1.45; }
   .gcard p { font-family: var(--sans); font-size: var(--t-sm); line-height: var(--lh-ui); color: var(--ink-2); }
 
@@ -267,27 +372,37 @@
   .q .qn { flex: 0 0 24px; font-size: var(--t-h4); font-weight: 700; color: var(--accent); line-height: 1.35; }
 
   /* ===== What's Next / lộ trình ===== */
-  .next { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); border: 1px solid var(--hair); background: var(--surface); }
-  .next > div { padding: var(--sp4) var(--sp5); border-right: 1px solid var(--hair); }
+  .next { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); border: 1px solid var(--hair); background: var(--surface); box-shadow: var(--shadow-1); }
+  .next > div { padding: var(--sp4) var(--sp5); border-right: 1px solid var(--hair); border-top: 4px solid var(--sec); }
+  .next > div:nth-child(1) { --sec: var(--c2); }
+  .next > div:nth-child(2) { --sec: var(--c5); }
+  .next > div:nth-child(3) { --sec: var(--c1); }
   .next > div:last-child { border-right: none; }
   @media (max-width: 820px) {
     .next > div { border-right: none; border-bottom: 1px solid var(--hair); }
     .next > div:last-child { border-bottom: none; }
   }
-  .next h3 { font-size: var(--t-micro); letter-spacing: .1em; color: var(--muted); margin-bottom: var(--sp2); line-height: 1.4; }
+  .next h3 { font-size: var(--t-micro); letter-spacing: .1em; color: var(--sec); margin-bottom: var(--sp2); line-height: 1.4; }
   .next p { font-size: var(--t-base); line-height: 1.55; }
 
   /* ===== Trích dẫn ===== */
-  .quotebox { background: var(--surface); border: 1px solid var(--hair); border-left: 4px solid var(--accent); padding: var(--sp5); margin: var(--sp3) 0 var(--sp4); }
+  .quotebox {
+    background: var(--surface); border: 1px solid var(--hair); border-left: 5px solid var(--hl);
+    padding: var(--sp5); margin: var(--sp3) 0 var(--sp4); box-shadow: var(--shadow-1);
+  }
   .quotebox .qt { font-size: var(--t-h3); line-height: 1.45; font-style: italic; text-wrap: pretty; }
-  .quotebox .who { font-family: var(--sans); font-size: var(--t-xs); font-weight: 600; color: var(--muted); margin-top: var(--sp3); line-height: var(--lh-ui); }
+  .quotebox .who { font-family: var(--sans); font-size: var(--t-xs); font-weight: 600; color: var(--brand); margin-top: var(--sp3); line-height: var(--lh-ui); }
 
   .twocol { display: grid; grid-template-columns: 1.5fr 1fr; gap: var(--sp5); align-items: start; }
   @media (max-width: 860px) { .twocol { grid-template-columns: 1fr; } }
 
+  /* ===== Hiệu ứng hiện dần khi cuộn ===== */
+  .reveal { opacity: 0; transform: translateY(14px); transition: opacity .5s var(--ease), transform .5s var(--ease); }
+  .reveal.in { opacity: 1; transform: none; }
+
   /* ===== Chân trang ===== */
-  footer { margin-top: var(--sp7); padding-top: var(--sp4); border-top: 3px double var(--rule); font-family: var(--sans); font-size: var(--t-sm); line-height: var(--lh-ui); color: var(--ink-2); }
-  footer h4 { font-family: var(--sans); font-size: var(--t-micro); text-transform: uppercase; letter-spacing: .1em; margin-bottom: var(--sp2); line-height: 1.4; }
+  footer { margin-top: var(--sp7); padding-top: var(--sp4); border-top: 4px solid var(--brand); font-family: var(--sans); font-size: var(--t-sm); line-height: var(--lh-ui); color: var(--ink-2); }
+  footer h4 { font-family: var(--sans); font-size: var(--t-micro); text-transform: uppercase; letter-spacing: .1em; color: var(--brand); margin-bottom: var(--sp2); line-height: 1.4; }
   footer ul { padding-left: var(--sp4); }
   footer li { margin-bottom: var(--sp1); }
   footer a { text-decoration: none; }
@@ -304,6 +419,13 @@
     .ticker .ti { min-width: 124px; padding: 0 var(--sp3); }
   }
   footer .fine { margin-top: var(--sp3); font-size: var(--t-xs); color: var(--muted); line-height: var(--lh-ui); }
+
+  /* ===== Tôn trọng thiết lập giảm chuyển động ===== */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .reveal { opacity: 1; transform: none; }
+  }
 </style>
 </head>
 <body>
@@ -322,7 +444,6 @@
 <header class="masthead">
   <h1>CFO Morning Brief</h1>
   <div class="dateline">Chủ nhật, 02 tháng 8, 2026 · Ấn bản dành cho lãnh đạo tài chính · Nguồn 24h: Vietstock · CafeF (+ hồ sơ chính sách VN)</div>
-  <button class="theme-btn" id="themeBtn">◐ Sáng/Tối</button>
   <div class="legend">(F) Fact · (SO) Source Opinion · (I) Inference — suy luận của bản tin. Reuters/FT/VNEconomy: không có bài truy cập được trong 24h.</div>
 </header>
 
@@ -349,74 +470,74 @@
 <div class="front" id="front">
   <div class="lead">
     <div class="kicker">Tâm điểm · Thị trường vốn toàn cầu</div>
-    <h2 class="head">Bán tháo trái phiếu Mỹ đẩy lợi suất 30 năm lên 5,28% — mức cao nhất kể từ 2007</h2>
+    <h2 class="head">Bán tháo trái phiếu Mỹ đẩy lợi suất 30 năm lên <span class="hl">5,28%</span> — mức cao nhất kể từ 2007</h2>
     <div class="deck">Fed giữ lãi suất 3,50–3,75% lần thứ 5 liên tiếp nhưng nội bộ rạn nứt: ba thành viên FOMC bất đồng, Chủ tịch Fed St. Louis công khai ủng hộ tăng 25 điểm cơ bản. <span class="facttag">(F)</span></div>
     <figure class="figure">
       <svg viewBox="0 0 640 240" role="img" aria-label="Lợi suất trái phiếu chính phủ Mỹ kỳ hạn 30 năm tăng lên 5,28%">
         <rect width="640" height="240" fill="none"/>
-        <g stroke="#d8d6cc" stroke-width="1">
+        <g stroke="#dcdad2" stroke-width="1">
           <line x1="50" y1="40" x2="610" y2="40"/><line x1="50" y1="90" x2="610" y2="90"/>
           <line x1="50" y1="140" x2="610" y2="140"/><line x1="50" y1="190" x2="610" y2="190"/>
         </g>
-        <g font-family="system-ui" font-size="11" fill="#77756e">
+        <g font-family="system-ui" font-size="11" fill="#6e6c66">
           <text x="14" y="44">5,3%</text><text x="14" y="94">5,0%</text><text x="14" y="144">4,7%</text><text x="14" y="194">4,4%</text>
           <text x="60" y="222">T2/26</text><text x="180" y="222">T4/26</text><text x="310" y="222">T6/26</text><text x="450" y="222">T7/26</text><text x="560" y="222">02/08</text>
         </g>
-        <path d="M50,178 L120,168 L190,175 L260,150 L330,142 L400,120 L470,112 L540,80 L610,44" fill="none" stroke="#0f5499" stroke-width="3" stroke-linejoin="round"/>
-        <path d="M50,178 L120,168 L190,175 L260,150 L330,142 L400,120 L470,112 L540,80 L610,44 L610,200 L50,200 Z" fill="#0f5499" opacity="0.08"/>
-        <circle cx="610" cy="44" r="5" fill="#c0392b"/>
-        <text x="530" y="30" font-family="Georgia" font-size="17" font-weight="bold" fill="#c0392b">5,28%</text>
-        <text x="52" y="26" font-family="system-ui" font-size="11" fill="#77756e">Lợi suất TPCP Mỹ 30 năm — minh họa xu hướng theo mô tả nguồn</text>
+        <path d="M50,178 L120,168 L190,175 L260,150 L330,142 L400,120 L470,112 L540,80 L610,44" fill="none" stroke="#052962" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M50,178 L120,168 L190,175 L260,150 L330,142 L400,120 L470,112 L540,80 L610,44 L610,200 L50,200 Z" fill="#052962" opacity="0.08"/>
+        <circle cx="610" cy="44" r="5" fill="#c70000"/>
+        <text x="530" y="30" font-family="Noto Serif, Cambria, Times New Roman, serif" font-size="17" font-weight="bold" fill="#c70000">5,28%</text>
+        <text x="52" y="26" font-family="system-ui" font-size="11" fill="#6e6c66">Lợi suất TPCP Mỹ 30 năm — minh họa xu hướng theo mô tả nguồn</text>
       </svg>
       <figcaption>Đợt bán tháo được Fed St. Louis gọi là "thông điệp của thị trường" đòi hành động củng cố uy tín chống lạm phát. Minh họa: dữ liệu mô tả từ Vietstock.</figcaption>
     </figure>
     <div class="byline">Tổng hợp từ Vietstock · 02/08/2026</div>
-    <p class="body">Lạm phát Mỹ đang chạy gần gấp đôi mục tiêu 2%, chịu sức ép cùng lúc từ giá năng lượng, thuế quan và làn sóng đầu tư AI. Kịch bản tăng lãi suất trong nửa cuối năm không còn là rủi ro đuôi — "trì hoãn hôm nay có thể đồng nghĩa phải tăng mạnh hơn sau này". <span class="facttag">(F/SO)</span></p>
-    <p class="body"><strong>Góc nhìn Group CFO:</strong> chi phí vốn USD dài hạn đang được định giá lại trên toàn cầu. Với cấu trúc 4 công ty vận hành quanh hub tài chính Hồng Kông, ưu tiên số một hôm nay là khóa lãi suất dư nợ thả nổi và tận dụng lợi suất ngắn hạn cho cash USD nhàn rỗi. <span class="facttag">(I)</span></p>
+    <p class="body">Lạm phát Mỹ đang chạy gần <span class="hl">gấp đôi mục tiêu 2%</span>, chịu sức ép cùng lúc từ giá năng lượng, thuế quan và làn sóng đầu tư AI. Kịch bản tăng lãi suất trong nửa cuối năm không còn là rủi ro đuôi — "trì hoãn hôm nay có thể đồng nghĩa phải tăng mạnh hơn sau này". <span class="facttag">(F/SO)</span></p>
+    <p class="body"><strong>Góc nhìn Group CFO:</strong> chi phí vốn USD dài hạn đang được định giá lại trên toàn cầu. Với cấu trúc 4 công ty vận hành quanh hub tài chính Hồng Kông, ưu tiên số một hôm nay là <span class="hl">khóa lãi suất dư nợ thả nổi</span> và tận dụng lợi suất ngắn hạn cho cash USD nhàn rỗi. <span class="facttag">(I)</span></p>
   </div>
 
   <aside class="rail">
     <h3 class="railhead">What's News — Executive Snapshot</h3>
-    <div class="wn"><span class="wl">Global</span>Bán tháo TPCP Mỹ, lợi suất 30Y chạm 5,28%; Fed giữ lãi suất lần thứ 5, phe "diều hâu" thắng thế trong tranh luận nội bộ. <span class="facttag">(F)</span></div>
-    <div class="wn"><span class="wl">Vietnam</span>VN-Index lấy lại mốc 1.700 nhưng thanh khoản dưới trung bình 20 phiên; tỷ giá trung tâm 25.338, tự do 26.250–26.280. Tháng 8: 9 văn bản chính sách kinh tế mới có hiệu lực. <span class="facttag">(F)</span></div>
-    <div class="wn"><span class="wl">Biggest Opportunity</span>USD mạnh làm tăng giá trị VND của dòng doanh thu USD từ thị trường Mỹ khi quy đổi; TT 31/2026 mở kênh thuê tài chính cho tài sản số. <span class="facttag">(I)</span></div>
-    <div class="wn"><span class="wl">Biggest Risk</span>Lãi suất USD "cao hơn, lâu hơn" → chi phí vốn và chi phí hedging qua hub HK tăng. <span class="facttag">(I)</span></div>
-    <div class="wn action"><span class="wl">CFO Action hôm nay</span>Chốt vị thế FX và lịch điều chuyển tiền HK→VN trước tuần giao dịch 03–07/08. <span class="facttag">(I)</span></div>
+    <div class="wn"><span class="wl">Global</span><span class="badge crit">Nóng</span> Bán tháo TPCP Mỹ, lợi suất 30Y chạm 5,28%; Fed giữ lãi suất lần thứ 5, phe "diều hâu" thắng thế trong tranh luận nội bộ. <span class="facttag">(F)</span></div>
+    <div class="wn"><span class="wl">Vietnam</span><span class="badge new">Chính sách</span> VN-Index lấy lại mốc 1.700 nhưng thanh khoản dưới trung bình 20 phiên; tỷ giá trung tâm 25.338, tự do 26.250–26.280. Tháng 8: <span class="hl">9 văn bản chính sách kinh tế mới</span> có hiệu lực. <span class="facttag">(F)</span></div>
+    <div class="wn"><span class="wl">Biggest Opportunity</span><span class="badge ok">Cơ hội</span> USD mạnh làm tăng giá trị VND của dòng doanh thu USD từ thị trường Mỹ khi quy đổi; TT 31/2026 mở kênh thuê tài chính cho tài sản số. <span class="facttag">(I)</span></div>
+    <div class="wn"><span class="wl">Biggest Risk</span><span class="badge watch">Rủi ro</span> Lãi suất USD "cao hơn, lâu hơn" → chi phí vốn và chi phí hedging qua hub HK tăng. <span class="facttag">(I)</span></div>
+    <div class="wn action"><span class="wl">CFO Action hôm nay</span><span class="badge mark">Làm ngay</span> Chốt vị thế FX và lịch điều chuyển tiền HK→VN trước tuần giao dịch 03–07/08. <span class="facttag">(I)</span></div>
   </aside>
 </div>
 
 <!-- Feature row -->
 <div class="featurerow">
-  <div class="feat">
+  <div class="feat reveal">
     <svg viewBox="0 0 300 110" role="img" aria-label="Giá dầu tăng từ 72 lên 90 USD một thùng">
-      <g font-family="system-ui" font-size="10" fill="#77756e"><text x="8" y="16">DẦU THÔ · USD/THÙNG</text></g>
-      <path d="M10,88 L60,84 L110,86 L160,70 L210,55 L260,38 L290,26" fill="none" stroke="#c0392b" stroke-width="2.5"/>
-      <text x="228" y="20" font-family="Georgia" font-size="15" font-weight="bold" fill="#c0392b">$90</text>
-      <text x="10" y="103" font-family="system-ui" font-size="9.5" fill="#77756e">Từ $72 — căng thẳng Mỹ–Iran (F)</text>
+      <g font-family="system-ui" font-size="10" fill="#6e6c66"><text x="8" y="16">DẦU THÔ · USD/THÙNG</text></g>
+      <path d="M10,88 L60,84 L110,86 L160,70 L210,55 L260,38 L290,26" fill="none" stroke="#c70000" stroke-width="2.5"/>
+      <text x="228" y="20" font-family="Noto Serif, Cambria, Times New Roman, serif" font-size="15" font-weight="bold" fill="#c70000">$90</text>
+      <text x="10" y="103" font-family="system-ui" font-size="9.5" fill="#6e6c66">Từ $72 — căng thẳng Mỹ–Iran (F)</text>
     </svg>
     <h4>Dầu $90: phụ phí nhiên liệu quay lại bàn đàm phán logistics</h4>
     <p>Chi phí fulfillment xuyên biên giới tăng — bào mòn trực tiếp margin mô hình bán đa quốc gia. Cập nhật đơn giá vào P&amp;L forecast Q3.</p>
   </div>
-  <div class="feat">
+  <div class="feat reveal">
     <svg viewBox="0 0 300 110" role="img" aria-label="Tỷ giá USD/VND các mức ngày 02/08">
-      <g font-family="system-ui" font-size="10" fill="#77756e"><text x="8" y="16">USD/VND · 02/08</text></g>
-      <g font-family="system-ui" font-size="10.5" fill="#40403c">
-        <rect x="10" y="28" width="196" height="14" fill="#0f5499" opacity=".25"/><text x="212" y="39">TT 25.338</text>
-        <rect x="10" y="50" width="236" height="14" fill="#0f5499" opacity=".55"/><text x="252" y="61">VCB 26.470</text>
-        <rect x="10" y="72" width="242" height="14" fill="#0f5499"/><text x="256" y="83" font-weight="bold">TD 26.280</text>
+      <g font-family="system-ui" font-size="10" fill="#6e6c66"><text x="8" y="16">USD/VND · 02/08</text></g>
+      <g font-family="system-ui" font-size="10.5" fill="#3d3d3a">
+        <rect x="10" y="28" width="196" height="14" fill="#052962" opacity=".25"/><text x="212" y="39">TT 25.338</text>
+        <rect x="10" y="50" width="236" height="14" fill="#052962" opacity=".55"/><text x="252" y="61">VCB 26.470</text>
+        <rect x="10" y="72" width="242" height="14" fill="#052962"/><text x="256" y="83" font-weight="bold">TD 26.280</text>
       </g>
-      <text x="10" y="103" font-family="system-ui" font-size="9.5" fill="#77756e">Trung tâm · Vietcombank bán · Tự do (F)</text>
+      <text x="10" y="103" font-family="system-ui" font-size="9.5" fill="#6e6c66">Trung tâm · Vietcombank bán · Tự do (F)</text>
     </svg>
     <h4>VND ổn định trước USD mạnh — nhưng dư địa mất giá còn nguyên</h4>
     <p>NHNN chưa phát tín hiệu can thiệp mới. Rà soát tỷ lệ hedge; tận dụng natural hedge doanh thu USD với chi phí VND.</p>
   </div>
-  <div class="feat">
+  <div class="feat reveal">
     <svg viewBox="0 0 300 110" role="img" aria-label="VN-Index vượt 1700 điểm thanh khoản thấp">
-      <g font-family="system-ui" font-size="10" fill="#77756e"><text x="8" y="16">VN-INDEX</text></g>
-      <path d="M10,60 L50,52 L90,66 L130,48 L170,42 L210,50 L250,34 L290,30" fill="none" stroke="#0a7a3d" stroke-width="2.5"/>
-      <g fill="#77756e" opacity=".5"><rect x="15" y="88" width="8" height="10"/><rect x="55" y="90" width="8" height="8"/><rect x="95" y="86" width="8" height="12"/><rect x="135" y="91" width="8" height="7"/><rect x="175" y="92" width="8" height="6"/><rect x="215" y="93" width="8" height="5"/><rect x="255" y="93" width="8" height="5"/></g>
-      <text x="238" y="22" font-family="Georgia" font-size="15" font-weight="bold" fill="#0a7a3d">&gt;1.700</text>
-      <text x="10" y="107" font-family="system-ui" font-size="9.5" fill="#77756e">Giá lên, thanh khoản teo dần (F)</text>
+      <g font-family="system-ui" font-size="10" fill="#6e6c66"><text x="8" y="16">VN-INDEX</text></g>
+      <path d="M10,60 L50,52 L90,66 L130,48 L170,42 L210,50 L250,34 L290,30" fill="none" stroke="#077a3c" stroke-width="2.5"/>
+      <g fill="#6e6c66" opacity=".5"><rect x="15" y="88" width="8" height="10"/><rect x="55" y="90" width="8" height="8"/><rect x="95" y="86" width="8" height="12"/><rect x="135" y="91" width="8" height="7"/><rect x="175" y="92" width="8" height="6"/><rect x="215" y="93" width="8" height="5"/><rect x="255" y="93" width="8" height="5"/></g>
+      <text x="238" y="22" font-family="Noto Serif, Cambria, Times New Roman, serif" font-size="15" font-weight="bold" fill="#077a3c">&gt;1.700</text>
+      <text x="10" y="107" font-family="system-ui" font-size="9.5" fill="#6e6c66">Giá lên, thanh khoản teo dần (F)</text>
     </svg>
     <h4>Mốc 1.700 trở lại, nhưng dòng tiền chưa theo</h4>
     <p>"Tâm lý thận trọng vẫn chi phối" (Vietstock). Cửa sổ huy động vốn trong nước chưa thuận lợi — chưa kích hoạt kế hoạch phát hành.</p>
@@ -424,7 +545,7 @@
 </div>
 
 <!-- ===== TOP 7 ===== -->
-<section class="sec" id="dev">
+<section class="sec reveal" id="dev">
   <div class="sechead"><span class="secno">02</span><h2>Top 7 Developments</h2><span class="note">bấm từng dòng để xem chi tiết · lọc theo Financial Impact</span></div>
   <div class="chips" id="chips">
     <span class="chip active" data-f="all">Tất cả</span>
@@ -436,8 +557,8 @@
     <span class="chip" data-f="CapAlloc">Capital Allocation</span>
   </div>
 
-  <div class="dev" data-p="1" data-f="Cash CapAlloc">
-    <div class="dev-head"><div class="pri">1</div><div class="t">Bán tháo TPCP Mỹ; lợi suất 30Y = 5,28%, cao nhất từ 2007 <span class="facttag">(F)</span></div><div class="tags"><span class="tag">Cash</span><span class="tag">Cap. Allocation</span></div><span class="arrow">▶</span></div>
+  <div class="dev key" data-p="1" data-f="Cash CapAlloc">
+    <div class="dev-head"><div class="pri">1</div><div class="t">Bán tháo TPCP Mỹ; lợi suất 30Y = 5,28%, cao nhất từ 2007 <span class="facttag">(F)</span></div><div class="tags"><span class="tag cash">Cash</span><span class="tag rev">Cap. Allocation</span></div><span class="arrow">▶</span></div>
     <div class="dev-body"><dl>
       <dt>Why it matters</dt><dd>Chi phí vốn USD dài hạn tăng trên toàn cầu; Musalem (Fed St. Louis) coi đây là "thông điệp của thị trường" đòi Fed hành động củng cố uy tín chống lạm phát.</dd>
       <dt>Chi tiết</dt><dd>Lạm phát Mỹ gần gấp đôi mục tiêu 2%; áp lực từ năng lượng, thuế quan và đầu tư AI. (F/SO)</dd>
@@ -447,7 +568,7 @@
   </div>
 
   <div class="dev" data-p="2" data-f="Risk FX">
-    <div class="dev-head"><div class="pri">2</div><div class="t">Fed giữ 3,50–3,75% lần thứ 5; Musalem ủng hộ +25bp, 3 thành viên FOMC bất đồng <span class="facttag">(F)</span></div><div class="tags"><span class="tag">Risk</span><span class="tag">FX</span></div><span class="arrow">▶</span></div>
+    <div class="dev-head"><div class="pri">2</div><div class="t">Fed giữ 3,50–3,75% lần thứ 5; Musalem ủng hộ +25bp, 3 thành viên FOMC bất đồng <span class="facttag">(F)</span></div><div class="tags"><span class="tag risk">Risk</span><span class="tag fx">FX</span></div><span class="arrow">▶</span></div>
     <div class="dev-body"><dl>
       <dt>Why it matters</dt><dd>Kịch bản tăng lãi suất trong H2 là thực tế, không còn là rủi ro đuôi — trì hoãn hôm nay có thể đồng nghĩa tăng mạnh hơn sau này (SO).</dd>
       <dt>CFO Action</dt><dd>Cập nhật kịch bản lãi suất trong forecast H2; stress-test chi phí vốn hợp nhất.</dd>
@@ -456,7 +577,7 @@
   </div>
 
   <div class="dev" data-p="3" data-f="FX">
-    <div class="dev-head"><div class="pri">3</div><div class="t">USD duy trì mức cao; VCB 26.090–26.470, tự do 26.250–26.280 <span class="facttag">(F)</span></div><div class="tags"><span class="tag">FX</span></div><span class="arrow">▶</span></div>
+    <div class="dev-head"><div class="pri">3</div><div class="t">USD duy trì mức cao; VCB 26.090–26.470, tự do 26.250–26.280 <span class="facttag">(F)</span></div><div class="tags"><span class="tag fx">FX</span></div><span class="arrow">▶</span></div>
     <div class="dev-body"><dl>
       <dt>Why it matters</dt><dd>Ảnh hưởng trực tiếp giá trị hợp đồng ký qua HK và COGS nhập khẩu; tỷ giá trung tâm 25.338 không đổi — NHNN chưa phát tín hiệu can thiệp mới.</dd>
       <dt>CFO Action</dt><dd>Rà soát tỷ lệ hedging; tận dụng natural hedge giữa doanh thu USD (S-US) và chi phí VND.</dd>
@@ -465,7 +586,7 @@
   </div>
 
   <div class="dev" data-p="4" data-f="Margin">
-    <div class="dev-head"><div class="pri">4</div><div class="t">Giá dầu tăng từ 72 → 90 USD/thùng do căng thẳng Mỹ–Iran <span class="facttag">(F)</span></div><div class="tags"><span class="tag">Margin</span></div><span class="arrow">▶</span></div>
+    <div class="dev-head"><div class="pri">4</div><div class="t">Giá dầu tăng từ 72 → 90 USD/thùng do căng thẳng Mỹ–Iran <span class="facttag">(F)</span></div><div class="tags"><span class="tag rev">Margin</span></div><span class="arrow">▶</span></div>
     <div class="dev-body"><dl>
       <dt>Why it matters</dt><dd>Chi phí logistics xuyên biên giới tăng — trực tiếp bào mòn margin của mô hình bán hàng đa quốc gia.</dd>
       <dt>CFO Action</dt><dd>Cập nhật đơn giá vận chuyển vào P&amp;L forecast Q3; đàm phán điều khoản phụ phí nhiên liệu.</dd>
@@ -474,7 +595,7 @@
   </div>
 
   <div class="dev" data-p="5" data-f="Revenue">
-    <div class="dev-head"><div class="pri">5</div><div class="t">Lãi suất vay thế chấp Mỹ cao nhất 1 năm <span class="facttag">(F)</span></div><div class="tags"><span class="tag">Revenue</span></div><span class="arrow">▶</span></div>
+    <div class="dev-head"><div class="pri">5</div><div class="t">Lãi suất vay thế chấp Mỹ cao nhất 1 năm <span class="facttag">(F)</span></div><div class="tags"><span class="tag rev">Revenue</span></div><span class="arrow">▶</span></div>
     <div class="dev-body"><dl>
       <dt>Why it matters</dt><dd>Leading indicator cho sức mua người tiêu dùng Mỹ — thị trường doanh thu chủ lực của S-US (I).</dd>
       <dt>CFO Action</dt><dd>Theo dõi conversion rate và AOV thị trường Mỹ ngay trong tuần này.</dd>
@@ -483,7 +604,7 @@
   </div>
 
   <div class="dev" data-p="6" data-f="CapAlloc">
-    <div class="dev-head"><div class="pri">6</div><div class="t">VN-Index lấy lại mốc 1.700; thanh khoản dưới trung bình 20 phiên <span class="facttag">(F/SO)</span></div><div class="tags"><span class="tag">Cap. Allocation</span></div><span class="arrow">▶</span></div>
+    <div class="dev-head"><div class="pri">6</div><div class="t">VN-Index lấy lại mốc 1.700; thanh khoản dưới trung bình 20 phiên <span class="facttag">(F/SO)</span></div><div class="tags"><span class="tag rev">Cap. Allocation</span></div><span class="arrow">▶</span></div>
     <div class="dev-body"><dl>
       <dt>Why it matters</dt><dd>Cửa sổ huy động vốn trong nước chưa thuận lợi; phiên 31/07 chịu chốt lời, khối ngoại bán ròng phiên cuối tuần (mua ròng nhẹ cả tuần ở chứng quyền).</dd>
       <dt>CFO Action</dt><dd>Chưa kích hoạt kế hoạch huy động vốn / thoái vốn trong nước.</dd>
@@ -492,7 +613,7 @@
   </div>
 
   <div class="dev" data-p="7" data-f="Risk">
-    <div class="dev-head"><div class="pri">7</div><div class="t">Vàng thế giới −57 USD còn $4.043/oz; SJC 137–141 triệu/lượng (−2,2 triệu) <span class="facttag">(F)</span></div><div class="tags"><span class="tag">Risk</span></div><span class="arrow">▶</span></div>
+    <div class="dev-head"><div class="pri">7</div><div class="t">Vàng thế giới −57 USD còn $4.043/oz; SJC 137–141 triệu/lượng (−2,2 triệu) <span class="facttag">(F)</span></div><div class="tags"><span class="tag risk">Risk</span></div><span class="arrow">▶</span></div>
     <div class="dev-body"><dl>
       <dt>Why it matters</dt><dd>Xác nhận tín hiệu USD mạnh chứ không phải biến động riêng của vàng; chênh lệch trong nước–thế giới ~12 triệu/lượng.</dd>
       <dt>CFO Action</dt><dd>Không dùng vàng làm nơi trú ẩn treasury; giữ kỷ luật quản trị USD/VND.</dd>
@@ -502,7 +623,7 @@
 </section>
 
 <!-- ===== VIETNAM FOCUS ===== -->
-<section class="sec" id="vietnam">
+<section class="sec reveal" id="vietnam">
   <div class="sechead"><span class="secno">03</span><h2>Việt Nam · Kinh tế &amp; Chính sách</h2><span class="note">mục mới — chính sách, dòng vốn, môi trường kinh doanh</span></div>
   <div class="vnGrid">
     <div class="card tablewrap">
@@ -521,16 +642,16 @@
       <h3>Dòng vốn FDI: nửa đầu 2026 cao nhất 5 năm</h3>
       <div class="sub">Tạp chí Ngân hàng (NHNN) — số liệu H1/2026, công bố tháng 7 (bối cảnh, ngoài cửa sổ 24h)</div>
       <svg viewBox="0 0 300 96" role="img" aria-label="FDI đăng ký 34,65 tỷ USD, giải ngân 13,03 tỷ USD">
-        <g font-family="system-ui" font-size="10.5" fill="#77756e">
+        <g font-family="system-ui" font-size="10.5" fill="#6e6c66">
           <text x="6" y="24">Đăng ký</text><text x="6" y="58">Giải ngân</text>
         </g>
-        <rect x="72" y="12" width="210" height="18" fill="#0f5499"/>
-        <rect x="72" y="46" width="79" height="18" fill="#0f5499" opacity=".45"/>
+        <rect x="72" y="12" width="210" height="18" fill="#052962"/>
+        <rect x="72" y="46" width="79" height="18" fill="#052962" opacity=".45"/>
         <g font-family="system-ui" font-size="11" font-weight="bold" fill="#111">
           <text x="150" y="25" fill="#fff">$34,65B · +61%</text>
           <text x="157" y="59">$13,03B · +11,2%</text>
         </g>
-        <text x="6" y="88" font-family="system-ui" font-size="9.5" fill="#77756e">So với cùng kỳ 2025 (F)</text>
+        <text x="6" y="88" font-family="system-ui" font-size="9.5" fill="#6e6c66">So với cùng kỳ 2025 (F)</text>
       </svg>
       <ul>
         <li>Chế biến – chế tạo dẫn đầu: ~$18,5B (53%) (F)</li>
@@ -544,7 +665,7 @@
 </section>
 
 <!-- ===== SIGNALS ===== -->
-<section class="sec" id="signals">
+<section class="sec reveal" id="signals">
   <div class="sechead"><span class="secno">04</span><h2>Market Signals</h2></div>
   <div class="card tablewrap">
     <table>
@@ -564,7 +685,7 @@
 </section>
 
 <!-- ===== RISK ===== -->
-<section class="sec" id="risk">
+<section class="sec reveal" id="risk">
   <div class="sechead"><span class="secno">05</span><h2>Risk Radar</h2></div>
   <div class="card tablewrap">
     <table>
@@ -581,7 +702,7 @@
 </section>
 
 <!-- ===== GROUP ===== -->
-<section class="sec" id="group">
+<section class="sec reveal" id="group">
   <div class="sechead"><span class="secno">06</span><h2>Implications for Our Group</h2></div>
   <div class="grid4">
     <div class="gcard"><h3>H</h3><span class="role">Brand · IP · R&amp;D</span><p>Lãi suất cao toàn cầu → chi phí tài trợ R&amp;D tăng; ưu tiên dự án IRR cao. Điểm mới: NĐ 274 (ưu đãi 5% công nghệ cao) + TT 31 (thuê tài chính tài sản số) mở hai kênh giảm chi phí vốn cho R&amp;D tại VN. (I)</p></div>
@@ -592,7 +713,7 @@
 </section>
 
 <!-- ===== QUESTIONS ===== -->
-<section class="sec" id="questions">
+<section class="sec reveal" id="questions">
   <div class="sechead"><span class="secno">07</span><h2>Questions CFO Should Ask Today</h2></div>
   <div class="card pad">
     <div class="q"><div class="qn">1</div><div>Nếu Fed tăng 25–50bp trong Q4, chi phí vốn hợp nhất của Group tăng bao nhiêu — và HK đã khóa được bao nhiêu % dư nợ lãi suất thả nổi?</div></div>
@@ -602,7 +723,7 @@
 </section>
 
 <!-- ===== NEXT ===== -->
-<section class="sec" id="next">
+<section class="sec reveal" id="next">
   <div class="sechead"><span class="secno">08</span><h2>What's Next?</h2></div>
   <div class="next">
     <div><h3>Today · Chủ nhật</h3><p>Chốt vị thế FX, lịch điều chuyển tiền tuần tới; brief team treasury trước phiên 03/08.</p></div>
@@ -626,7 +747,7 @@
   <p>Dimon bắt đầu ngày từ ~5h sáng bằng việc đọc — báo chí, báo cáo nội bộ, dữ liệu thị trường — trước khi bất kỳ cuộc họp nào diễn ra. Điều ông đòi hỏi ở đội ngũ không phải sự lạc quan, mà là <strong>danh sách sự thật khó chịu</strong>: khoản nợ nào đang xấu đi, khách hàng nào đang rời bỏ, giả định nào trong kế hoạch đã sai. Với một CFO, đây là kỷ luật đáng học nhất: báo cáo hay nhất không phải báo cáo đẹp nhất, mà là báo cáo <em>nói thật sớm nhất</em>.</p>
   <div class="callout"><strong>Áp dụng hôm nay:</strong> mở sổ tay, viết 3 "sự thật khó chịu" của tài chính Group mà bạn đang tránh nhìn (một khoản công nợ, một giả định doanh thu, một chi phí đang phình). Đặt lịch xử lý cái đầu tiên trong tuần này — trước khi nó "già đi".</div>
 
-  <section class="sec">
+  <section class="sec reveal">
     <div class="sechead"><span class="secno">B</span><h2>Thói quen hàng ngày của những người đứng đầu</h2><span class="note">đúc kết từ phát ngôn &amp; thực hành được ghi nhận công khai</span></div>
     <div class="card tablewrap">
       <table>
@@ -643,7 +764,7 @@
     </div>
   </section>
 
-  <section class="sec">
+  <section class="sec reveal">
     <div class="sechead"><span class="secno">C</span><h2>Kỹ năng tuần này · Kể chuyện bằng con số</h2></div>
     <div class="twocol">
       <div class="card pad">
@@ -676,7 +797,7 @@
   <h2 class="tabhead">2026: năm hệ thống thuế Việt Nam đổi mới toàn diện — bản đồ tác động cho chủ doanh nghiệp</h2>
   <p class="lede">Ba luật thuế lớn (TNCN, GTGT, quản lý thuế) cùng chuyển động trong năm 2026, cộng với thuế tối thiểu toàn cầu đã vận hành — với một tập đoàn 4 công ty có hub tài chính tại Hồng Kông, đây là tab cần mở mỗi tuần. <span class="facttag">(F/I)</span></p>
 
-  <section class="sec">
+  <section class="sec reveal">
     <div class="sechead"><span class="secno">A</span><h2>Đang &amp; sắp hiệu lực</h2><span class="note">nguồn: einvoice.vn tổng hợp luật 2026 · Vietstock · (F)</span></div>
     <div class="card tablewrap">
       <table>
@@ -692,7 +813,7 @@
     </div>
   </section>
 
-  <section class="sec">
+  <section class="sec reveal">
     <div class="sechead"><span class="secno">B</span><h2>Đặc biệt với cấu trúc Group H–S–K–HK</h2><span class="note">hai hồ sơ thường trực — không mới nhưng đắt nhất</span></div>
     <div class="twocol">
       <div class="card pad">
@@ -708,7 +829,7 @@
     </div>
   </section>
 
-  <section class="sec">
+  <section class="sec reveal">
     <div class="sechead"><span class="secno">C</span><h2>Dự thảo đang theo dõi</h2><span class="note">mục này tự cập nhật khi nguồn đưa tin mới</span></div>
     <div class="card tablewrap">
       <table>
@@ -730,7 +851,7 @@
   <h2 class="tabhead">2026: AI rời khỏi "công cụ thử nghiệm", trở thành lớp vận hành của phòng tài chính</h2>
   <p class="lede">Ba dịch chuyển lớn của năm nay (GRF CPAs &amp; Advisors): AI nhúng thẳng vào ERP/FP&amp;A/AP thay vì đứng riêng; dữ liệu chuyển từ dashboard tĩnh sang <strong>ra quyết định real-time trong luồng công việc</strong>; và giao diện hội thoại — hỏi hệ thống bằng ngôn ngữ tự nhiên thay vì kéo báo cáo. <span class="facttag">(SO)</span> Với một tập đoàn TMĐT 4 công ty, điều này nghĩa là: bài toán không phải "mua phần mềm gì" mà là <strong>"dữ liệu 4 công ty đã đủ sạch để máy đọc chưa".</strong> <span class="facttag">(I)</span></p>
 
-  <section class="sec">
+  <section class="sec reveal">
     <div class="sechead"><span class="secno">A</span><h2>Bản đồ công cụ theo nhịp vận hành</h2><span class="note">ví dụ vendor từ nguồn — nguyên tắc quan trọng hơn tên phần mềm</span></div>
     <div class="card tablewrap">
       <table>
@@ -746,7 +867,7 @@
     </div>
   </section>
 
-  <section class="sec">
+  <section class="sec reveal">
     <div class="sechead"><span class="secno">B</span><h2>Lộ trình 90 ngày cho Group</h2></div>
     <div class="next">
       <div><h3>Ngày 0–30 · Nhìn thấy</h3><p>Một bảng điều khiển tiền mặt duy nhất cho 4 công ty, cập nhật hằng ngày qua API ngân hàng. Chuẩn hóa hệ thống tài khoản kế toán chung. Chưa mua gì lớn — dùng sheet + API trước.</p></div>
@@ -777,13 +898,6 @@
 
 </div>
 <script>
-  var btn = document.getElementById('themeBtn');
-  btn.addEventListener('click', function() {
-    var r = document.documentElement;
-    var isDark = r.getAttribute('data-theme') === 'dark' ||
-      (!r.getAttribute('data-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
-    r.setAttribute('data-theme', isDark ? 'light' : 'dark');
-  });
   document.querySelectorAll('.dev-head').forEach(function(h) {
     h.addEventListener('click', function() { h.parentElement.classList.toggle('open'); });
   });
@@ -794,6 +908,8 @@
       b.classList.add('active');
       var id = b.getAttribute('data-tab');
       document.querySelectorAll('.tabpanel').forEach(function(p) { p.classList.toggle('active', p.id === id); });
+      var np = document.getElementById(id);
+      if (np) { np.querySelectorAll('.reveal').forEach(function(el) { el.classList.add('in'); }); }
       window.scrollTo({ top: 0 });
     });
   });
@@ -809,6 +925,22 @@
       });
     });
   });
+
+  // hiện dần khi cuộn tới — không có IntersectionObserver thì hiện hết ngay
+  (function() {
+    var els = document.querySelectorAll('.reveal');
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce || !('IntersectionObserver' in window)) {
+      els.forEach(function(el) { el.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(en) {
+        if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.04 });
+    els.forEach(function(el) { io.observe(el); });
+  })();
 </script>
 </body>
 </html>
