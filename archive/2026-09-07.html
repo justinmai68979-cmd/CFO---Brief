@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CFO Morning Brief – 07/09/2026</title>
+<style>
+  /* ============================================================
+     HỆ THỐNG CHỮ + MÀU — CFO Morning Brief
+     Font: bộ serif có đủ dấu tiếng Việt. KHÔNG dùng font thiếu
+     glyph Việt (chữ sẽ rơi font giữa dòng, giãn cách lỗi).
+     Thang cỡ chữ: 11 · 12 · 13 · 15 · 17 · 19 · 22 · 26 · 34
+     Thang khoảng cách: 4 · 8 · 12 · 16 · 24 · 32 · 44
+     GIAO DIỆN: CHỈ CÓ NỀN SÁNG. Không dark mode, không theme toggle.
+     Bảng màu theo lối The Guardian: xanh măng-sét, đỏ tin nóng,
+     vàng đánh dấu điểm nhấn, dải màu section để phân vùng nội dung.
+     ============================================================ */
+  :root {
+    --serif: "Noto Serif", Cambria, "Palatino Linotype", "Times New Roman", Times, serif;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+    --t-micro: 11px;   /* nhãn chữ hoa */
+    --t-xs:    12px;   /* chú thích, meta */
+    --t-sm:    13px;   /* nội dung bảng, ghi chú UI */
+    --t-base:  15px;   /* UI thường */
+    --t-body:  17px;   /* văn xuôi serif */
+    --t-h4:    19px;
+    --t-h3:    22px;
+    --t-h2:    26px;
+
+    --lh-tight: 1.2;
+    --lh-head:  1.28;
+    --lh-ui:    1.5;
+    --lh-prose: 1.62;
+
+    --sp1: 4px; --sp2: 8px; --sp3: 12px; --sp4: 16px; --sp5: 24px; --sp6: 32px; --sp7: 44px;
+
+    /* ---- BẢNG MÀU (chỉ nền sáng) ---- */
+    color-scheme: light only;
+    --paper: #f6f6f4;
+    --surface: #ffffff;
+    --ink: #121212;
+    --ink-2: #3d3d3a;
+    --muted: #6e6c66;
+    --hair: #dcdad2;
+    --rule: #121212;
+
+    --brand: #052962;      /* xanh măng-sét Guardian */
+    --brand-2: #0a4b8f;
+    --accent: #c70000;     /* đỏ tin nóng */
+    --link: #0a5eb0;
+    --hl: #ffe500;         /* vàng đánh dấu */
+    --hl-soft: #fff8c4;
+    --up-bad: #c70000;
+    --down-good: #077a3c;
+    --warn: #b45309;
+    --chip-bg: #ecebe5;
+    --warn-bg: #fff8e1;
+
+    /* dải màu luân phiên cho các section */
+    --sec: var(--brand);
+    --c1: #052962; --c2: #c70000; --c3: #077a3c;
+    --c4: #a1197f; --c5: #b45309; --c6: #0f6f8c;
+
+    --shadow-1: 0 1px 2px rgba(18,18,18,.06);
+    --shadow-2: 0 6px 18px rgba(5,41,98,.10);
+    --ease: cubic-bezier(.2,.6,.25,1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--serif);
+    font-size: var(--t-body);
+    line-height: var(--lh-prose);
+    background: var(--paper);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  p { margin-bottom: var(--sp3); }
+  p:last-child { margin-bottom: 0; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 22px var(--sp7); }
+  a { color: var(--link); }
+  h1, h2, h3, h4 { line-height: var(--lh-head); font-weight: 700; letter-spacing: -0.005em; }
+  strong, b { font-weight: 700; }
+  ::selection { background: var(--hl); color: var(--ink); }
+
+  /* nhãn chữ hoa dùng chung — mọi nơi cùng một công thức */
+  .kicker, .byline, .stamp, .railhead, .wl, .tk, .secno, nav.toc a,
+  .tabbar button, th, .tag, .masthead .dateline, .next h3, .gcard .role, .badge {
+    font-family: var(--sans);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    font-weight: 700;
+  }
+
+  /* ===== Đánh dấu điểm nhấn ===== */
+  /* .hl — bút dạ vàng cho cụm từ/con số quan trọng trong văn xuôi */
+  .hl {
+    background-image: linear-gradient(transparent 58%, var(--hl) 58%);
+    padding: 0 2px;
+    font-weight: 700;
+  }
+  /* .badge — nhãn phân loại tin: nóng / mới / theo dõi / tốt */
+  .badge {
+    display: inline-block; font-size: var(--t-micro); line-height: 1.45;
+    padding: 2px var(--sp2); border-radius: 3px; white-space: nowrap;
+    background: var(--chip-bg); color: var(--ink-2); vertical-align: middle;
+  }
+  .badge.crit  { background: var(--accent); color: #fff; }
+  .badge.new   { background: var(--brand); color: #fff; }
+  .badge.watch { background: var(--warn-bg); color: var(--warn); box-shadow: inset 0 0 0 1px #e6c98a; }
+  .badge.ok    { background: #e4f4ea; color: var(--down-good); box-shadow: inset 0 0 0 1px #a8d9bd; }
+  .badge.mark  { background: var(--hl); color: var(--ink); }
+
+  /* ===== Dải chỉ số thị trường ===== */
+  .ticker {
+    display: flex; overflow-x: auto; padding: var(--sp2) 0;
+    background: var(--surface); border-bottom: 1px solid var(--hair);
+  }
+  .ticker .ti { flex: 1 0 auto; min-width: 136px; padding: 0 var(--sp4); border-right: 1px solid var(--hair); }
+  .ticker .ti:last-child { border-right: none; }
+  .ticker .tk { font-size: var(--t-micro); color: var(--muted); line-height: 1.4; }
+  .ticker .tv { font-family: var(--sans); font-size: var(--t-base); font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1.35; margin-top: 2px; }
+  .ticker .td { font-family: var(--sans); font-size: var(--t-xs); line-height: 1.4; margin-top: 1px; }
+  .ticker .td.bad { color: var(--up-bad); }
+  .ticker .td.good { color: var(--down-good); }
+  .ticker .td.flat { color: var(--muted); }
+
+  /* ===== Măng-sét (khối xanh Guardian) ===== */
+  .masthead {
+    display: flex; flex-direction: column; align-items: center;
+    background: var(--brand);
+    background-image: linear-gradient(180deg, #063a86 0%, var(--brand) 68%);
+    color: #fff;
+    padding: var(--sp5) var(--sp4) var(--sp4);
+    border-bottom: 4px solid var(--hl);
+    margin-bottom: var(--sp1);
+  }
+  .masthead h1 { font-size: clamp(32px, 5.6vw, 50px); line-height: 1.06; letter-spacing: .005em; text-align: center; color: #fff; }
+  .masthead .dateline {
+    display: flex; align-items: center; gap: var(--sp3); width: 100%;
+    margin-top: var(--sp3); font-size: var(--t-micro); letter-spacing: .1em;
+    color: #e9eefb; line-height: 1.5; text-align: center;
+  }
+  .masthead .dateline::before, .masthead .dateline::after { content: ""; flex: 1 1 24px; border-top: 1px solid rgba(255,255,255,.45); }
+  .legend { font-family: var(--sans); font-size: var(--t-xs); line-height: 1.5; color: var(--muted); text-align: center; margin-top: var(--sp2); }
+  .masthead .legend { color: #cfdcf5; }
+
+  /* ===== Thanh tab ===== */
+  .tabbar {
+    display: flex; justify-content: center; flex-wrap: wrap;
+    border-bottom: 1px solid var(--hair);
+    margin-top: var(--sp3); position: sticky; top: 0; background: var(--surface); z-index: 20;
+    box-shadow: var(--shadow-1);
+  }
+  .tabbar button {
+    position: relative; background: none; border: none; cursor: pointer;
+    padding: var(--sp3) var(--sp4); font-size: var(--t-xs); color: var(--ink-2); line-height: 1.4;
+    transition: color .18s var(--ease);
+  }
+  .tabbar button::after {
+    content: ""; position: absolute; left: var(--sp3); right: var(--sp3); bottom: 0; height: 3px;
+    background: var(--brand); transform: scaleX(0); transform-origin: left;
+    transition: transform .22s var(--ease);
+  }
+  .tabbar button:hover { color: var(--brand); }
+  .tabbar button:hover::after { transform: scaleX(.45); background: var(--hair); }
+  .tabbar button.active { color: var(--brand); }
+  .tabbar button.active::after { transform: scaleX(1); background: var(--brand); }
+  .tabpanel { display: none; padding-top: var(--sp5); }
+  .tabpanel.active { display: block; animation: panelIn .3s var(--ease) both; }
+  @keyframes panelIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  /* ===== Mục lục trong tab 1 ===== */
+  nav.toc { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px; padding-bottom: var(--sp4); border-bottom: 1px solid var(--hair); }
+  nav.toc a { font-size: var(--t-micro); font-weight: 600; color: var(--muted); text-decoration: none; padding: 2px var(--sp3); border-right: 1px solid var(--hair); line-height: 1.5; transition: color .16s var(--ease); }
+  nav.toc a:last-child { border-right: none; }
+  nav.toc a:hover { color: var(--accent); }
+
+  /* ===== Trang nhất ===== */
+  .front { display: grid; grid-template-columns: 1.9fr 1fr; gap: 0 var(--sp6); padding-top: var(--sp5); }
+  .front .lead { padding-right: var(--sp6); border-right: 1px solid var(--hair); }
+  @media (max-width: 780px) {
+    .front { grid-template-columns: 1fr; }
+    .front .lead { padding-right: 0; border-right: none; border-bottom: 1px solid var(--hair); padding-bottom: var(--sp5); margin-bottom: var(--sp5); }
+  }
+  .kicker { font-size: var(--t-micro); color: var(--accent); margin-bottom: var(--sp2); line-height: 1.4; }
+  .kicker::before { content: ""; display: inline-block; width: 22px; height: 3px; background: var(--accent); vertical-align: middle; margin-right: var(--sp2); transform: translateY(-1px); }
+  .lead h2.head { font-size: clamp(25px, 3.2vw, 34px); line-height: var(--lh-tight); margin-bottom: var(--sp3); text-wrap: balance; }
+  .lead .deck { font-size: var(--t-h4); line-height: 1.45; color: var(--ink-2); margin-bottom: var(--sp4); }
+  .byline { font-size: var(--t-micro); font-weight: 600; color: var(--muted); margin-bottom: var(--sp3); line-height: 1.5; }
+  .lead p.body { font-size: var(--t-body); margin-bottom: var(--sp3); }
+  .lead p.body:last-child { margin-bottom: 0; }
+
+  .figure { margin: var(--sp2) 0 var(--sp3); }
+  .figure svg { width: 100%; height: auto; display: block; border: 1px solid var(--hair); border-top: 3px solid var(--brand); background: var(--surface); }
+  .figure figcaption { font-family: var(--sans); font-size: var(--t-xs); line-height: 1.5; color: var(--muted); padding-top: var(--sp2); }
+
+  .facttag { font-family: var(--sans); font-size: var(--t-micro); font-weight: 700; color: var(--muted); white-space: nowrap; }
+
+  /* Cột What's News */
+  .rail .railhead { font-size: var(--t-xs); letter-spacing: .1em; color: var(--brand); border-bottom: 3px solid var(--brand); padding-bottom: var(--sp2); margin-bottom: var(--sp3); line-height: 1.4; }
+  .wn { padding: var(--sp3) 0; border-bottom: 1px solid var(--hair); font-size: var(--t-base); line-height: 1.55; }
+  .wn:last-child { border-bottom: none; }
+  .wn .wl { display: block; font-size: var(--t-micro); color: var(--accent); margin-bottom: var(--sp1); line-height: 1.4; }
+  .wn.action {
+    background: var(--hl-soft); border: 1px solid #ecd98a; border-left: 4px solid var(--hl);
+    margin: var(--sp3) 0 0; padding: var(--sp3);
+  }
+  .wn.action .wl { color: var(--warn); }
+
+  /* Hàng 3 tin có biểu đồ */
+  .featurerow { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: var(--sp5); border-top: 3px solid var(--ink); margin-top: var(--sp5); padding-top: var(--sp5); }
+  .feat { border-right: 1px solid var(--hair); padding-right: var(--sp5); transition: transform .2s var(--ease); }
+  .feat:hover { transform: translateY(-3px); }
+  .feat:last-child { border-right: none; padding-right: 0; }
+  .feat svg { width: 100%; height: auto; display: block; border: 1px solid var(--hair); border-top: 3px solid var(--sec); background: var(--surface); }
+  .feat:nth-child(1) { --sec: var(--c1); }
+  .feat:nth-child(2) { --sec: var(--c2); }
+  .feat:nth-child(3) { --sec: var(--c3); }
+  .feat h4 { font-size: var(--t-h4); margin: var(--sp3) 0 var(--sp1); }
+  .feat p { font-family: var(--sans); font-size: var(--t-sm); line-height: var(--lh-ui); color: var(--ink-2); }
+  @media (max-width: 780px) {
+    .feat { border-right: none; padding-right: 0; border-bottom: 1px solid var(--hair); padding-bottom: var(--sp4); }
+    .feat:last-child { border-bottom: none; padding-bottom: 0; }
+  }
+
+  /* ===== Khối section — mỗi section một màu ===== */
+  section.sec { margin-top: var(--sp6); }
+  section.sec:nth-of-type(6n+1) { --sec: var(--c1); }
+  section.sec:nth-of-type(6n+2) { --sec: var(--c2); }
+  section.sec:nth-of-type(6n+3) { --sec: var(--c3); }
+  section.sec:nth-of-type(6n+4) { --sec: var(--c4); }
+  section.sec:nth-of-type(6n+5) { --sec: var(--c5); }
+  section.sec:nth-of-type(6n+6) { --sec: var(--c6); }
+  .sechead {
+    display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--sp3);
+    border-top: 4px solid var(--sec); padding-top: var(--sp3); margin-bottom: var(--sp4);
+  }
+  .sechead h2 { font-size: var(--t-h3); }
+  .sechead .secno { font-size: var(--t-micro); color: #fff; background: var(--sec); padding: 3px var(--sp2); border-radius: 2px; line-height: 1.4; }
+  .sechead .note { font-family: var(--sans); font-size: var(--t-xs); font-weight: 400; color: var(--muted); line-height: 1.5; }
+
+  /* ===== Thẻ & bảng ===== */
+  .card {
+    background: var(--surface); border: 1px solid var(--hair); padding: var(--sp4) var(--sp5);
+    box-shadow: var(--shadow-1); transition: box-shadow .22s var(--ease), transform .22s var(--ease);
+  }
+  .card:hover { box-shadow: var(--shadow-2); transform: translateY(-2px); }
+  .card.pad > *:last-child { margin-bottom: 0; }
+  .card.tablewrap { padding: 0 var(--sp3); overflow-x: auto; }
+  .card.accent { border-top: 4px solid var(--sec); }
+  .cardtitle { font-size: var(--t-h4); margin-bottom: var(--sp2); }
+  .uinote { font-family: var(--sans); font-size: var(--t-sm); line-height: var(--lh-ui); color: var(--ink-2); margin-bottom: var(--sp3); }
+  .lede { font-size: var(--t-h4); line-height: 1.5; color: var(--ink-2); margin-bottom: var(--sp4); }
+  .tabpanel:not(#tab-brief) > p, .tabpanel:not(#tab-brief) > .lede, .tabpanel > .tabhead { max-width: 76ch; }
+  .prose p { margin-bottom: var(--sp3); }
+  .prose p:last-child { margin-bottom: 0; }
+  .tabhead { font-size: clamp(24px, 3.1vw, 32px); line-height: var(--lh-tight); margin-bottom: var(--sp3); text-wrap: balance; }
+  .stamp { font-size: var(--t-micro); color: var(--muted); margin-bottom: var(--sp4); line-height: 1.5; }
+  .srcname { display: inline-block; font-family: var(--sans); font-size: var(--t-micro); font-weight: 400; letter-spacing: 0; text-transform: none; color: var(--muted); line-height: 1.45; margin-top: 2px; }
+
+  table { width: 100%; border-collapse: collapse; font-family: var(--sans); font-size: var(--t-sm); line-height: var(--lh-ui); }
+  th { text-align: left; font-size: var(--t-micro); color: var(--brand); padding: var(--sp3) var(--sp3) var(--sp2); border-bottom: 2px solid var(--brand); line-height: 1.4; }
+  td { padding: var(--sp3); border-bottom: 1px solid var(--hair); vertical-align: top; }
+  tbody tr { transition: background .16s var(--ease); }
+  tbody tr:hover { background: #f4f7fd; }
+  tr:last-child td { border-bottom: none; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  td .vb, td b.vb { display: inline-block; font-size: var(--t-base); font-weight: 700; line-height: 1.4; }
+  tr.key td { background: var(--hl-soft); }
+  tr.key td:first-child { box-shadow: inset 3px 0 0 var(--hl); }
+  .dir { font-weight: 700; }
+  .dir.up { color: var(--up-bad); } .dir.down { color: var(--down-good); } .dir.flat { color: var(--muted); }
+  .impact { display: inline-flex; align-items: center; gap: var(--sp2); font-size: var(--t-sm); font-weight: 600; white-space: nowrap; }
+  .impact .dot { width: 9px; height: 9px; border-radius: 50%; flex: 0 0 auto; background: var(--muted); }
+  .impact.high .dot { background: var(--accent); box-shadow: 0 0 0 3px rgba(199,0,0,.15); }
+  .impact.med .dot { background: #d98e04; box-shadow: 0 0 0 3px rgba(217,142,4,.15); }
+  .impact.low .dot { background: var(--down-good); box-shadow: 0 0 0 3px rgba(7,122,60,.14); }
+  .missing { color: var(--muted); font-style: italic; }
+
+  /* ===== Chip lọc + accordion Top 7 ===== */
+  .chips { display: flex; flex-wrap: wrap; gap: var(--sp2); margin-bottom: var(--sp3); }
+  .chip {
+    font-family: var(--sans); font-size: var(--t-xs); line-height: 1.5; padding: 5px var(--sp3);
+    border-radius: 999px; cursor: pointer; user-select: none;
+    background: var(--chip-bg); color: var(--ink-2); border: 1px solid transparent;
+    transition: background .16s var(--ease), color .16s var(--ease), border-color .16s var(--ease);
+  }
+  .chip:hover { border-color: var(--brand); color: var(--brand); }
+  .chip.active { background: var(--brand); color: #fff; font-weight: 700; border-color: var(--brand); }
+
+  .dev {
+    background: var(--surface); border: 1px solid var(--hair); border-left: 4px solid var(--hair);
+    margin-bottom: -1px;
+    transition: border-left-color .2s var(--ease), box-shadow .2s var(--ease);
+  }
+  .dev:hover { box-shadow: var(--shadow-1); }
+  .dev[data-p="1"], .dev[data-p="2"], .dev[data-p="3"] { border-left-color: var(--accent); }
+  .dev[data-p="4"], .dev[data-p="5"] { border-left-color: var(--brand); }
+  .dev.open { border-left-color: var(--brand-2); box-shadow: var(--shadow-2); position: relative; z-index: 1; }
+  .dev-head { display: flex; align-items: baseline; gap: var(--sp3); padding: var(--sp3) var(--sp4); cursor: pointer; }
+  .dev-head:hover { background: #f4f7fd; }
+  .dev .pri { flex: 0 0 26px; font-size: var(--t-h3); font-weight: 700; color: var(--muted); text-align: center; line-height: 1.25; }
+  .dev[data-p="1"] .pri, .dev[data-p="2"] .pri, .dev[data-p="3"] .pri { color: var(--accent); }
+  .dev .t { flex: 1 1 260px; font-size: var(--t-h4); font-weight: 700; line-height: 1.32; }
+  .dev.key .dev-head { background: var(--hl-soft); }
+  .dev.key .dev-head:hover { background: #fdf3ae; }
+  .dev .tags { display: flex; flex-wrap: wrap; gap: var(--sp2); }
+  .tag { font-size: var(--t-micro); font-weight: 600; padding: 3px var(--sp2); background: var(--chip-bg); color: var(--ink-2); white-space: nowrap; line-height: 1.45; border-radius: 2px; }
+  .tag.rev { background: #e8f0fb; color: var(--brand); }
+  .tag.risk { background: #fdeaea; color: var(--accent); }
+  .tag.cash { background: #e4f4ea; color: var(--down-good); }
+  .tag.fx { background: #f6e9f4; color: var(--c4); }
+  .dev .arrow { font-family: var(--sans); font-size: var(--t-xs); color: var(--muted); transition: transform .18s var(--ease); }
+  .dev.open .arrow { transform: rotate(90deg); }
+  .dev-body { display: none; padding: 0 var(--sp5) var(--sp4) 66px; }
+  .dev.open .dev-body { display: block; animation: bodyIn .24s var(--ease) both; }
+  @keyframes bodyIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+  .dev-body dl { display: grid; grid-template-columns: 128px 1fr; gap: var(--sp2) var(--sp3); font-family: var(--sans); font-size: var(--t-sm); line-height: var(--lh-ui); }
+  .dev-body dt { font-size: var(--t-micro); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--brand); padding-top: 1px; }
+  .dev.hidden { display: none; }
+  @media (max-width: 620px) {
+    .dev-body { padding-left: var(--sp4); }
+    .dev-body dl { grid-template-columns: 1fr; gap: 2px; }
+    .dev-body dd { margin-bottom: var(--sp2); }
+  }
+
+  /* ===== Mục Việt Nam ===== */
+  .vnGrid { display: grid; grid-template-columns: 1.5fr 1fr; gap: var(--sp5); align-items: start; }
+  @media (max-width: 860px) { .vnGrid { grid-template-columns: 1fr; } }
+  .fdi {
+    background: var(--surface); border: 1px solid var(--hair); border-top: 4px solid var(--sec);
+    padding: var(--sp4) var(--sp5); box-shadow: var(--shadow-1);
+    transition: box-shadow .22s var(--ease), transform .22s var(--ease);
+  }
+  .fdi:hover { box-shadow: var(--shadow-2); transform: translateY(-2px); }
+  .fdi h3 { font-size: var(--t-h4); margin-bottom: var(--sp1); }
+  .fdi .sub { font-family: var(--sans); font-size: var(--t-xs); line-height: var(--lh-ui); color: var(--muted); margin-bottom: var(--sp3); }
+  .fdi svg { width: 100%; height: auto; display: block; margin-bottom: var(--sp2); }
+  .fdi ul { font-family: var(--sans); font-size: var(--t-sm); line-height: var(--lh-ui); color: var(--ink-2); padding-left: var(--sp4); margin-top: var(--sp2); }
+  .fdi li { margin-bottom: var(--sp1); }
+  .callout, .cfoline {
+    font-family: var(--sans); font-size: var(--t-sm); line-height: var(--lh-ui);
+    background: var(--hl-soft); border: 1px solid #ecd98a; border-left: 4px solid var(--hl);
+    padding: var(--sp3) var(--sp4); margin-top: var(--sp3);
+  }
+
+  /* ===== Thẻ 4 công ty ===== */
+  .grid4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); border: 1px solid var(--hair); background: var(--surface); box-shadow: var(--shadow-1); }
+  .gcard { padding: var(--sp4) var(--sp5); border-right: 1px solid var(--hair); border-top: 4px solid var(--sec); transition: background .18s var(--ease); }
+  .gcard:nth-child(1) { --sec: var(--c1); }
+  .gcard:nth-child(2) { --sec: var(--c2); }
+  .gcard:nth-child(3) { --sec: var(--c3); }
+  .gcard:nth-child(4) { --sec: var(--c4); }
+  .gcard:hover { background: #fafbfe; }
+  .gcard:last-child { border-right: none; }
+  @media (max-width: 920px) {
+    .gcard { border-right: none; border-bottom: 1px solid var(--hair); }
+    .gcard:last-child { border-bottom: none; }
+  }
+  .gcard h3 { font-size: var(--t-h3); line-height: 1.2; color: var(--sec); }
+  .gcard .role { display: block; font-size: var(--t-micro); color: var(--muted); margin: var(--sp1) 0 var(--sp2); line-height: 1.45; }
+  .gcard p { font-family: var(--sans); font-size: var(--t-sm); line-height: var(--lh-ui); color: var(--ink-2); }
+
+  /* ===== Danh sách đánh số ===== */
+  .q { display: flex; gap: var(--sp3); padding: var(--sp3) 0; border-bottom: 1px solid var(--hair); font-size: var(--t-base); line-height: 1.55; }
+  .q:last-child { border-bottom: none; padding-bottom: 0; }
+  .q:first-child { padding-top: 0; }
+  .q .qn { flex: 0 0 24px; font-size: var(--t-h4); font-weight: 700; color: var(--accent); line-height: 1.35; }
+
+  /* ===== What's Next / lộ trình ===== */
+  .next { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); border: 1px solid var(--hair); background: var(--surface); box-shadow: var(--shadow-1); }
+  .next > div { padding: var(--sp4) var(--sp5); border-right: 1px solid var(--hair); border-top: 4px solid var(--sec); }
+  .next > div:nth-child(1) { --sec: var(--c2); }
+  .next > div:nth-child(2) { --sec: var(--c5); }
+  .next > div:nth-child(3) { --sec: var(--c1); }
+  .next > div:last-child { border-right: none; }
+  @media (max-width: 820px) {
+    .next > div { border-right: none; border-bottom: 1px solid var(--hair); }
+    .next > div:last-child { border-bottom: none; }
+  }
+  .next h3 { font-size: var(--t-micro); letter-spacing: .1em; color: var(--sec); margin-bottom: var(--sp2); line-height: 1.4; }
+  .next p { font-size: var(--t-base); line-height: 1.55; }
+
+  /* ===== Trích dẫn ===== */
+  .quotebox {
+    background: var(--surface); border: 1px solid var(--hair); border-left: 5px solid var(--hl);
+    padding: var(--sp5); margin: var(--sp3) 0 var(--sp4); box-shadow: var(--shadow-1);
+  }
+  .quotebox .qt { font-size: var(--t-h3); line-height: 1.45; font-style: italic; text-wrap: pretty; }
+  .quotebox .who { font-family: var(--sans); font-size: var(--t-xs); font-weight: 600; color: var(--brand); margin-top: var(--sp3); line-height: var(--lh-ui); }
+
+  .twocol { display: grid; grid-template-columns: 1.5fr 1fr; gap: var(--sp5); align-items: start; }
+  @media (max-width: 860px) { .twocol { grid-template-columns: 1fr; } }
+
+  /* ===== Hiệu ứng hiện dần khi cuộn ===== */
+  .reveal { opacity: 0; transform: translateY(14px); transition: opacity .5s var(--ease), transform .5s var(--ease); }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* ===== Chân trang ===== */
+  footer { margin-top: var(--sp7); padding-top: var(--sp4); border-top: 4px solid var(--brand); font-family: var(--sans); font-size: var(--t-sm); line-height: var(--lh-ui); color: var(--ink-2); }
+  footer h4 { font-family: var(--sans); font-size: var(--t-micro); text-transform: uppercase; letter-spacing: .1em; color: var(--brand); margin-bottom: var(--sp2); line-height: 1.4; }
+  footer ul { padding-left: var(--sp4); }
+  footer li { margin-bottom: var(--sp1); }
+  footer a { text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+  @media (max-width: 640px) {
+    .wrap { padding: 0 16px var(--sp6); }
+    .tabbar { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; }
+    .tabbar button { padding: 11px 14px; white-space: nowrap; }
+    .masthead { padding-top: var(--sp4); }
+    .masthead .dateline { justify-content: center; letter-spacing: .06em; }
+    .masthead .dateline::before, .masthead .dateline::after { display: none; }
+    nav.toc { gap: 0; }
+    nav.toc a { padding: 2px var(--sp2); }
+    .ticker .ti { min-width: 124px; padding: 0 var(--sp3); }
+  }
+  footer .fine { margin-top: var(--sp3); font-size: var(--t-xs); color: var(--muted); line-height: var(--lh-ui); }
+
+  /* ===== Tôn trọng thiết lập giảm chuyển động ===== */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .reveal { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="ticker">
+  <div class="ti"><div class="tk">TPCP Mỹ 30Y</div><div class="tv">5,243%</div><div class="td bad">▲ Neo trên 5,2% cả tuần (F)</div></div>
+  <div class="ti"><div class="tk">Fed Funds</div><div class="tv">3,50–3,75%</div><div class="td bad">▲ 57–65% xác suất TĂNG 16/09 (F)</div></div>
+  <div class="ti"><div class="tk">USD/VND VCB bán</div><div class="tv">26.285</div><div class="td flat">■ TT 25.605 · tự do 25.810 (F)</div></div>
+  <div class="ti"><div class="tk">Vàng SJC</div><div class="tv">147,6 tr</div><div class="td good">▼ −1 triệu so thứ Sáu (F)</div></div>
+  <div class="ti"><div class="tk">Dầu Brent</div><div class="tv">$92,68</div><div class="td bad">▲ +7,6% trong tuần (F)</div></div>
+  <div class="ti"><div class="tk">VN-Index</div><div class="tv">1.853,08</div><div class="td good">▲ +1,14% tuần 03–04/09 (F)</div></div>
+</div>
+
+<header class="masthead">
+  <h1>CFO Morning Brief</h1>
+  <div class="dateline">Thứ Hai, 07 tháng 9, 2026 · Ấn bản dành cho lãnh đạo tài chính · Cửa sổ tin 03–07/09</div>
+  <div class="legend">(F) Fact · (SO) Source Opinion · (I) Inference — suy luận của bản tin. Số liệu vĩ mô tháng 8 do Cục Thống kê công bố ngày 03/09.</div>
+</header>
+
+<nav class="tabbar" id="tabbar">
+  <button class="active" data-tab="tab-brief">Bản tin hôm nay</button>
+  <button data-tab="tab-mindset">Mindset &amp; Kỹ năng</button>
+  <button data-tab="tab-tax">Thuế &amp; Chính sách</button>
+  <button data-tab="tab-tech">Công nghệ &amp; CFO</button>
+</nav>
+
+<!-- ============================ TAB 1 ============================ -->
+<div class="tabpanel active" id="tab-brief">
+  <div class="stamp">Ấn bản 07/09/2026 · giờ Việt Nam (UTC+7)</div>
+
+  <nav class="toc">
+    <a href="#front">Trang nhất</a>
+    <a href="#top7">Top 7</a>
+    <a href="#vietnam">Việt Nam</a>
+    <a href="#chinhtri">Chính trị &amp; Điều hành</a>
+    <a href="#signals">Market Signals</a>
+    <a href="#risk">Risk Radar</a>
+    <a href="#group">Group H·S·K·HK</a>
+    <a href="#hoi">3 câu hỏi</a>
+    <a href="#next">What's Next</a>
+  </nav>
+
+  <div class="front" id="front">
+    <div class="lead">
+      <div class="kicker">Tâm điểm · Chính sách tiền tệ Mỹ</div>
+      <h2 class="head">Việc làm Mỹ tăng <span class="hl">162.000</span> — gấp ba dự báo; Fed bước vào cuộc họp 16/09 trong thế chia rẽ công khai</h2>
+      <div class="deck">Báo cáo việc làm tháng 8 công bố thứ Sáu 04/09 vượt xa mọi dự báo (đồng thuận 53–65 nghìn), kèm điều chỉnh tăng 55.000 việc làm của hai tháng trước. Nhưng trước đó ba ngày, Thống đốc Waller công khai ủng hộ giữ nguyên lãi suất — ngược hẳn Chủ tịch Warsh. <span class="facttag">(F)</span></div>
+      <figure class="figure">
+        <svg viewBox="0 0 640 250" role="img" aria-label="Bảng lương phi nông nghiệp Mỹ: tháng 6 tăng 31 nghìn, tháng 7 tăng 21 nghìn, tháng 8 tăng 162 nghìn, so với bình quân 12 tháng là 31 nghìn">
+          <rect width="640" height="250" fill="none"/>
+          <g stroke="#dcdad2" stroke-width="1">
+            <line x1="70" y1="40" x2="612" y2="40"/><line x1="70" y1="85" x2="612" y2="85"/>
+            <line x1="70" y1="130" x2="612" y2="130"/><line x1="70" y1="175" x2="612" y2="175"/>
+          </g>
+          <g font-family="system-ui" font-size="11" fill="#6e6c66">
+            <text x="20" y="44">180K</text><text x="20" y="89">120K</text><text x="20" y="134">60K</text><text x="20" y="179">0</text>
+          </g>
+          <rect x="110" y="152" width="80" height="23" fill="#052962" opacity=".45"/>
+          <rect x="250" y="159" width="80" height="16" fill="#052962" opacity=".45"/>
+          <rect x="390" y="54" width="80" height="121" fill="#077a3c"/>
+          <g font-family="system-ui" font-size="11" fill="#3d3d3a" font-weight="bold">
+            <text x="128" y="146">31K</text><text x="268" y="153">21K</text>
+          </g>
+          <text x="392" y="46" font-family="Noto Serif, Cambria, Times New Roman, serif" font-size="19" font-weight="bold" fill="#077a3c">162K</text>
+          <g font-family="system-ui" font-size="11" fill="#6e6c66">
+            <text x="122" y="196">Tháng 6</text><text x="262" y="196">Tháng 7</text><text x="398" y="196">Tháng 8</text>
+          </g>
+          <line x1="70" y1="152" x2="612" y2="152" stroke="#c70000" stroke-width="1.5" stroke-dasharray="5 4"/>
+          <text x="500" y="147" font-family="system-ui" font-size="10.5" fill="#c70000">BQ 12 tháng: 31K</text>
+          <text x="72" y="26" font-family="system-ui" font-size="11" fill="#6e6c66">Bảng lương phi nông nghiệp Mỹ, sau điều chỉnh — minh họa từ số liệu nguồn mô tả</text>
+          <text x="72" y="222" font-family="system-ui" font-size="10" fill="#6e6c66">Tháng 6 và 7 đã được điều chỉnh TĂNG tổng cộng 55.000 việc làm (BLS, 04/09/2026)</text>
+        </svg>
+        <figcaption>Nguồn: BLS — Employment Situation tháng 8/2026, công bố 04/09. Tháng 7 từ −23.000 được điều chỉnh thành +21.000. Biểu đồ do bản tin dựng lại.</figcaption>
+      </figure>
+      <div class="byline">Tổng hợp từ BLS · Federal Reserve · Reuters · CNBC · Semafor · 07/09/2026</div>
+      <p class="body">Hai tuần trước, câu chuyện là một nền kinh tế đình lạm: bảng lương âm 23.000, lạm phát dai dẳng. Bản điều chỉnh hôm 04/09 đã xóa hẳn phần "âm" đó — tháng 7 thành +21.000, tháng 6 thành +31.000. Thị trường lao động Mỹ không hề nứt như số liệu sơ bộ mô tả. <span class="facttag">(F)</span></p>
+      <p class="body">Nhưng Fed lại chia rẽ hơn bao giờ hết. Chủ tịch <b>Kevin Warsh</b> tại Jackson Hole: <i>"Chúng ta phải tin chắc rằng lạm phát nền đang đi về mục tiêu, một cách rõ ràng và đủ nhanh. Nếu không, chúng ta còn việc phải làm."</i> Ba ngày trước báo cáo, Thống đốc <b>Christopher Waller</b> kêu gọi <i>"cho quá trình giảm lạm phát một cơ hội"</i> và ngỏ ý ủng hộ giữ nguyên lãi suất. Xác suất thị trường định giá Fed tăng lãi suất dao động <span class="hl">từ 49% lên 65% chỉ trong hai ngày</span>. <span class="facttag">(F)</span></p>
+      <p class="body"><strong>Góc nhìn Group CFO:</strong> điều đáng lo không phải Fed tăng hay giữ, mà là <b>biên độ dao động của chính kỳ vọng</b>. Một biến số đầu vào của mô hình tài chính dao động 16 điểm phần trăm trong 48 giờ thì không còn là biến số để dự báo — nó là biến số để phòng hộ. Với hub tài chính Hồng Kông, việc cần làm tuần này là chốt tỷ lệ phòng hộ tối thiểu cho dư nợ USD trước ngày 16/09, thay vì tiếp tục đoán. Hai mốc quyết định trước cuộc họp: <b>PPI ngày 10/09</b> và <b>CPI ngày 11/09</b>. <span class="facttag">(I)</span></p>
+    </div>
+
+    <aside class="rail">
+      <h3 class="railhead">What's News — Executive Snapshot</h3>
+      <div class="wn"><span class="wl">Global</span><span class="badge crit">Nóng</span> Bảng lương Mỹ tháng 8 <b>+162.000</b>, thất nghiệp 4,1%, điều chỉnh tăng 55.000. Lợi suất 2Y 4,374% · 10Y 4,78% · 30Y 5,243%. Fed chia rẽ: Warsh diều hâu, Waller bồ câu. <span class="facttag">(F)</span></div>
+      <div class="wn"><span class="wl">Vietnam</span><span class="badge new">Chính sách</span> Số liệu tháng 8 công bố 03/09: CPI <b>+4,89%</b> so cùng kỳ, IIP 8 tháng <b>+11,9%</b>, bán lẻ +13,3%. VN-Index đóng 04/09 tại 1.853,08 (+1,14% tuần). Nghị quyết 262/NQ-CP ban hành 05/09. <span class="facttag">(F)</span></div>
+      <div class="wn"><span class="wl">Biggest Opportunity</span><span class="badge ok">Cơ hội</span> Dự thảo sửa NĐ 320/2025 công bố 05/09 đề xuất <span class="hl">thuế suất 10% trong 25 năm</span> cho doanh nghiệp và trung tâm R&amp;D công nghệ chiến lược. Cửa sổ góp ý đang mở. <span class="facttag">(F)</span></div>
+      <div class="wn"><span class="wl">Biggest Risk</span><span class="badge watch">Rủi ro</span> Nhập siêu 8 tháng <b>20,46 tỷ USD</b>, đảo chiều từ xuất siêu 14,02 tỷ cùng kỳ — biến động 34,5 tỷ USD. Lãi suất qua đêm liên ngân hàng vọt từ 1% lên 6% phiên 04/09. <span class="facttag">(F)</span></div>
+      <div class="wn action"><span class="wl">CFO Action hôm nay</span><span class="badge mark">Làm ngay</span> Rà soát căn cứ pháp lý hồ sơ ưu đãi thuế của H trước <b>12/09</b>; chốt tỷ lệ phòng hộ USD trước 16/09; đưa mốc nộp thuế gia hạn 02/11 và 30/12 vào dự báo dòng tiền 13 tuần. <span class="facttag">(I)</span></div>
+    </aside>
+  </div>
+
+  <div class="featurerow">
+    <div class="feat reveal">
+      <svg viewBox="0 0 300 110" role="img" aria-label="Cán cân thương mại Việt Nam 8 tháng đảo chiều từ xuất siêu 14,02 tỷ đô la sang nhập siêu 20,46 tỷ đô la">
+        <g font-family="system-ui" font-size="10" fill="#6e6c66"><text x="8" y="16">CÁN CÂN THƯƠNG MẠI 8 THÁNG · TỶ USD</text></g>
+        <line x1="150" y1="26" x2="150" y2="96" stroke="#dcdad2" stroke-width="1"/>
+        <g font-family="system-ui" font-size="10.5" fill="#3d3d3a">
+          <rect x="80" y="32" width="70" height="18" fill="#077a3c" opacity=".55"/><text x="8" y="45">2025</text><text x="156" y="46">+14,02</text>
+          <rect x="150" y="60" width="102" height="18" fill="#c70000"/><text x="8" y="73">2026</text><text x="256" y="74" font-weight="bold">−20,46</text>
+        </g>
+        <text x="8" y="105" font-family="system-ui" font-size="9.5" fill="#6e6c66">Biến động 34,5 tỷ USD trong 12 tháng (F)</text>
+      </svg>
+      <h4>Nhập siêu 20,46 tỷ USD: áp lực tỷ giá đang được tích lũy</h4>
+      <p>Nhập khẩu 8 tháng +35,3% trong khi xuất khẩu +22,4%. Nhập siêu từ Trung Quốc riêng đã 107,7 tỷ USD (+41,7%). Đây là áp lực cấu trúc lên VND năm 2027, không phải hiện tượng nhất thời.</p>
+    </div>
+    <div class="feat reveal">
+      <svg viewBox="0 0 300 110" role="img" aria-label="Cước container Thượng Hải đi Los Angeles tăng từ 3.385 đô la tháng 5 lên 7.185 đô la ngày 3 tháng 9">
+        <g font-family="system-ui" font-size="10" fill="#6e6c66"><text x="8" y="16">THƯỢNG HẢI → LOS ANGELES · USD/40FT</text></g>
+        <path d="M12,88 L70,84 L120,74 L170,58 L220,44 L285,26" fill="none" stroke="#c70000" stroke-width="2.5"/>
+        <text x="200" y="20" font-family="Noto Serif, Cambria, Times New Roman, serif" font-size="15" font-weight="bold" fill="#c70000">$7.185</text>
+        <text x="8" y="103" font-family="system-ui" font-size="9.5" fill="#6e6c66">Từ $3.385 ngày 21/05 — tăng 112% (F)</text>
+      </svg>
+      <h4>Cước xuyên Thái Bình Dương tăng gấp đôi trong ba tháng</h4>
+      <p>Chỉ số tổng hợp Drewry đi ngang ở 4.465 USD nhưng tuyến về Mỹ tăng 5% chỉ trong tuần. Bão tại Trung Quốc, kênh Panama giới hạn 9 lượt/ngày, rủi ro Hormuz vẫn cao.</p>
+    </div>
+    <div class="feat reveal">
+      <svg viewBox="0 0 300 110" role="img" aria-label="Giá dầu diesel 27.740 đồng một lít cao hơn giá xăng E10 RON 95 là 23.270 đồng một lít">
+        <g font-family="system-ui" font-size="10" fill="#6e6c66"><text x="8" y="16">GIÁ BÁN LẺ TỪ 15H NGÀY 03/09 · ĐỒNG/LÍT</text></g>
+        <g font-family="system-ui" font-size="10.5" fill="#3d3d3a">
+          <rect x="10" y="30" width="160" height="16" fill="#052962" opacity=".45"/><text x="176" y="43">Xăng E10 23.270</text>
+          <rect x="10" y="56" width="196" height="16" fill="#c70000"/><text x="212" y="69" font-weight="bold">DO 27.740</text>
+        </g>
+        <text x="8" y="103" font-family="system-ui" font-size="9.5" fill="#6e6c66">Diesel đắt hơn xăng ~19% — bất thường (F)</text>
+      </svg>
+      <h4>Diesel đắt hơn xăng: cú đánh thẳng vào chi phí last-mile</h4>
+      <p>Xăng E5 tăng 720 đồng, E10 RON 95 tăng 670 đồng, diesel giảm 340 đồng nhưng vẫn cao hơn xăng. Nhóm giao thông vận tải đóng góp 0,41 điểm % vào CPI tháng 8. Kỳ điều chỉnh tới: 10/09.</p>
+    </div>
+  </div>
+
+  <section class="sec reveal" id="top7">
+    <div class="sechead"><span class="secno">01</span><h2>Top 7 Developments</h2><span class="note">bấm từng dòng để xem chi tiết · lọc theo Financial Impact</span></div>
+    <div class="chips" id="chips">
+      <span class="chip active" data-f="all">Tất cả</span>
+      <span class="chip" data-f="Revenue">Revenue</span>
+      <span class="chip" data-f="Margin">Margin</span>
+      <span class="chip" data-f="Cash">Cash</span>
+      <span class="chip" data-f="FX">FX</span>
+      <span class="chip" data-f="Risk">Risk</span>
+      <span class="chip" data-f="CapAlloc">Capital Allocation</span>
+    </div>
+
+    <div class="dev key" data-p="1" data-f="Cash FX CapAlloc">
+      <div class="dev-head"><div class="pri">1</div><div class="t">Việc làm Mỹ +162.000, gấp ba dự báo; Fed chia rẽ công khai trước cuộc họp 16/09 <span class="facttag">(F)</span></div><div class="tags"><span class="tag cash">Cash</span><span class="tag fx">FX</span></div><span class="arrow">▶</span></div>
+      <div class="dev-body">
+        <dl>
+          <dt>Why it matters</dt><dd>Kỳ vọng lãi suất — biến số đầu vào lớn nhất của mọi mô hình tài chính — dao động 16 điểm phần trăm trong 48 giờ. Đây là môi trường để phòng hộ, không phải để dự báo.</dd>
+          <dt>Chi tiết</dt><dd>Thất nghiệp 4,1% không đổi; thu nhập bình quân giờ 37,75 USD (+0,3% tháng, +3,1% năm); tỷ lệ tham gia lực lượng lao động 61,6%. Tháng 6 và 7 điều chỉnh tăng tổng 55.000. Xác suất tăng lãi suất: 66% (31/08) → 49,4% (03/09, sau Waller) → 57–65% (04/09, sau báo cáo).</dd>
+          <dt>CFO Action</dt><dd>Chốt tỷ lệ phòng hộ tối thiểu cho dư nợ USD trước 16/09 thay vì chờ kết quả họp. Đặt hai mốc quan sát bắt buộc: PPI 10/09 và CPI 11/09.</dd>
+          <dt>Nguồn</dt><dd><a href="https://www.bls.gov/news.release/archives/empsit_09042026.htm" target="_blank" rel="noopener">BLS — Employment Situation tháng 8/2026</a> · <a href="https://www.federalreserve.gov/newsevents/speech/warsh20260828a.htm" target="_blank" rel="noopener">Fed — Phát biểu Kevin Warsh 28/08</a> · <a href="https://www.semafor.com/article/09/03/2026/us-fed-governor-waller-floats-september-rate-hold" target="_blank" rel="noopener">Semafor 03/09 — Waller</a></dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="dev" data-p="2" data-f="FX Risk">
+      <div class="dev-head"><div class="pri">2</div><div class="t">Nhập siêu 8 tháng 20,46 tỷ USD — đảo chiều 34,5 tỷ USD so với xuất siêu 14,02 tỷ cùng kỳ 2025 <span class="facttag">(F)</span></div><div class="tags"><span class="tag fx">FX</span><span class="tag risk">Risk</span></div><span class="arrow">▶</span></div>
+      <div class="dev-body">
+        <dl>
+          <dt>Why it matters</dt><dd>Đây là chỉ báo dẫn dắt của áp lực tỷ giá. Cán cân thương mại đảo chiều với biên độ này thường hiện ra trên tỷ giá sau 2–4 quý, tức là rơi vào năm 2027 — đúng chu kỳ ngân sách đang lập.</dd>
+          <dt>Chi tiết</dt><dd>Tổng kim ngạch 8 tháng 770,14 tỷ USD (+28,7%) — kỷ lục. Xuất khẩu 374,84 tỷ (+22,4%), nhập khẩu 395,3 tỷ (+35,3%). Mỹ là thị trường xuất khẩu lớn nhất 122 tỷ USD, xuất siêu sang Mỹ 106,6 tỷ. Nhập siêu từ Trung Quốc 107,7 tỷ (+41,7%).</dd>
+          <dt>CFO Action</dt><dd>Đưa kịch bản VND mất giá 3–5% năm 2027 vào mô hình; xác định tỷ lệ doanh thu USD tự nhiên bù trừ được chi phí nhập khẩu trước khi mua công cụ phòng hộ.</dd>
+          <dt>Nguồn</dt><dd><a href="https://www.vietnamplus.vn/tong-kim-ngach-xuat-nhap-khau-hang-hoa-8-thang-lap-ky-luc-dat-77014-ty-usd-post1134077.vnp" target="_blank" rel="noopener">VietnamPlus — Kim ngạch 8 tháng đạt kỷ lục</a> · <a href="https://www.nso.gov.vn/bai-top/2026/09/bao-cao-tinh-hinh-kinh-te-xa-hoi-thang-tam-va-8-thang-nam-2026/" target="_blank" rel="noopener">Cục Thống kê — Báo cáo tháng 8 và 8 tháng 2026</a></dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="dev" data-p="3" data-f="Risk Margin">
+      <div class="dev-head"><div class="pri">3</div><div class="t">Nghị định 255/2026 đã thay thế NĐ 132/2020 về giao dịch liên kết từ 01/07 — mở rộng bên liên kết sang quan hệ thuê tài sản <span class="facttag">(F)</span></div><div class="tags"><span class="tag risk">Risk</span></div><span class="arrow">▶</span></div>
+      <div class="dev-body">
+        <dl>
+          <dt>Why it matters</dt><dd>Đây là rủi ro số một của cấu trúc bốn công ty. Phí bản quyền từ H, phí dịch vụ từ K, hợp đồng và điều phối dòng tiền qua HK — toàn bộ là giao dịch liên kết xuyên biên giới, và khung pháp lý vừa được thay mới toàn bộ.</dd>
+          <dt>Chi tiết</dt><dd>NĐ 255/2026/NĐ-CP hiệu lực 01/07/2026, áp dụng từ kỳ tính thuế TNDN 2026, thay thế cả NĐ 132/2020 và NĐ 20/2025. Điểm mới: thiết lập thứ tự ưu tiên nguồn dữ liệu so sánh; điều chỉnh cơ chế miễn lập hồ sơ; siết yêu cầu báo cáo lợi nhuận liên quốc gia; minh bạch cơ chế trao đổi thông tin giữa các cơ quan thuế; mở rộng quan hệ liên kết sang <b>thuê và cho thuê tài sản</b> bên cạnh vay và cho vay.</dd>
+          <dt>CFO Action</dt><dd>Ba việc trong tháng 9: kiểm tra cơ chế miễn lập hồ sơ có còn áp dụng cho từng pháp nhân không; rà mọi hợp đồng thuê tài sản nội bộ xem có tạo quan hệ liên kết mới không; dựng lại benchmark study theo thứ tự ưu tiên nguồn dữ liệu mới.</dd>
+          <dt>Nguồn</dt><dd><a href="https://www.pwc.com/vn/vn/publications/news-brief/260707-decree-255-2026.html" target="_blank" rel="noopener">PwC Việt Nam — Bản tin Nghị định 255/2026</a></dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="dev" data-p="4" data-f="Risk Margin">
+      <div class="dev-head"><div class="pri">4</div><div class="t">TT 110/2026 hiệu lực 12/09 bãi bỏ Thông tư ưu đãi thuế phần mềm — nhưng đây là dọn văn bản chết, không phải cắt ưu đãi <span class="facttag">(F/SO)</span></div><div class="tags"><span class="tag risk">Risk</span><span class="tag rev">Margin</span></div><span class="arrow">▶</span></div>
+      <div class="dev-body">
+        <dl>
+          <dt>Why it matters</dt><dd>Tiêu đề báo chí gây hiểu nhầm và có thể dẫn tới phản ứng sai. Ưu đãi cốt lõi vẫn còn — rủi ro thật nằm ở chỗ khác: <b>mất căn cứ pháp lý trong hồ sơ</b>.</dd>
+          <dt>Chi tiết</dt><dd>Thông tư 110/2026/TT-BTC hiệu lực 12/09/2026 bãi bỏ 22 thông tư và 3 quyết định, trong đó có TT 123/2004/TT-BTC về ưu đãi thuế doanh nghiệp phần mềm. Lý do Bộ Tài chính nêu: các văn bản này "không còn áp dụng do nội dung đã được quy định tại các Thông tư chung về thuế hoặc trái với Luật thuế hiện hành". Ưu đãi 10% trong 15 năm, miễn 4 năm và giảm 50% trong 9 năm tiếp theo cho sản xuất phần mềm <b>đã chuyển sang Luật 67/2025 và NĐ 320/2025</b>.</dd>
+          <dt>CFO Action</dt><dd>Nếu hồ sơ ưu đãi, thuyết minh báo cáo tài chính hay hồ sơ quyết toán của H còn trích dẫn TT 123/2004, phải cập nhật căn cứ sang Luật 67/2025 + NĐ 320/2025 + TT 20/2026 <b>trước 12/09</b>. Riêng K cần rà độc lập: dịch vụ marketing, video, content <b>không thuộc</b> diện sản xuất phần mềm — nếu đang hưởng ưu đãi theo diện này thì đó là rủi ro truy thu.</dd>
+          <dt>Nguồn</dt><dd><a href="https://xaydungchinhsach.chinhphu.vn/thong-tu-so-110-2026-tt-btc-bai-bo-22-thong-tu-va-3-quyet-dinh-trong-linh-vuc-thue-tu-12-9-2026-119260803170925694.htm" target="_blank" rel="noopener">Cổng Xây dựng chính sách — TT 110/2026/TT-BTC</a> · <a href="https://baochinhphu.vn/bo-tai-chinh-du-kien-bai-bo-23-thong-tu-3-quyet-dinh-linh-vuc-thue-102260520174130381.htm" target="_blank" rel="noopener">Báo Chính phủ — Lý do bãi bỏ</a></dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="dev" data-p="5" data-f="Margin Risk">
+      <div class="dev-head"><div class="pri">5</div><div class="t">Brent +7,6% trong tuần lên 92,68 USD; xuất khẩu dầu Iran sụp còn 260.000 thùng/ngày từ 1,7 triệu <span class="facttag">(F)</span></div><div class="tags"><span class="tag rev">Margin</span><span class="tag risk">Risk</span></div><span class="arrow">▶</span></div>
+      <div class="dev-body">
+        <dl>
+          <dt>Why it matters</dt><dd>Cú sốc năng lượng vừa bào mòn biên lợi nhuận qua chi phí vận chuyển, vừa đẩy Fed theo hướng thắt chặt qua kênh lạm phát. Một biến số, hai đường truyền dẫn — và cả hai đều bất lợi.</dd>
+          <dt>Chi tiết</dt><dd>WTI khoảng 91,48 USD, tăng ~10% trong tuần. Iran tiếp tục nhắm tàu qua eo Hormuz và tấn công căn cứ Mỹ tại Jordan, Kuwait, Bahrain. Lưu lượng hàng hải qua Hormuz ngày thứ Năm chỉ 4 tàu, so với bình quân 10 ngày là khoảng 15 tàu.</dd>
+          <dt>CFO Action</dt><dd>Chốt biểu phí logistics quý 4 trước khi phụ phí nhiên liệu được áp lại; đưa kịch bản Brent 100 USD vào bảng độ nhạy biên lợi nhuận của S.</dd>
+          <dt>Nguồn</dt><dd><a href="https://mansfield.energy/2026/09/04/week-in-review-wti-is-on-track-for-a-7-weekly-gain-on-falling-iranian-exports-and-strait-of-hormuz-risks/" target="_blank" rel="noopener">Mansfield Energy — Tuần 04/09</a></dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="dev" data-p="6" data-f="Cash">
+      <div class="dev-head"><div class="pri">6</div><div class="t">Lãi suất qua đêm liên ngân hàng vọt từ 1% lên 6% phiên 04/09; tín dụng mới đạt 8,38% so mục tiêu 15% <span class="facttag">(F)</span></div><div class="tags"><span class="tag cash">Cash</span></div><span class="arrow">▶</span></div>
+      <div class="dev-body">
+        <dl>
+          <dt>Why it matters</dt><dd>Còn 6,6 điểm phần trăm tăng trưởng tín dụng phải bơm trong 4 tháng cuối năm. Điều đó thường kéo theo cuộc đua huy động — và chi phí vốn của doanh nghiệp tăng theo, bất kể lãi suất điều hành không đổi.</dd>
+          <dt>Chi tiết</dt><dd>Tín dụng đến 22/08 tăng 8,38%; huy động vốn tăng 8,77% — lần đầu huy động vượt tín dụng sau thời gian dài. NHNN bơm ròng 5.625 tỷ đồng qua OMO kỳ hạn 7 ngày, lãi suất 4,5%/năm. Lãi suất huy động tháng 9 đã xuất hiện mức 9,2% và 10%/năm ở một số ngân hàng cho khoản tiền gửi lớn.</dd>
+          <dt>CFO Action</dt><dd>Đàm phán và chốt hạn mức tín dụng ngay trong tháng 9, trước khi cuộc đua huy động đẩy lãi suất cho vay lên. Cân nhắc chuyển phần vốn lưu động sang lãi suất cố định.</dd>
+          <dt>Nguồn</dt><dd><a href="https://nguoiquansat.vn/phien-4-9-nhnn-bom-rong-hon-5-600-ty-dong-lai-suat-qua-dem-neo-muc-6-314334.html" target="_blank" rel="noopener">Người Quan Sát 04/09 — Lãi suất qua đêm neo mức 6%</a> · <a href="https://cafef.vn/huy-dong-von-ngan-hang-bat-ngo-tang-manh-cao-hon-tang-truong-tin-dung-18826090408245786.chn" target="_blank" rel="noopener">CafeF — Huy động vượt tín dụng</a></dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="dev" data-p="7" data-f="Margin Cash">
+      <div class="dev-head"><div class="pri">7</div><div class="t">Cước Thượng Hải – Los Angeles 7.185 USD/40ft, tăng 5% trong tuần và 112% so với tháng 5 <span class="facttag">(F)</span></div><div class="tags"><span class="tag cash">Cash</span><span class="tag rev">Margin</span></div><span class="arrow">▶</span></div>
+      <div class="dev-body">
+        <dl>
+          <dt>Why it matters</dt><dd>Chỉ số tổng hợp đi ngang che giấu một sự thật: tuyến quan trọng nhất với công ty S đang tăng giá nhanh nhất. Đọc chỉ số tổng hợp mà bỏ qua tuyến cụ thể là cách phổ biến để bỏ lỡ một cú sốc chi phí.</dd>
+          <dt>Chi tiết</dt><dd>Drewry WCI tuần 03/09: tổng hợp 4.465 USD (đi ngang), Thượng Hải – New York 9.587 USD (+3%), Thượng Hải – Genoa 4.368 USD (−10%), Thượng Hải – Rotterdam 4.092 USD (−5%). Bão Saudel làm nặng thêm tắc nghẽn cảng Trung Quốc; kênh Panama giới hạn 9 lượt Neo-Panamax mỗi ngày.</dd>
+          <dt>CFO Action</dt><dd>Chuyển từ theo dõi chỉ số tổng hợp sang theo dõi riêng tuyến xuyên Thái Bình Dương trong báo cáo chi phí hằng tuần; xác định lại mức tồn kho an toàn cho mùa cao điểm quý 4.</dd>
+          <dt>Nguồn</dt><dd><a href="https://www.thedcn.com.au/news/world-container-index-3-september-2026" target="_blank" rel="noopener">Drewry World Container Index 03/09/2026</a></dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec reveal" id="vietnam">
+    <div class="sechead"><span class="secno">02</span><h2>Việt Nam · Kinh tế &amp; Chính sách</h2><span class="note">số liệu tháng 8 công bố 03/09 · văn bản hiệu lực tháng 9</span></div>
+    <div class="vnGrid">
+      <div class="card tablewrap">
+        <table>
+          <thead><tr><th>Văn bản — hiệu lực tháng 9</th><th>Từ ngày</th><th>Nội dung chính <span class="facttag">(F)</span></th><th>Ý nghĩa với Group <span class="facttag">(I)</span></th></tr></thead>
+          <tbody>
+            <tr class="key"><td><b>TT 110/2026/TT-BTC</b><br><span class="srcname">Bãi bỏ 22 thông tư thuế</span></td><td>12/09</td><td>Bãi bỏ 22 thông tư + 3 quyết định, gồm TT 123/2004 về ưu đãi thuế doanh nghiệp phần mềm</td><td><b>H và K:</b> cập nhật căn cứ pháp lý hồ sơ ưu đãi trước 12/09 — ưu đãi còn nguyên, chỉ đổi căn cứ</td></tr>
+            <tr><td><b>NĐ 292/2026/NĐ-CP</b><br><span class="srcname">Thay NĐ 69/2018</span></td><td>05/09<br>(đã hiệu lực)</td><td>23 nhóm hàng cấm nhập khẩu, gồm sản phẩm được sản xuất một phần hoặc toàn bộ bởi <b>lao động cưỡng bức</b></td><td><b>S:</b> phải audit chuỗi cung ứng nhiều tầng, không chỉ nhà cung cấp trực tiếp. Cũng là lá bài đàm phán với USTR</td></tr>
+            <tr><td><b>NĐ 283/2026/NĐ-CP</b><br><span class="srcname">Lao động</span></td><td>10/09</td><td>Phạt 50–75 triệu đồng hành vi lôi kéo, dụ dỗ, quảng cáo gian dối để lừa dối người lao động</td><td><b>K:</b> rà nội dung tuyển cộng tác viên, KOL và host livestream</td></tr>
+            <tr><td><b>NĐ 302 &amp; 303/2026</b><br><span class="srcname">Hàng hoá &amp; cụm công nghiệp</span></td><td>15/09</td><td>Sở giao dịch hàng hóa: vốn ≥1.500 tỷ, sở hữu ngoại ≤49%. Cụm công nghiệp: thêm 4 loại gồm công nghệ cao và sinh thái</td><td>Kênh phòng vệ giá hàng hoá chính quy hơn; thêm lựa chọn mặt bằng cho H</td></tr>
+            <tr class="key"><td><b>TT 39/2026/TT-NHNN</b><br><span class="srcname">Thanh toán quốc tế</span></td><td>19/09</td><td>Cho phép tổ chức tín dụng nước ngoài <b>dùng tài khoản tại ngân hàng Việt Nam</b> để thanh toán quốc tế phục vụ khách hàng</td><td><b>HK:</b> công cụ mới cho dòng tiền xuyên biên giới — đưa vào agenda làm việc với ngân hàng đối tác</td></tr>
+            <tr><td><b>NĐ 284/2026/NĐ-CP</b><br><span class="srcname">Tài sản mã hóa</span></td><td>01/09<br>(đã hiệu lực)</td><td>Phạt tổ chức tới 200 triệu, cá nhân 100 triệu với vi phạm về tài sản mã hóa chưa được cấp phép</td><td><b>HK:</b> rà mọi kênh thanh toán số trong dòng tiền xuyên quốc gia</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="fdi">
+        <h3>Số liệu tháng 8 và 8 tháng 2026</h3>
+        <div class="sub">Cục Thống kê, công bố 03/09/2026 <span class="facttag">(F)</span></div>
+        <svg viewBox="0 0 300 116" role="img" aria-label="CPI tháng 8 tăng 4,89 phần trăm so cùng kỳ, bình quân 8 tháng tăng 4,45 phần trăm, lạm phát cơ bản 4,24 phần trăm">
+          <g font-family="system-ui" font-size="10" fill="#6e6c66"><text x="6" y="14">LẠM PHÁT · % SO CÙNG KỲ</text></g>
+          <g font-family="system-ui" font-size="10.5" fill="#3d3d3a">
+            <rect x="112" y="24" width="150" height="16" fill="#c70000"/><text x="6" y="37">CPI T8</text><text x="266" y="37" font-weight="bold">4,89</text>
+            <rect x="112" y="48" width="137" height="16" fill="#052962" opacity=".6"/><text x="6" y="61">BQ 8T</text><text x="253" y="61">4,45</text>
+            <rect x="112" y="72" width="130" height="16" fill="#052962" opacity=".35"/><text x="6" y="85">Cơ bản</text><text x="246" y="85">4,24</text>
+          </g>
+          <text x="6" y="108" font-family="system-ui" font-size="9.5" fill="#6e6c66">Giao thông vận tải đóng góp 0,41 điểm % vào CPI T8 (F)</text>
+        </svg>
+        <ul>
+          <li>IIP 8 tháng <b>+11,9%</b> — cao nhất nhiều năm; tháng 8 +14,4%</li>
+          <li>Bán lẻ 8 tháng <b>5.235,5 nghìn tỷ (+13,3%)</b>; loại trừ giá +7,6%</li>
+          <li>FDI đăng ký <b>40,63 tỷ USD (+55,4%)</b>; giải ngân 17,25 tỷ (+12,0%)</li>
+          <li>Đầu tư công <b>546,8 nghìn tỷ, đạt 50,5%</b> kế hoạch năm</li>
+          <li>Thu ngân sách 8 tháng đạt <b>80,2%</b> dự toán</li>
+          <li>Giải thể <b>&gt;40.800 doanh nghiệp (+125,5%)</b>; thành lập mới tháng 8 giảm 40,5%</li>
+        </ul>
+        <div class="callout"><b>Góc nhìn CFO (I):</b> vốn đăng ký doanh nghiệp mới tăng 36,2% nhưng lao động đăng ký giảm 15,4% và số giải thể tăng 125,5%. Vốn đang dồn vào ít doanh nghiệp lớn thâm dụng vốn trong khi tầng đáy bị đào thải. Nếu S và K có nhà cung cấp nhỏ trong nước, đây là lúc rà soát rủi ro đối tác.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec reveal" id="chinhtri">
+    <div class="sechead"><span class="secno">03</span><h2>Chính trị &amp; Điều hành — đọc hệ quả bậc hai</h2><span class="note">Nghị quyết 262/NQ-CP ngày 05/09 và những gì nó báo hiệu</span></div>
+    <div class="twocol">
+      <div class="card tablewrap">
+        <table>
+          <thead><tr><th>Diễn biến <span class="facttag">(F)</span></th><th>Hệ quả bậc một</th><th>Hệ quả bậc hai với doanh nghiệp <span class="facttag">(I)</span></th></tr></thead>
+          <tbody>
+            <tr class="key"><td><b>Nghị quyết 262/NQ-CP ngày 05/09</b> — phiên họp Chính phủ thường kỳ tháng 8 do Thủ tướng <b>Lê Minh Hưng</b> chủ trì 03/09, chủ đề "Thời điểm tăng tốc, bứt phá"</td><td>Ưu tiên thúc đẩy tăng trưởng gắn với kiểm soát lạm phát; đẩy nhanh giải ngân đầu tư công, <b>không dồn chi vào cuối năm</b></td><td>Tổng cầu được nâng đỡ trong quý 4, nhưng cụm từ "kiên định kiểm soát lạm phát" từ một Thủ tướng xuất thân Thống đốc NHNN có nghĩa là <b>không nới lỏng tiền tệ mạnh</b> — chi phí vốn khó rẻ đi</td></tr>
+            <tr><td><b>Thí điểm thị trường tài sản mã hóa</b> — Chính phủ giao Bộ Tài chính "đẩy nhanh tiến độ"; <b>5 doanh nghiệp đã được chấp thuận</b> (VIXEX, SCEX, CAEX, TCEX và CTCP Tài sản số Việt Nam), yêu cầu vốn điều lệ tối thiểu 10.000 tỷ đồng</td><td>Khung pháp lý tài sản số chuyển từ cấm đoán sang quản lý có kiểm soát</td><td><b>HK:</b> song song với NĐ 284/2026 phạt tới 200 triệu, thông điệp rõ — kênh chính thức đang mở, kênh phi chính thức đang bị đóng. Mọi luồng thanh toán số phải đi qua đơn vị được cấp phép</td></tr>
+            <tr><td><b>Khoảng cách mục tiêu tăng trưởng:</b> mục tiêu chính thức 2026 là <b>10%</b>, đòi hỏi 6 tháng cuối năm tăng 11,7%; <b>IMF dự báo 8,2%</b></td><td>Chênh lệch 1,8 điểm phần trăm giữa cam kết chính trị và dự báo độc lập</td><td><b>Không nên lập kế hoạch doanh thu 2027 trên giả định GDP 10%.</b> Dùng khoảng 8–8,5% làm kịch bản cơ sở và để 10% làm kịch bản lạc quan</td></tr>
+            <tr><td><b>Nội luật hóa chuẩn lao động</b> — NĐ 292/2026 hiệu lực 05/09 được đánh giá là thông điệp gửi phía Mỹ sau khi USTR áp thuế Mục 301</td><td>Việt Nam tự dựng hàng rào tương tự Mỹ và EU</td><td>Chi phí tuân thủ tăng nhưng tạo cơ sở để đề nghị USTR rà soát lại mức 12,5%. <b>Hồ sơ tuân thủ lao động giờ có giá trị đàm phán, không chỉ giá trị phòng vệ</b></td></tr>
+            <tr><td><b>Ba cuộc điều tra Mục 301 song song</b> với Việt Nam từ tháng 3/2026: lao động cưỡng bức, dư thừa năng lực sản xuất, và sở hữu trí tuệ</td><td>Mới một trong ba đã kết luận và áp thuế 12,5%</td><td>Rủi ro thật nằm ở hai vòng còn lại. <b>Điều tra sở hữu trí tuệ chạm trực tiếp mô hình công ty H</b> — nắm bản quyền thương hiệu và R&amp;D. Cần chuẩn bị hồ sơ chứng minh nguồn gốc tài sản trí tuệ từ bây giờ</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card pad accent">
+        <div class="cardtitle">Thị trường tài chính tuần 03–04/09</div>
+        <div class="uinote">Thị trường chỉ giao dịch 2 phiên sau nghỉ lễ Quốc khánh <span class="facttag">(F)</span></div>
+        <table>
+          <tbody>
+            <tr><td>VN-Index (04/09)</td><td class="num"><b class="vb">1.853,08</b> +1,39%</td></tr>
+            <tr><td>Cả tuần</td><td class="num"><b class="vb">+1,14%</b></td></tr>
+            <tr class="key"><td>P/E VN-Index</td><td class="num"><b class="vb">12,46</b> lần</td></tr>
+            <tr><td>Trung bình 10 năm</td><td class="num">15,32 lần</td></tr>
+            <tr><td>Thanh khoản HOSE 04/09</td><td class="num">~16,7 nghìn tỷ</td></tr>
+            <tr><td>Khối ngoại cả tuần</td><td class="num"><span class="dir up">−1.500 tỷ</span></td></tr>
+            <tr><td>Tỷ giá trung tâm</td><td class="num">25.605</td></tr>
+            <tr><td>Tự do bán</td><td class="num">25.810</td></tr>
+          </tbody>
+        </table>
+        <div class="callout"><b>Bất thường cần đọc kỹ (F/I):</b> giá USD tự do (25.810) <b>thấp hơn</b> giá bán ngân hàng (26.285) khoảng 475 đồng, trong khi Vietcombank bán sát 97,8% biên độ trần. Căng thẳng nằm ở <b>kênh chính thức</b> — cầu USD thanh toán nhập khẩu và chuyển lợi nhuận — chứ không phải đầu cơ tích trữ. Với cấu trúc bốn công ty, điều này nói rằng <b>netting nội bộ qua hub HK có lợi hơn mua USD spot tại ngân hàng Việt Nam</b>. VIC và VHM đóng góp khoảng 85% mức tăng chỉ số — đà tăng hẹp, không phải trên diện rộng. FTSE cơ cấu chỉ số ngày 21/09.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec reveal" id="signals">
+    <div class="sechead"><span class="secno">04</span><h2>Market Signals</h2><span class="note">mũi tên = chiều biến động · màu đỏ = bất lợi, xanh = thuận lợi</span></div>
+    <div class="card tablewrap">
+      <table>
+        <thead><tr><th>Tín hiệu</th><th>Mức hiện tại</th><th>Đánh giá</th><th>Ý nghĩa với Group <span class="facttag">(I)</span></th></tr></thead>
+        <tbody>
+          <tr><td><b>Growth</b> — IIP Việt Nam 8 tháng</td><td class="num">+11,9%</td><td><span class="dir down">▲ Tốt</span></td><td>Nền sản xuất vững; nhưng GDP vẫn cách mục tiêu 10%</td></tr>
+          <tr><td><b>Inflation</b> — CPI VN tháng 8 · PCE Mỹ 12 tháng</td><td class="num">+4,89% · 3,7%</td><td><span class="dir up">▲ Xấu</span></td><td>Lạm phát chi phí đẩy từ năng lượng ở cả hai đầu — khó hạ bằng chính sách cầu</td></tr>
+          <tr class="key"><td><b>Interest rates</b> — xác suất Fed tăng 16/09</td><td class="num">57–65%</td><td><span class="dir up">▲ Xấu</span></td><td>Biên độ dao động 16 điểm % trong 48h — phòng hộ, đừng dự báo</td></tr>
+          <tr><td><b>FX</b> — USD/VND trung tâm · DXY</td><td class="num">25.605 · 99,13</td><td><span class="dir flat">■ Ổn định</span></td><td>Ổn định bề mặt, nhưng nhập siêu 20,46 tỷ là áp lực đang tích lũy</td></tr>
+          <tr><td><b>Consumer demand Mỹ</b> — bảng lương tháng 8</td><td class="num">+162.000</td><td><span class="dir down">▲ Tốt</span></td><td>Sức mua Mỹ vững hơn dự kiến — nới lo ngại doanh thu quý 4 của S</td></tr>
+          <tr><td><b>Consumer demand VN</b> — bán lẻ 8 tháng (loại trừ giá)</td><td class="num">+7,6%</td><td><span class="dir down">▲ Tốt</span></td><td>Tăng thực thấp hơn nhiều so với danh nghĩa 13,3% — cẩn trọng khi đọc con số danh nghĩa</td></tr>
+          <tr><td><b>Commodity &amp; logistics</b> — Brent · Thượng Hải–LA</td><td class="num">$92,68 · $7.185</td><td><span class="dir up">▲ Xấu</span></td><td>Chi phí đưa hàng vào Mỹ tăng gấp đôi trong ba tháng</td></tr>
+          <tr><td><b>Capital markets</b> — VN-Index · P/E</td><td class="num">1.853,08 · 12,46 lần</td><td><span class="dir down">▲ Tốt</span></td><td>Định giá vẫn dưới trung bình 10 năm — cửa huy động vốn 2027 còn mở</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="sec reveal" id="risk">
+    <div class="sechead"><span class="secno">05</span><h2>Risk Radar</h2><span class="note">xếp theo mức ảnh hưởng tài chính</span></div>
+    <div class="card tablewrap">
+      <table>
+        <thead><tr><th>Rủi ro</th><th>Xác suất</th><th>Ảnh hưởng</th><th>Khung thời gian</th><th>Hành động</th></tr></thead>
+        <tbody>
+          <tr class="key"><td>Khung giao dịch liên kết mới (NĐ 255/2026) phơi bày cấu trúc lợi nhuận theo quốc gia của bốn công ty</td><td>Chắc chắn áp dụng</td><td><span class="impact high"><span class="dot"></span>Cao</span></td><td>Từ kỳ tính thuế 2026</td><td>Rà cơ chế miễn hồ sơ, hợp đồng thuê nội bộ, dựng lại benchmark study trong tháng 9</td></tr>
+          <tr><td>Fed tăng lãi suất 16/09 và tiếp tục trong quý 4</td><td>Trung bình–Cao</td><td><span class="impact high"><span class="dot"></span>Cao</span></td><td>0–3 tháng</td><td>Chốt tỷ lệ phòng hộ USD trước 16/09; theo PPI 10/09 và CPI 11/09</td></tr>
+          <tr><td>Áp lực tỷ giá 2027 do nhập siêu 20,46 tỷ USD và chênh lệch lãi suất</td><td>Trung bình–Cao</td><td><span class="impact high"><span class="dot"></span>Cao</span></td><td>6–15 tháng</td><td>Đưa kịch bản VND mất giá 3–5% vào kế hoạch 2027; tăng netting nội bộ qua HK</td></tr>
+          <tr><td>Hồ sơ ưu đãi thuế của H mất căn cứ pháp lý sau 12/09</td><td>Cao nếu không rà</td><td><span class="impact med"><span class="dot"></span>Trung bình</span></td><td>5 ngày</td><td>Cập nhật căn cứ sang Luật 67/2025 + NĐ 320/2025 + TT 20/2026</td></tr>
+          <tr><td>GTGT trở lại 10% từ 01/01/2027 khi NQ 204/2025 hết hạn</td><td>Chưa rõ — chưa có tín hiệu gia hạn</td><td><span class="impact med"><span class="dot"></span>Trung bình</span></td><td>~3,5 tháng</td><td>Lập sẵn hai bảng giá; quyết định phần truyền vào giá bán và phần nuốt vào biên</td></tr>
+          <tr><td>Hai vòng điều tra Mục 301 còn lại (năng lực sản xuất, sở hữu trí tuệ) kết luận bất lợi</td><td>Thấp–Trung bình</td><td><span class="impact med"><span class="dot"></span>Trung bình</span></td><td>3–12 tháng</td><td>Chuẩn bị hồ sơ chứng minh nguồn gốc tài sản trí tuệ của H trước khi bị yêu cầu</td></tr>
+          <tr><td>Dòng tiền ra tập trung cuối năm do các khoản thuế gia hạn dồn về 02/11 và 30/12</td><td>Chắc chắn nếu đang hưởng gia hạn</td><td><span class="impact med"><span class="dot"></span>Trung bình</span></td><td>2–4 tháng</td><td>Đưa hai mốc này vào dự báo dòng tiền 13 tuần ngay tuần này</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="sec reveal" id="group">
+    <div class="sechead"><span class="secno">06</span><h2>Implications for Our Group</h2><span class="note">việc cần làm trong 7 ngày tới</span></div>
+    <div class="grid4">
+      <div class="gcard">
+        <h3>H</h3><span class="role">Bản quyền thương hiệu · R&amp;D</span>
+        <p>Trước 12/09: cập nhật căn cứ pháp lý hồ sơ ưu đãi sang Luật 67/2025 + NĐ 320/2025 + TT 20/2026. Đồng thời nghiên cứu dự thảo sửa NĐ 320/2025 công bố 05/09 — nếu H định vị được là trung tâm R&amp;D công nghệ chiến lược, chênh lệch giữa 10%/15 năm hiện hành và 10%/25 năm đề xuất là 10 năm ưu đãi bổ sung. Cửa sổ góp ý đang mở.</p>
+      </div>
+      <div class="gcard">
+        <h3>S</h3><span class="role">Bán hàng đa quốc gia · trọng tâm Mỹ</span>
+        <p>NĐ 292/2026 đã hiệu lực 05/09 — audit chuỗi cung ứng nhiều tầng, không chỉ nhà cung cấp trực tiếp. Chuyển báo cáo chi phí logistics sang theo dõi riêng tuyến xuyên Thái Bình Dương. Chuẩn bị kịch bản phí per-parcel của Mỹ có hiệu lực chậm nhất 01/11 — có phương án cho phép áp phí cố định 200 USD/kiện.</p>
+      </div>
+      <div class="gcard">
+        <h3>K</h3><span class="role">Digital marketing · video · content</span>
+        <p>Rà độc lập xem có đang hưởng ưu đãi theo diện phần mềm không — dịch vụ marketing và content không thuộc diện sản xuất phần mềm, đây là rủi ro truy thu. Rà quy chế livestream theo NĐ 248/2026 và hợp đồng với KOL, host trước khi định danh điện tử bắt buộc từ 01/01/2027. Kiểm tra nội dung tuyển cộng tác viên theo NĐ 283/2026 hiệu lực 10/09.</p>
+      </div>
+      <div class="gcard">
+        <h3>HK</h3><span class="role">Hub tài chính Hồng Kông · treasury</span>
+        <p>Chốt tỷ lệ phòng hộ USD tối thiểu trước 16/09. Tăng netting nội bộ thay vì mua USD spot tại ngân hàng Việt Nam khi giá bán đang sát trần biên độ. Đưa TT 39/2026 hiệu lực 19/09 vào agenda với ngân hàng đối tác. Xác định mốc đăng ký mã số thuế tối thiểu toàn cầu — hạn 90 ngày sau khi kết thúc năm tài chính là mốc dễ bỏ sót nhất.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec reveal" id="hoi">
+    <div class="sechead"><span class="secno">07</span><h2>Ba câu hỏi thách thức</h2><span class="note">dành cho phiên họp điều hành gần nhất</span></div>
+    <div class="card pad">
+      <div class="q"><div class="qn">1</div><div>Nếu cơ quan thuế nhìn thấy toàn bộ bức tranh lợi nhuận theo từng quốc gia của bốn công ty — điều mà NĐ 255/2026 và cơ chế trao đổi báo cáo lợi nhuận liên quốc gia đang tiến tới — thì phần lợi nhuận nào của chúng ta khó giải thích nhất bằng chức năng, tài sản và rủi ro thực?</div></div>
+      <div class="q"><div class="qn">2</div><div>Chúng ta đang lập kế hoạch 2027 trên giả định GDP Việt Nam tăng bao nhiêu? Nếu con số đó là 10% theo mục tiêu chính thức thay vì 8,2% theo IMF, thì phần chênh lệch doanh thu tương ứng là bao nhiêu — và ai đã ký duyệt giả định đó?</div></div>
+      <div class="q"><div class="qn">3</div><div>Ba tuần trước thị trường tin Fed sẽ giảm lãi suất, hai tuần trước tin sẽ tăng, tuần này lại chia đôi. Trong ba lần đảo chiều đó, mô hình tài chính của chúng ta được cập nhật mấy lần — và nếu câu trả lời là không lần nào, thì chúng ta đang quản trị bằng kế hoạch hay bằng ký ức?</div></div>
+    </div>
+  </section>
+
+  <section class="sec reveal" id="next">
+    <div class="sechead"><span class="secno">08</span><h2>What's Next</h2><span class="note">mốc có ngày cụ thể</span></div>
+    <div class="next">
+      <div>
+        <h3>Hôm nay · 07/09</h3>
+        <p>Thị trường Việt Nam giao dịch trở lại tuần mới sau hai phiên đầu tháng. Vàng SJC 144,6–147,6 triệu đồng/lượng, giảm 1 triệu so phiên thứ Sáu. Tuần này là tuần cuối trước cửa sổ im lặng của Fed.</p>
+      </div>
+      <div>
+        <h3>Tuần này</h3>
+        <p><b>10/09</b> kỳ điều chỉnh giá xăng dầu, áp lực tăng do dầu thế giới; <b>PPI Mỹ</b>; họp ECB · <b>10/09</b> NĐ 283/2026 hiệu lực · <b>11/09</b> <span class="hl">CPI Mỹ tháng 8</span> — dữ liệu cuối cùng trước FOMC · <b>12/09</b> TT 110/2026 hiệu lực, hạn chót cập nhật căn cứ hồ sơ ưu đãi.</p>
+      </div>
+      <div>
+        <h3>Tháng này</h3>
+        <p><b>15/09</b> NĐ 302 và NĐ 303 · <b>15–16/09</b> <span class="hl">họp FOMC kèm dot plot</span> · <b>19/09</b> TT 39/2026/TT-NHNN về thanh toán quốc tế · <b>21/09</b> FTSE cơ cấu chỉ số · <b>28/09</b> NĐ 320/2026 về tài khoản an sinh xã hội trên VNeID.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============================ TAB 2 ============================ -->
+<div class="tabpanel" id="tab-mindset">
+  <div class="stamp">Mindset &amp; Kỹ năng · ấn bản 07/09/2026</div>
+  <div class="kicker">Nguyên tắc điều hành · Tự làm thay vì chờ</div>
+  <h2 class="tabhead">"Giờ thì đơn giản là có cơ hội để cứ thế mà làm"</h2>
+  <div class="lede">Đội tài chính của OpenAI vừa rút thời gian xử lý một phân tích chi phí từ năm ngày xuống năm giờ — không phải bằng cách mua phần mềm mới, mà bằng cách tự viết công cụ. Bài học không nằm ở công nghệ, nó nằm ở việc ai được phép giải quyết vấn đề của chính mình.</div>
+
+  <div class="quotebox">
+    <div class="qt">"There's now the opportunity to just do it." — Giờ thì đơn giản là có cơ hội để cứ thế mà làm.</div>
+    <div class="who">Kyle Kober · Director of Product Finance, OpenAI — nói về việc nhân sự tài chính tự xây công cụ thay vì xếp hàng chờ đội kỹ thuật, trong bài của CFO Dive ngày 01/09/2026 <span class="facttag">(F)</span></div>
+  </div>
+
+  <div class="prose">
+    <p>Chi tiết đáng chú ý không phải con số năm ngày xuống năm giờ. Nó là <b>bài toán họ chọn để giải</b>: đối chiếu dữ liệu sử dụng sản phẩm với sổ kế toán. Đây là loại công việc mà mọi phòng tài chính đều có, ai cũng biết là tốn thời gian, và ai cũng cho rằng phải chờ IT ưu tiên mới làm được.</p>
+    <p>Trong ba mươi năm qua, quy tắc ngầm của phòng tài chính là: người hiểu vấn đề thì không viết được công cụ, người viết được công cụ thì không hiểu vấn đề. Toàn bộ ngành phần mềm tài chính tồn tại để bắc cầu qua khoảng trống đó — và bắc rất chậm, rất đắt. Điều đang thay đổi là <span class="hl">khoảng trống ấy hẹp lại đủ để người hiểu vấn đề tự bước qua</span>.</p>
+    <p>Nhưng đây cũng là chỗ dễ đọc sai nhất. Khảo sát của Avalara trên 1.505 CFO cho thấy <b>76% không có đủ chuyên môn nội bộ để hiểu AI của chính mình vận hành thế nào</b>, và chỉ 28% yêu cầu nhật ký kiểm toán bằng văn bản cho các quyết định do AI đưa ra. Cùng lúc, EY khảo sát 1.610 CFO: 80% kỳ vọng có mô hình kinh doanh hỗ trợ AI trong 12 tháng, nhưng chỉ 21% cho rằng bộ phận tài chính của mình đã sẵn sàng. <span class="facttag">(F)</span></p>
+    <p>Hai bức tranh này không mâu thuẫn. Chúng mô tả cùng một hiện tượng ở hai tổ chức khác nhau: nơi có kỷ luật kiểm soát thì AI rút năm ngày xuống năm giờ; nơi không có thì AI tạo ra những con số không ai truy được nguồn. <b>Cùng một công cụ, kết quả ngược nhau, và biến quyết định là kiểm soát chứ không phải công nghệ.</b> <span class="facttag">(I)</span></p>
+  </div>
+
+  <div class="callout"><b>Áp dụng hôm nay:</b> chọn <b>một</b> việc lặp lại mà phòng tài chính vẫn than phiền nhưng chưa bao giờ được đưa vào danh sách ưu tiên của IT — thường là đối chiếu dữ liệu bán hàng với sổ kế toán. Giao cho một người trong đội tự dựng thử trong hai tuần, kèm đúng một điều kiện bắt buộc: <b>mọi con số đầu ra phải truy ngược được về chứng từ gốc</b>. Nếu không truy được, dự án dừng — không thương lượng.</div>
+
+  <div class="twocol">
+    <div class="card tablewrap">
+      <table>
+        <thead><tr><th>Người</th><th>Thói quen được ghi nhận công khai</th><th>Vì sao hiệu quả</th><th>Cách áp dụng ở quy mô Group</th></tr></thead>
+        <tbody>
+          <tr class="key"><td><b>Sarah Friar</b><br><span class="srcname">CFO, OpenAI</span></td><td>Đặt mục tiêu xây "chức năng tài chính AI-native", hướng tới đóng sổ ngay trong ngày và dự báo tự cập nhật liên tục <span class="facttag">(F)</span></td><td>Đặt đích ở mức không thể đạt bằng cách làm cũ, buộc phải thiết kế lại quy trình thay vì tối ưu quy trình hỏng</td><td>Đặt một mục tiêu cứng cho đóng sổ hợp nhất bốn công ty và công bố nó, thay vì cải thiện dần từng tháng</td></tr>
+          <tr><td><b>Kyle Kober</b><br><span class="srcname">Director of Product Finance, OpenAI</span></td><td>Nhân sự tài chính tự xây công cụ đối chiếu bằng AI coding agent, không chờ đội kỹ thuật <span class="facttag">(F)</span></td><td>Người hiểu vấn đề trực tiếp giải vấn đề — bỏ được vòng truyền đạt yêu cầu vốn làm mất cả ý nghĩa nghiệp vụ lẫn thời gian</td><td>Cho phép và cấp ngân sách thời gian để một nhân sự tài chính thử nghiệm, kèm chuẩn truy vết bắt buộc</td></tr>
+          <tr><td><b>Alan Mulally</b><br><span class="srcname">CEO Ford 2006–2014</span></td><td>Họp Business Plan Review hằng tuần với cùng bộ chỉ số, chấm màu xanh–vàng–đỏ, không hủy họp <span class="facttag">(F/SO)</span></td><td>Biến việc báo tin xấu từ hành vi rủi ro cá nhân thành nghĩa vụ quy trình</td><td>Một bảng điều khiển chung cho H·S·K·HK với cùng định nghĩa chỉ số, họp cố định đầu tuần</td></tr>
+          <tr><td><b>Charlie Munger</b><br><span class="srcname">Phó Chủ tịch Berkshire Hathaway</span></td><td>Nguyên tắc đảo ngược: thay vì hỏi làm sao thành công, hỏi điều gì chắc chắn dẫn tới thất bại rồi tránh nó <span class="facttag">(F/SO)</span></td><td>Danh sách cách thất bại thường ngắn hơn, cụ thể hơn và dễ kiểm chứng hơn danh sách cách thành công</td><td>Trước khi duyệt một dự án AI hay một cấu trúc thuế mới, viết ra ba cách nó chắc chắn hỏng — rồi kiểm tra xem đã chặn được chưa</td></tr>
+        </tbody>
+      </table>
+      <div class="uinote">Bảng chỉ ghi lại thói quen quản trị đã được nói tới công khai; phần đánh giá "vì sao hiệu quả" là diễn giải của bản tin <span class="facttag">(I)</span>. Không trích dẫn phát ngôn nếu không xác minh được nguyên văn.</div>
+    </div>
+    <div class="card pad">
+      <div class="cardtitle">Kỹ năng tuần này: đặt điều kiện dừng trước khi bắt đầu</div>
+      <div class="uinote">Dùng cho mọi dự án công nghệ, cấu trúc thuế hay khoản đầu tư mới.</div>
+      <div class="q"><div class="qn">1</div><div><b>Viết điều kiện dừng trước khi cấp ngân sách.</b> Một câu duy nhất, đo được: "Nếu sau tám tuần vẫn không truy ngược được số về chứng từ gốc, dự án dừng."</div></div>
+      <div class="q"><div class="qn">2</div><div><b>Chỉ định người có quyền tuyên bố dừng.</b> Nếu người đó cũng là người bảo vệ dự án, điều kiện dừng chỉ là trang trí.</div></div>
+      <div class="q"><div class="qn">3</div><div><b>Đặt lịch kiểm tra ngay khi phê duyệt.</b> Ngày kiểm tra phải nằm trong lịch trước khi tiêu đồng đầu tiên — không phải "sẽ xem lại sau".</div></div>
+      <div class="callout"><b>Câu hỏi tự vấn cuối ngày:</b> trong các dự án tôi đang bảo trợ, có dự án nào không ai được phép nói là nó đang hỏng không?</div>
+      <div class="uinote"><b>Giá sách:</b> <i>Poor Charlie's Almanack</i> — Peter D. Kaufman biên tập (2005), tập hợp bài nói của Charlie Munger về mô hình tư duy đa ngành. <i>American Icon</i> — Bryce G. Hoffman (2012), ghi lại chi tiết cơ chế Business Plan Review tại Ford.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================ TAB 3 ============================ -->
+<div class="tabpanel" id="tab-tax">
+  <div class="stamp">Thuế &amp; Chính sách · hồ sơ chuyên đề · ấn bản 07/09/2026</div>
+  <div class="kicker">Thuế &amp; Chính sách · Việt Nam</div>
+  <h2 class="tabhead">Ba mốc trong tháng 9 và một cửa sổ cơ hội vừa mở</h2>
+  <div class="lede">Khung giao dịch liên kết đã được thay mới toàn bộ từ 01/07. Một thông tư có hiệu lực ngày 12/09 buộc phải cập nhật hồ sơ ưu đãi. Và một dự thảo công bố ngày 05/09 đề xuất mức ưu đãi thuế dài nhất từ trước tới nay cho công nghệ chiến lược. <span class="facttag">(F)</span></div>
+
+  <section class="sec reveal">
+    <div class="sechead"><span class="secno">A</span><h2>Đang &amp; sắp hiệu lực</h2><span class="note">nguồn: Cổng Xây dựng chính sách · thuvienphapluat · PwC · EY <span class="facttag">(F)</span></span></div>
+    <div class="card tablewrap">
+      <table>
+        <thead><tr><th>Văn bản</th><th>Hiệu lực</th><th>Nội dung chính</th><th>Tác động ngắn hạn</th><th>Tác động dài hạn</th><th>Nên làm gì</th></tr></thead>
+        <tbody>
+          <tr class="key"><td><b>NĐ 255/2026/NĐ-CP</b><br><span class="srcname">Thay NĐ 132/2020 + NĐ 20/2025</span></td><td><b>01/07/2026</b>, áp dụng từ kỳ tính thuế 2026</td><td>Khung giao dịch liên kết mới: thứ tự ưu tiên nguồn dữ liệu so sánh; điều chỉnh cơ chế miễn lập hồ sơ; siết báo cáo lợi nhuận liên quốc gia; minh bạch trao đổi thông tin giữa cơ quan thuế; <b>mở rộng bên liên kết sang quan hệ thuê và cho thuê tài sản</b> từ 10% vốn chủ sở hữu</td><td>Hồ sơ chuyển giá kỳ 2026 phải làm theo chuẩn mới</td><td>Cơ quan thuế nhìn được bức tranh lợi nhuận theo từng quốc gia</td><td>Rà cơ chế miễn hồ sơ cho từng pháp nhân; kiểm tra hợp đồng thuê nội bộ; dựng lại benchmark study</td></tr>
+          <tr class="key"><td><b>TT 110/2026/TT-BTC</b></td><td><b>12/09/2026</b></td><td>Bãi bỏ 22 thông tư + 3 quyết định thuế, gồm <b>TT 123/2004 về ưu đãi thuế doanh nghiệp phần mềm</b>. Lý do Bộ Tài chính nêu: nội dung đã được quy định tại thông tư chung hoặc trái Luật thuế hiện hành</td><td>Không thay đổi số thuế phải nộp</td><td>Ưu đãi vẫn còn nhưng nằm ở văn bản khác</td><td>Cập nhật căn cứ pháp lý trong hồ sơ ưu đãi, thuyết minh BCTC và hồ sơ quyết toán sang Luật 67/2025 + NĐ 320/2025 + TT 20/2026</td></tr>
+          <tr><td><b>Luật TNCN 109/2025/QH15</b> + <b>NĐ 253/2026/NĐ-CP</b></td><td>01/07/2026; phần tiền lương áp từ kỳ tính thuế 2026</td><td>Biểu thuế 5 bậc, bậc 35% từ trên 100 triệu/tháng. Giảm trừ bản thân <b>15,5 triệu</b>, người phụ thuộc <b>6,2 triệu</b>. Bổ sung giảm trừ <b>y tế tối đa 23 triệu/năm</b> và <b>giáo dục tối đa 24 triệu/năm</b>. <b>Miễn thuế tiền làm thêm giờ, làm ca đêm và phép năm chưa nghỉ</b>. Bổ sung thuế với tài sản số, tên miền, tín chỉ carbon</td><td>Lương thực nhận tăng mà doanh nghiệp không tốn thêm</td><td>Công cụ giữ chân nhân sự rẻ hơn tăng lương gộp</td><td>Thiết kế lại cơ cấu lương cho đội vận hành của K và đội bán hàng theo múi giờ Mỹ của S để tận dụng miễn thuế làm thêm và ca đêm</td></tr>
+          <tr><td><b>Luật TNDN 67/2025</b> + <b>NĐ 320/2025</b> + <b>TT 20/2026/TT-BTC</b></td><td>01/10/2025 · 15/12/2025 · 12/03/2026</td><td>Thuế suất chuẩn 20%; 10% trong 15 năm cho khu công nghệ cao và công nghệ số tập trung; <b>10% suốt thời gian hoạt động</b> cho sản xuất phần mềm. Với AI, bán dẫn, chip, trung tâm dữ liệu AI: <b>10% trong 15 năm, miễn 4 năm, giảm 50% trong 9 năm tiếp theo</b>. Doanh nghiệp nước ngoài kinh doanh nền tảng số không có cơ sở thường trú vẫn nộp TNDN</td><td>Điều kiện ghi nhận chi phí và hưởng ưu đãi chặt hơn</td><td>Ưu đãi dịch chuyển rõ về hướng công nghệ</td><td><b>H:</b> chuẩn bị hồ sơ chứng minh công đoạn kỹ thuật thực. <b>HK và S:</b> rà nghĩa vụ TNDN tại VN nếu bán qua nền tảng số</td></tr>
+          <tr><td><b>Luật Quản lý thuế 108/2025/QH15</b></td><td>01/07/2026</td><td>Bỏ thuế khoán với hộ kinh doanh; phân loại người nộp thuế <b>theo rủi ro tuân thủ</b>; hoàn thuế tự động dựa trên đánh giá rủi ro; quyền khai bổ sung mở rộng lên 5 năm</td><td>Hồ sơ bị chấm điểm rủi ro tự động</td><td>Thanh tra chuyển từ ngẫu nhiên sang có chủ đích</td><td>Giả định mọi bất thường số liệu giữa các pháp nhân đều bị máy phát hiện — chuẩn hóa dữ liệu trước khi cơ quan thuế làm điều đó</td></tr>
+          <tr><td><b>NQ 204/2025/QH15</b> — giảm GTGT 2%</td><td>01/07/2025 → <b>hết 31/12/2026</b></td><td>GTGT 10% → 8% cho phần lớn hàng hóa dịch vụ; loại trừ viễn thông, tài chính, bất động sản, kim loại, hàng chịu tiêu thụ đặc biệt</td><td>Đang hỗ trợ giá bán nội địa</td><td><b>Chưa có tín hiệu gia hạn</b> — cửa đóng sau ~3,5 tháng</td><td>Lập sẵn hai bảng giá cho 2027; kỳ họp Quốc hội tháng 10 là mốc quan sát bắt buộc</td></tr>
+          <tr><td><b>NĐ 245/2026/NĐ-CP</b><br><span class="srcname">Gia hạn nộp thuế 2026</span></td><td>27/06 – 30/12/2026</td><td>Gia hạn GTGT và TNCN tối đa 5 tháng; TNDN quý II gia hạn 3 tháng, quý III gia hạn 2 tháng; tiền thuê đất gia hạn 50% số phải nộp. Áp dụng cho 43 ngành, <b>gồm dịch vụ công nghệ thông tin</b>. Không tính tiền chậm nộp</td><td>Khoản vay không lãi suất từ ngân sách</td><td><b>Mọi khoản dồn về 02/11 và 30/12</b></td><td>Định lượng giá trị dòng tiền ngay; đưa hai mốc dồn trả vào dự báo 13 tuần — đây là rủi ro tập trung dòng tiền ra cuối năm</td></tr>
+          <tr><td><b>Luật TMĐT 122/2025</b> + <b>NĐ 248/2026</b> + <b>NĐ 117/2025</b></td><td>01/07/2026 · NĐ 117 từ 2025</td><td>Sàn có <b>cả</b> chức năng đặt hàng và thanh toán phải khấu trừ, khai và nộp thay thuế cho người bán cá nhân. Nền tảng xuyên biên giới phải đăng ký với Bộ Công Thương nếu có giao diện tiếng Việt, tên miền .vn <b>hoặc từ 100.000 giao dịch/năm</b>. Gỡ sản phẩm vi phạm trong 24 giờ. Quy chế livestream bắt buộc. Định danh điện tử người bán và người livestream hoãn đến 01/01/2027</td><td>Nghĩa vụ vận hành mới cho kênh bán và kênh nội dung</td><td>Dữ liệu giao dịch minh bạch với cơ quan quản lý</td><td><b>S:</b> kiểm tra kênh bán vào VN có vượt ngưỡng 100.000 giao dịch/năm không. <b>K:</b> rà hợp đồng KOL, host và quy trình kiểm duyệt trước 01/01/2027</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="sec reveal">
+    <div class="sechead"><span class="secno">B</span><h2>Cửa sổ cơ hội: dự thảo sửa NĐ 320/2025, công bố 05/09</h2><span class="note">đang lấy ý kiến — chưa ban hành <span class="facttag">(F)</span></span></div>
+    <div class="twocol">
+      <div class="card pad accent">
+        <div class="cardtitle">Đề xuất 10% trong 25 năm cho công nghệ chiến lược</div>
+        <div class="uinote">Bộ Tài chính công bố dự thảo ngày 05/09/2026, đồng bộ với Luật Công nghệ cao và Luật Đầu tư mới</div>
+        <table>
+          <thead><tr><th>Đối tượng</th><th>Ưu đãi đề xuất</th></tr></thead>
+          <tbody>
+            <tr class="key"><td><b>Trung tâm R&amp;D công nghệ chiến lược; doanh nghiệp công nghệ chiến lược</b></td><td><b>10% trong 25 năm</b> + miễn 4 năm + giảm 50% trong 9 năm tiếp theo</td></tr>
+            <tr><td>Doanh nghiệp sản xuất công nghệ cao</td><td>17% trong 10 năm + miễn 2 năm + giảm 50% trong 4 năm</td></tr>
+            <tr><td><i>Hiện hành để so sánh</i></td><td><i>10% trong 15 năm</i></td></tr>
+          </tbody>
+        </table>
+        <div class="callout"><b>Vì sao đây là tin quan trọng nhất tuần với công ty H (I):</b> chênh lệch giữa 10%/15 năm hiện hành và 10%/25 năm đề xuất là <span class="hl">10 năm thuế suất ưu đãi bổ sung</span> — giá trị hiện tại rất lớn với một pháp nhân nắm bản quyền và R&amp;D. Quan trọng hơn: cửa sổ góp ý đang mở, nghĩa là <b>định nghĩa "công nghệ chiến lược" và tiêu chí xác định trung tâm R&amp;D vẫn đang được viết</b>. Đây là thời điểm hiếm hoi doanh nghiệp có thể tác động vào luật chơi thay vì chỉ tuân theo — qua hiệp hội ngành hoặc góp ý trực tiếp.</div>
+      </div>
+      <div class="card pad">
+        <div class="cardtitle">Điều kiện thực chất đã chặt hơn</div>
+        <p class="body">Khung ưu đãi mới không chỉ đòi mã ngành hay giấy phép. Doanh nghiệp phải chứng minh thực hiện <b>ít nhất một trong hai công đoạn kỹ thuật: xác định yêu cầu, hoặc phân tích và thiết kế</b>. <span class="facttag">(SO)</span></p>
+        <p class="body">Điều đó có nghĩa chuỗi hồ sơ phải nối liền được: định nghĩa dự án → đặc tả sản phẩm → giai đoạn phát triển → hợp đồng → hóa đơn → sổ kế toán → tờ khai thuế. Đứt một mắt xích là mất ưu đãi, và việc đứt thường chỉ lộ ra khi thanh tra.</p>
+        <div class="callout"><b>Việc cần làm (I):</b> trước khi bàn tới ưu đãi 25 năm, hãy kiểm tra xem hồ sơ hiện tại của H có nối được đủ bảy mắt xích trên không. Một bộ hồ sơ hoàn chỉnh là điều kiện cần cho mọi kịch bản ưu đãi — và nó cũng chính là bộ hồ sơ dùng để phòng vệ trong điều tra sở hữu trí tuệ của phía Mỹ.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec reveal">
+    <div class="sechead"><span class="secno">C</span><h2>Đặc biệt với Group: thuế tối thiểu toàn cầu</h2><span class="note">nghĩa vụ đã phát sinh, mốc thời hạn dễ bỏ sót</span></div>
+    <div class="twocol">
+      <div class="card pad accent">
+        <div class="cardtitle">Các mốc thời hạn theo NĐ 236/2025/NĐ-CP</div>
+        <div class="uinote">Ban hành 29/08/2025, hiệu lực 15/10/2025, căn cứ NQ 107/2023/QH15. Ngưỡng: doanh thu hợp nhất ≥750 triệu EUR trong ít nhất 2 trong 4 năm liền kề trước <span class="facttag">(F)</span></div>
+        <table>
+          <thead><tr><th>Nghĩa vụ</th><th>Thời hạn sau khi kết thúc năm tài chính</th></tr></thead>
+          <tbody>
+            <tr class="key"><td><b>Đăng ký mã số thuế cho mục đích thuế tối thiểu</b></td><td class="num"><b class="vb">90 ngày</b></td></tr>
+            <tr><td>Thông báo khi có nhiều đơn vị hợp thành</td><td class="num">30 ngày</td></tr>
+            <tr><td>Thuế bổ sung tối thiểu nội địa đạt chuẩn (QDMTT)</td><td class="num">12 tháng</td></tr>
+            <tr><td>Quy tắc gộp thu nhập (IIR) — năm đầu</td><td class="num">18 tháng</td></tr>
+            <tr><td>IIR — các năm tiếp theo</td><td class="num">15 tháng</td></tr>
+          </tbody>
+        </table>
+        <p class="body">Việt Nam đã thu <b>15.973 tỷ đồng</b> từ thuế tối thiểu toàn cầu sau hơn hai năm triển khai, theo số liệu công bố 11/08/2026. <span class="facttag">(F)</span></p>
+      </div>
+      <div class="card pad">
+        <div class="cardtitle">Mâu thuẫn chiến lược cần đánh giá trước</div>
+        <div class="callout"><b>Ví dụ định lượng (I):</b> nếu HK ghi nhận lợi nhuận 10 triệu USD ở thuế suất hiệu dụng 8,25%, phần chênh tới ngưỡng 15% là <span class="hl">khoảng 675.000 USD thuế bổ sung mỗi năm</span> — trừ khi chứng minh được substance thực tại Hồng Kông: nhân sự, chức năng, tài sản và rủi ro thực sự nằm ở đó.</div>
+        <p class="body"><b>Điểm ít người để ý (I):</b> nếu tập đoàn vượt ngưỡng 750 triệu EUR, ưu đãi thuế 10% mà công ty H đang hưởng tại Việt Nam <b>có thể bị vô hiệu hóa về mặt kinh tế</b> bởi cơ chế thuế bổ sung tối thiểu nội địa — phần thuế được miễn ở Việt Nam sẽ bị thu bù để đưa thuế suất hiệu dụng về 15%.</p>
+        <p class="body">Nghĩa là: <b>trước khi đầu tư thêm nguồn lực vào việc giành ưu đãi 25 năm cho H, phải trả lời được câu hỏi doanh thu hợp nhất bốn công ty có chạm 750 triệu EUR hay không.</b> Nếu có, giá trị thực của ưu đãi đó thấp hơn nhiều so với con số trên giấy. Đây là lúc chạy mô phỏng thuế suất hiệu dụng theo từng quốc gia, không phải sau khi đã nộp hồ sơ.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec reveal">
+    <div class="sechead"><span class="secno">D</span><h2>Làm rõ: "Nghị định 21" là văn bản nào?</h2><span class="note">giữ lại từ ấn bản trước — có 5 văn bản mang số 21 đang lưu hành</span></div>
+    <div class="card tablewrap">
+      <table>
+        <thead><tr><th>Văn bản</th><th>Ngày · hiệu lực</th><th>Lĩnh vực</th><th>Có chạm tới Group không?</th></tr></thead>
+        <tbody>
+          <tr class="key"><td><b>Nghị quyết 21-NQ/TW</b><br><span class="srcname">Ban Chấp hành Trung ương</span></td><td>28/07/2026</td><td>Định hướng sửa <b>Luật Đất đai</b>: không cho người nước ngoài nhận chuyển nhượng quyền sử dụng đất (trừ người gốc Việt định cư ở nước ngoài); nghiên cứu thuế cao hơn với đất bỏ hoang; từng bước bắt buộc đăng ký giao dịch; hoàn thiện cơ sở dữ liệu đất đai 2026–2027</td><td><b>Nhiều khả năng đây là văn bản đang được nhắc tới.</b> Ảnh hưởng gián tiếp: chi phí thuê kho vận trung hạn và điều kiện nắm giữ bất động sản của pháp nhân có yếu tố nước ngoài</td></tr>
+          <tr><td><b>Nghị định 21/2026/NĐ-CP</b></td><td>16/01/2026 · hiệu lực ngay</td><td>Sửa NĐ 193/2025 hướng dẫn <b>Luật Địa chất và khoáng sản</b></td><td><b>Không.</b> Chỉ liên quan gián tiếp qua nguồn cung vật liệu xây dựng</td></tr>
+          <tr><td><b>Nghị quyết 21/2026/NQ-CP</b></td><td>29/04/2026 · đến 01/01/2028</td><td>Cắt giảm điều kiện kinh doanh và thủ tục hành chính lĩnh vực <b>y tế</b></td><td><b>Không.</b></td></tr>
+          <tr><td><b>Nghị định 21/2025/NĐ-CP</b></td><td>10/02/2025</td><td>Sửa Điều 9 NĐ 26/2023 về <b>Biểu thuế xuất khẩu, nhập khẩu ưu đãi</b></td><td><b>Gián tiếp:</b> ảnh hưởng chi phí hàng nhập nếu S nhập hàng bán tại Việt Nam</td></tr>
+          <tr><td><b>Nghị định 21/2021/NĐ-CP</b></td><td>19/03/2021</td><td>Thi hành Bộ luật Dân sự về <b>bảo đảm thực hiện nghĩa vụ</b></td><td><b>Có, khi vay vốn:</b> nền tảng pháp lý cho thế chấp, cầm cố, bảo lãnh nội bộ giữa các công ty trong tập đoàn</td></tr>
+        </tbody>
+      </table>
+      <div class="uinote"><b>Lưu ý:</b> nếu mối quan tâm thực sự là <b>giao dịch liên kết và chuyển giá</b>, văn bản cần theo dõi hiện nay là <b>Nghị định 255/2026/NĐ-CP</b> (đã thay thế NĐ 132/2020 và NĐ 20/2025 từ 01/07/2026) — xem mục A ở trên.</div>
+    </div>
+  </section>
+
+  <section class="sec reveal">
+    <div class="sechead"><span class="secno">E</span><h2>Dự thảo đang theo dõi</h2></div>
+    <div class="card tablewrap">
+      <table>
+        <thead><tr><th>Dự thảo</th><th>Trạng thái</th><th>Ảnh hưởng nếu thông qua</th><th>Hành động</th></tr></thead>
+        <tbody>
+          <tr class="key"><td>Nghị định sửa đổi NĐ 320/2025 về ưu đãi thuế TNDN cho công nghệ chiến lược</td><td>Bộ Tài chính công bố lấy ý kiến <b>05/09/2026</b> <span class="facttag">(F)</span></td><td>10% trong 25 năm cho doanh nghiệp và trung tâm R&amp;D công nghệ chiến lược; 17% trong 10 năm cho sản xuất công nghệ cao</td><td>Góp ý vào định nghĩa "công nghệ chiến lược" và tiêu chí trung tâm R&amp;D trong khi cửa sổ còn mở</td></tr>
+          <tr class="key"><td>Gia hạn chính sách giảm thuế GTGT 2% sau 31/12/2026</td><td><span class="missing">Chưa có văn bản hay đề xuất</span> — nguồn chưa cung cấp đủ dữ liệu</td><td>Nếu không gia hạn, giá bán nội địa phải hấp thụ thêm 2 điểm % từ 01/01/2027</td><td>Theo dõi kỳ họp Quốc hội tháng 10; lập sẵn hai bảng giá</td></tr>
+          <tr><td>Thông tư hướng dẫn Luật Thuế TNCN 109/2025</td><td><span class="missing">Chưa tìm được</span> tính đến 07/09/2026</td><td>Làm rõ cách áp dụng giảm trừ y tế, giáo dục và miễn thuế làm thêm giờ</td><td>Chưa thay đổi quy trình tính lương cho tới khi có hướng dẫn chính thức</td></tr>
+          <tr><td>Giảm 30% thuế giai đoạn 2026–2027 cho hộ kinh doanh và doanh nghiệp doanh thu ≤10 tỷ đồng</td><td>Xuất hiện trên nguồn tư vấn tư nhân, <span class="missing">chưa xác minh được số hiệu văn bản</span></td><td>Giảm chi phí thuế cho nhóm nhà cung cấp và seller nhỏ</td><td>Không đưa vào kế hoạch cho tới khi xác minh được văn bản gốc</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+<!-- ============================ TAB 4 ============================ -->
+<div class="tabpanel" id="tab-tech">
+  <div class="stamp">Công nghệ &amp; CFO · ấn bản 07/09/2026</div>
+  <div class="kicker">Công nghệ tài chính · Bằng chứng mới tháng 8–9/2026</div>
+  <h2 class="tabhead">Năm ngày xuống năm giờ — và lý do phần lớn tổ chức không đạt được điều đó</h2>
+  <div class="lede">Ba dữ liệu mới công bố trong hai tuần qua vẽ nên cùng một bức tranh: khoảng cách giữa nhóm dẫn đầu và phần còn lại không nằm ở công cụ, mà ở việc có kiểm chứng được đầu ra hay không. <span class="facttag">(F)</span></div>
+
+  <section class="sec reveal">
+    <div class="sechead"><span class="secno">A</span><h2>Ba bằng chứng mới</h2></div>
+    <div class="twocol">
+      <div class="card pad accent">
+        <div class="cardtitle">Khi làm đúng: OpenAI rút đóng sổ từ 5 ngày xuống 5 giờ</div>
+        <div class="uinote">CFO Dive, 01/09/2026 <span class="facttag">(F)</span></div>
+        <p class="body">Đội tài chính OpenAI dùng AI coding agent để tự động hóa việc đối chiếu dữ liệu sử dụng sản phẩm với sổ kế toán. Thời gian xử lý phân tích chi phí điện toán giảm <span class="hl">từ khoảng 5 ngày xuống khoảng 5 giờ</span>.</p>
+        <p class="body">Điểm mấu chốt: nhân sự tài chính <b>tự xây công cụ</b>, không chờ đội kỹ thuật. Nằm trong sáng kiến của CFO Sarah Friar xây dựng chức năng tài chính AI-native, hướng tới đóng sổ ngay trong ngày.</p>
+        <div class="callout"><b>Vì sao đây là case đáng học nhất (I):</b> bài toán họ giải — đối chiếu dữ liệu vận hành với sổ kế toán — <b>chính xác là bài toán của Group</b>: dữ liệu bán hàng của S, dữ liệu sàn thương mại điện tử, và sổ kế toán bốn pháp nhân.</div>
+      </div>
+      <div class="card tablewrap">
+        <table>
+          <thead><tr><th>Khảo sát · mẫu</th><th>Mức triển khai</th><th>Khoảng trống kiểm soát</th></tr></thead>
+          <tbody>
+            <tr class="key"><td><b>Avalara</b> CFO AI ROI Survey<br><span class="srcname">1.505 CFO và lãnh đạo tài chính, khảo sát 06/2026, công bố 21/07/2026</span></td><td><b>92%</b> chịu áp lực chứng minh ROI từ AI</td><td><b>76%</b> thiếu chuyên môn nội bộ để hiểu AI của mình vận hành thế nào · chỉ <b>28%</b> yêu cầu nhật ký kiểm toán cho quyết định của AI · <b>30%</b> chưa cập nhật kiểm soát nội bộ trong 12 tháng · chỉ <b>7%</b> ưu tiên quản trị hơn tốc độ</td></tr>
+            <tr><td><b>Protiviti</b> Global Finance Trends<br><span class="srcname">902 lãnh đạo tài chính, công bố 26/08/2026</span></td><td><b>77%</b> đã triển khai AI · <b>76%</b> dùng cho dự báo tài chính, từ 58% năm 2025</td><td>Chỉ <b>14%</b> triển khai theo chiến lược đã xác định · chỉ <b>35%</b> tự tin đo được ROI · <b>83%</b> xếp quản trị tiền mặt vào top 3 ưu tiên</td></tr>
+            <tr><td><b>EY</b> DNA of the CFO 2026<br><span class="srcname">1.610 CFO, khảo sát 02–03/2026, doanh thu ≥1 tỷ USD</span></td><td><b>80%</b> kỳ vọng có mô hình kinh doanh hỗ trợ AI trong 12 tháng</td><td>Chỉ <b>21%</b> đánh giá bộ phận tài chính đã sẵn sàng · <b>61%</b> coi chất lượng dữ liệu là rào cản hàng đầu · <b>47%</b> năng lực CFO còn kẹt ở việc vận hành · chỉ <b>11%</b> mô tả đội ngũ là thích ứng cao</td></tr>
+          </tbody>
+        </table>
+        <div class="uinote">Ba khảo sát độc lập, ba cỡ mẫu khác nhau, cùng một kết luận: mức độ triển khai AI đã cao và không còn là yếu tố phân biệt. Yếu tố phân biệt là năng lực kiểm chứng đầu ra <span class="facttag">(I)</span>.</div>
+      </div>
+    </div>
+    <div class="callout"><b>Chuẩn mới đáng đưa vào tiêu chí chọn nhà cung cấp (F):</b> ngày 01/09/2026, KPMG trở thành hãng Big Four đầu tiên đạt chứng nhận <b>AIUC-1</b> cho công cụ agentic AI aIQ Capture, sau khi nền tảng này trải qua hơn <b>900 bài kiểm thử</b> về ảo giác, an toàn nội dung và tấn công prompt injection mà không phát hiện lỗ hổng nghiêm trọng. Trước đó KPMG đã đạt ISO 42001 từ tháng 11/2025. <span class="facttag">(I)</span> Khi Group chọn công cụ AI cho kế toán, đối chiếu hay dự báo, nên đưa <b>"có chứng nhận ISO 42001 và/hoặc AIUC-1"</b> vào tiêu chí đấu thầu — đây là cách chuyển rủi ro AI thành điều khoản hợp đồng kiểm chứng được, thay vì tin vào cam kết tiếp thị.</div>
+  </section>
+
+  <section class="sec reveal">
+    <div class="sechead"><span class="secno">B</span><h2>Bản đồ công cụ theo nhịp vận hành</h2><span class="note">bắt đầu từ nhịp, không bắt đầu từ công cụ</span></div>
+    <div class="card tablewrap">
+      <table>
+        <thead><tr><th>Nhịp</th><th>Bài toán</th><th>Cách làm / công cụ</th><th>Lợi ích</th><th>Bước đầu tiên cho Group</th></tr></thead>
+        <tbody>
+          <tr><td><b>Hằng ngày</b></td><td>Không biết tổng tiền mặt bốn pháp nhân đang là bao nhiêu</td><td>Kết nối sao kê ngân hàng về một bảng duy nhất; quy đổi tỷ giá tự động</td><td>Số ngày tiền mặt còn lại được cập nhật mỗi sáng</td><td>Thống nhất một định nghĩa "tiền mặt khả dụng" chung trước khi nối hệ thống</td></tr>
+          <tr class="key"><td><b>Hằng tuần</b></td><td>Đối chiếu dữ liệu bán hàng và dữ liệu sàn với sổ kế toán làm thủ công</td><td>Giao nhân sự tài chính tự dựng công cụ đối chiếu bằng AI coding agent — mô hình OpenAI đã chứng minh</td><td>OpenAI: 5 ngày → 5 giờ cho một phân tích tương đương <span class="facttag">(F)</span></td><td>Chọn đúng một luồng dữ liệu, kèm điều kiện bắt buộc: mọi số phải truy ngược được về chứng từ gốc</td></tr>
+          <tr><td><b>Hằng tháng</b></td><td>Đóng sổ chậm, đối chiếu liên công ty thủ công</td><td>Tự động hóa bút toán lặp; AI phát hiện bất thường thay vì rà tay</td><td>Nhà cung cấp chuyên biệt báo cáo tỷ lệ tự động hóa không chạm trên 90% cho cash application <span class="facttag">(F/SO)</span></td><td>Đo thời gian đóng sổ hiện tại của từng công ty — không có số nền thì không đo được cải thiện</td></tr>
+          <tr><td><b>Hằng quý</b></td><td>Dự báo lệch mà không biết lệch ở đâu</td><td>Dự báo cuốn chiếu 13 tuần cho dòng tiền; phân rã chênh lệch theo nguyên nhân</td><td>Protiviti: 76% tổ chức đã dùng AI cho dự báo tài chính, từ 58% năm trước <span class="facttag">(F)</span></td><td>Ghi lại dự báo cũ và so với thực tế — bắt đầu đo sai số trước khi mua công cụ giảm sai số</td></tr>
+          <tr><td><b>Hằng năm</b></td><td>Không chứng minh được đầu ra AI khi bị kiểm toán hỏi</td><td>Sổ đăng ký hệ thống AI: tên, chủ sở hữu, dữ liệu đầu vào, mức tự động ra quyết định, nhà cung cấp, chứng nhận</td><td>Avalara: chỉ 28% tổ chức có nhật ký kiểm toán cho quyết định của AI <span class="facttag">(F)</span></td><td>Kiểm kê toàn bộ công cụ AI đang dùng ở cả bốn công ty, kể cả công cụ nhân viên tự dùng</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="sec reveal">
+    <div class="sechead"><span class="secno">C</span><h2>Lộ trình 90 ngày</h2><span class="note">không mua công cụ nào trong 30 ngày đầu</span></div>
+    <div class="next">
+      <div>
+        <h3>0–30 ngày · Nhìn thấy</h3>
+        <p>Kiểm kê mọi công cụ AI đang được dùng ở bốn công ty, kể cả công cụ cá nhân. Thống nhất định nghĩa "tiền mặt khả dụng", kỳ kế toán và danh mục chi phí giữa H, S, K, HK. Đo thời gian đóng sổ hiện tại của từng pháp nhân. <b>Không mua gì trong giai đoạn này.</b></p>
+      </div>
+      <div>
+        <h3>30–60 ngày · Tự động</h3>
+        <p>Chọn đúng một luồng đối chiếu lặp lại nhiều nhất và để một nhân sự tài chính tự dựng công cụ, với điều kiện dừng đã viết sẵn. Lập sổ đăng ký hệ thống AI, mỗi dòng có tên người chịu trách nhiệm. Đưa yêu cầu chứng nhận ISO 42001 hoặc AIUC-1 vào tiêu chí chọn nhà cung cấp.</p>
+      </div>
+      <div>
+        <h3>60–90 ngày · Dự báo</h3>
+        <p>Dựng dự báo dòng tiền cuốn chiếu 13 tuần cho toàn Group, bao gồm hai mốc thuế gia hạn dồn về 02/11 và 30/12. Ghi lại sai số mỗi tuần. Chỉ đến lúc này mới đánh giá công cụ dự báo có AI — với một con số nền để so sánh.</p>
+      </div>
+    </div>
+    <div class="callout"><b>Khung phân bổ nỗ lực (F/SO):</b> BCG đưa ra công thức <b>10-20-70</b> — khoảng 10% thành công của AI đến từ bản thân mô hình, 20% từ nền tảng công nghệ, và <b>70% phụ thuộc vào tổ chức, con người và kỹ năng</b>. Với một tập đoàn bốn pháp nhân, rào cản cụ thể nhất trong phần 70% đó là <b>định nghĩa không nhất quán</b>: nếu H, S, K và HK không dùng chung định nghĩa doanh thu, kỳ kế toán, danh mục chi phí và dữ liệu khách hàng, thì mọi khoản đầu tư AI vào FP&amp;A đều sẽ thất bại ở tầng dữ liệu — trước khi chạm tới mô hình.</div>
+  </section>
+</div>
+
+<footer>
+  <h4>Sources — bấm để đọc bài gốc</h4>
+  <ul>
+    <li><a href="https://www.bls.gov/news.release/archives/empsit_09042026.htm" target="_blank" rel="noopener">BLS — Employment Situation tháng 8/2026 (công bố 04/09)</a></li>
+    <li><a href="https://www.federalreserve.gov/newsevents/speech/warsh20260828a.htm" target="_blank" rel="noopener">Federal Reserve — Phát biểu Chủ tịch Kevin Warsh tại Jackson Hole, 28/08/2026</a></li>
+    <li><a href="https://www.semafor.com/article/09/03/2026/us-fed-governor-waller-floats-september-rate-hold" target="_blank" rel="noopener">Semafor 03/09 — Thống đốc Waller ngỏ ý giữ nguyên lãi suất tháng 9</a></li>
+    <li><a href="https://www.federalreserve.gov/releases/h15/" target="_blank" rel="noopener">Federal Reserve H.15 — Lãi suất chọn lọc</a></li>
+    <li><a href="https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-sept-04-2026" target="_blank" rel="noopener">TheStreet 04/09 — Thị trường Mỹ và lợi suất trái phiếu</a></li>
+    <li><a href="https://mansfield.energy/2026/09/04/week-in-review-wti-is-on-track-for-a-7-weekly-gain-on-falling-iranian-exports-and-strait-of-hormuz-risks/" target="_blank" rel="noopener">Mansfield Energy 04/09 — Dầu tăng do xuất khẩu Iran giảm và rủi ro Hormuz</a></li>
+    <li><a href="https://www.thedcn.com.au/news/world-container-index-3-september-2026" target="_blank" rel="noopener">Drewry World Container Index 03/09/2026</a></li>
+    <li><a href="https://u.osu.edu/aede/2026/09/02/where-are-we-on-the-legal-status-of-u-s-tariffs/" target="_blank" rel="noopener">Ohio State AEDE 02/09 — Tình trạng pháp lý của thuế quan Mỹ</a></li>
+    <li><a href="https://www.vietnam-briefing.com/news/us-section-301-forced-labor-investigation-new-trade-compliance-risks-for-vietnam-exporters.html/" target="_blank" rel="noopener">Vietnam Briefing — Điều tra Mục 301 về lao động cưỡng bức và rủi ro tuân thủ</a></li>
+    <li><a href="https://www.nso.gov.vn/bai-top/2026/09/bao-cao-tinh-hinh-kinh-te-xa-hoi-thang-tam-va-8-thang-nam-2026/" target="_blank" rel="noopener">Cục Thống kê — Báo cáo tình hình kinh tế xã hội tháng 8 và 8 tháng 2026</a></li>
+    <li><a href="https://baochinhphu.vn/cpi-thang-8-2026-tang-047-102260903102212826.htm" target="_blank" rel="noopener">Báo Chính phủ 03/09 — CPI tháng 8/2026</a></li>
+    <li><a href="https://www.vietnamplus.vn/tong-kim-ngach-xuat-nhap-khau-hang-hoa-8-thang-lap-ky-luc-dat-77014-ty-usd-post1134077.vnp" target="_blank" rel="noopener">VietnamPlus — Kim ngạch xuất nhập khẩu 8 tháng đạt kỷ lục 770,14 tỷ USD</a></li>
+    <li><a href="https://www.vietnamplus.vn/gan-2064-nghin-doanh-nghiep-gia-nhap-va-quay-lai-thi-truong-trong-tam-thang-post1133933.vnp" target="_blank" rel="noopener">VietnamPlus — Doanh nghiệp gia nhập và rút lui thị trường 8 tháng</a></li>
+    <li><a href="https://thoibaotaichinhvietnam.vn/chung-khoan-ngay-4-9-vn-index-but-pha-dong-tien-van-than-trong-203273.html" target="_blank" rel="noopener">Thời báo Tài chính VN 04/09 — VN-Index bứt phá, dòng tiền thận trọng</a></li>
+    <li><a href="https://giavang.net/ty-gia-usd-vnd-ngay-4-9-tgtt-giam-10-dong-dxy-duoi-moc-99/" target="_blank" rel="noopener">Giá Vàng Net 04/09 — Tỷ giá USD/VND</a></li>
+    <li><a href="https://nguoiquansat.vn/phien-4-9-nhnn-bom-rong-hon-5-600-ty-dong-lai-suat-qua-dem-neo-muc-6-314334.html" target="_blank" rel="noopener">Người Quan Sát 04/09 — Lãi suất qua đêm neo mức 6%, NHNN bơm ròng 5.625 tỷ</a></li>
+    <li><a href="https://cafef.vn/huy-dong-von-ngan-hang-bat-ngo-tang-manh-cao-hon-tang-truong-tin-dung-18826090408245786.chn" target="_blank" rel="noopener">CafeF — Huy động vốn tăng cao hơn tăng trưởng tín dụng</a></li>
+    <li><a href="https://vnexpress.net/gia-xang-dau-moi-nhat-hom-nay-3-9-5116119.html" target="_blank" rel="noopener">VnExpress 03/09 — Điều chỉnh giá xăng dầu</a></li>
+    <li><a href="https://vietnamnet.vn/gia-vang-hom-nay-7-9-2026-chiu-ap-luc-giam-sau-tuan-bien-dong-manh-2552471.html" target="_blank" rel="noopener">VietnamNet 07/09 — Giá vàng SJC</a></li>
+    <li><a href="https://baochinhphu.vn/nghi-quyet-phien-hop-chinh-phu-thuong-ky-thang-8-2026-102260906104022684.htm" target="_blank" rel="noopener">Báo Chính phủ — Nghị quyết 262/NQ-CP phiên họp Chính phủ thường kỳ tháng 8</a></li>
+    <li><a href="https://baochinhphu.vn/thu-tuong-chu-tri-phien-hop-chinh-phu-thang-8-thoi-diem-tang-toc-but-pha-voi-quyet-tam-cao-nhat-102260903180656194.htm" target="_blank" rel="noopener">Báo Chính phủ 03/09 — Thủ tướng Lê Minh Hưng chủ trì phiên họp Chính phủ tháng 8</a></li>
+    <li><a href="https://nguoiquansat.vn/thu-tuong-yeu-cau-trien-khai-thi-diem-thi-truong-tai-san-ma-hoa-5-doanh-nghiep-da-duoc-chap-thuan-314556.html" target="_blank" rel="noopener">Người Quan Sát 06/09 — Thí điểm thị trường tài sản mã hóa, 5 doanh nghiệp được chấp thuận</a></li>
+    <li><a href="https://luatvietnam.vn/tin-van-ban-moi/nghi-dinh-292-2026-nd-cp-23-nhom-hang-hoa-cam-nhap-khau-tu-05-9-2026-186-110782-article.html" target="_blank" rel="noopener">LuatVietnam — Nghị định 292/2026/NĐ-CP, 23 nhóm hàng cấm nhập khẩu từ 05/09</a></li>
+    <li><a href="https://xaydungchinhsach.chinhphu.vn/thong-tu-so-110-2026-tt-btc-bai-bo-22-thong-tu-va-3-quyet-dinh-trong-linh-vuc-thue-tu-12-9-2026-119260803170925694.htm" target="_blank" rel="noopener">Cổng Xây dựng chính sách — Thông tư 110/2026/TT-BTC bãi bỏ 22 thông tư thuế</a></li>
+    <li><a href="https://baochinhphu.vn/bo-tai-chinh-du-kien-bai-bo-23-thong-tu-3-quyet-dinh-linh-vuc-thue-102260520174130381.htm" target="_blank" rel="noopener">Báo Chính phủ — Lý do Bộ Tài chính bãi bỏ các thông tư thuế</a></li>
+    <li><a href="https://thuvienphapluat.vn/van-ban/Thue-Phi-Le-Phi/Thong-tu-123-2004-TT-BTC-huong-dan-uu-dai-thue-doanh-nghiep-phan-mem-52718.aspx" target="_blank" rel="noopener">Thư viện Pháp luật — Thông tư 123/2004/TT-BTC về ưu đãi thuế doanh nghiệp phần mềm</a></li>
+    <li><a href="https://www.pwc.com/vn/vn/publications/news-brief/260707-decree-255-2026.html" target="_blank" rel="noopener">PwC Việt Nam — Bản tin Nghị định 255/2026 về giao dịch liên kết</a></li>
+    <li><a href="https://cafef.vn/de-xuat-ap-thue-10-suot-25-nam-cho-doanh-nghiep-cong-nghe-chien-luoc-188260905074244951.chn" target="_blank" rel="noopener">CafeF 05/09 — Đề xuất áp thuế 10% suốt 25 năm cho doanh nghiệp công nghệ chiến lược</a></li>
+    <li><a href="https://luatvietnam.vn/thue-phi-le-phi/doanh-nghiep-ai-ban-dan-san-xuat-chip-duoc-uu-dai-thue-tndn-the-nao-565-111325-article.html" target="_blank" rel="noopener">LuatVietnam — Ưu đãi thuế TNDN cho doanh nghiệp AI, bán dẫn, sản xuất chip</a></li>
+    <li><a href="https://www.ey.com/vi_vn/technical/tax/tax-and-law-updates/luat-thue-thu-nhap-ca-nhan-109-2025-qh15" target="_blank" rel="noopener">EY Việt Nam — Luật Thuế thu nhập cá nhân 109/2025/QH15</a></li>
+    <li><a href="https://baochinhphu.vn/gia-han-thoi-han-nop-thue-gtgt-thue-tndn-thue-tncn-va-tien-thue-dat-trong-nam-2026-102260627171947357.htm" target="_blank" rel="noopener">Báo Chính phủ — Nghị định 245/2026 gia hạn nộp thuế năm 2026</a></li>
+    <li><a href="https://xaydungchinhsach.chinhphu.vn/nghi-dinh-so-236-2025-nd-cp-quy-dinh-ve-thue-toi-thieu-toan-cau-119250903135325963.htm" target="_blank" rel="noopener">Cổng Xây dựng chính sách — Nghị định 236/2025 về thuế tối thiểu toàn cầu</a></li>
+    <li><a href="https://luatvietnam.vn/tin-van-ban-moi/da-co-nghi-dinh-248-2026-nd-cp-huong-dan-thi-hanh-luat-thuong-mai-dien-tu-tu-01-7-2026-186-110111-article.html" target="_blank" rel="noopener">LuatVietnam — Nghị định 248/2026 hướng dẫn Luật Thương mại điện tử</a></li>
+    <li><a href="https://www.cfodive.com/news/inside-openai-experiment-ai-coding-finance/829250/" target="_blank" rel="noopener">CFO Dive 01/09/2026 — Bên trong thử nghiệm AI coding của đội tài chính OpenAI</a></li>
+    <li><a href="https://www.cfodive.com/news/92-cfos-top-finance-staff-pressure-show-roi-ai-avalara/825828/" target="_blank" rel="noopener">CFO Dive 21/07/2026 — Khảo sát Avalara: 92% CFO chịu áp lực chứng minh ROI từ AI</a></li>
+    <li><a href="https://www.cfodive.com/news/only-35-percent-finance-leaders-confidently-gauge-roi-ai-protiviti-cybersecurity-it/829015/" target="_blank" rel="noopener">CFO Dive 27/08/2026 — Protiviti Global Finance Trends Survey 2026</a></li>
+    <li><a href="https://www.cfodive.com/news/kpmg-agentic-tool-certified-security-reliability-ai-risks-mount/829260/" target="_blank" rel="noopener">CFO Dive 01/09/2026 — KPMG đạt chứng nhận AIUC-1 cho công cụ agentic AI</a></li>
+    <li><a href="https://www.ey.com/en_us/insights/finance/dna-of-the-cfo-survey" target="_blank" rel="noopener">EY — DNA of the CFO Survey 2026</a></li>
+    <li><a href="https://www.bcg.com/publications/2026/the-cfos-ai-agenda-from-automation-to-advantage" target="_blank" rel="noopener">BCG — The CFO's AI Agenda: From Automation to Advantage</a></li>
+    <li><a href="https://www.aicpa-cima.com/news/article/economic-confidence-improves-but-businesses-pull-back-on-spending-plans-as-uncertainty-persists-aicpa-and-cima-survey-finds" target="_blank" rel="noopener">AICPA &amp; CIMA 03/09/2026 — Economic Outlook Survey quý 3/2026</a></li>
+  </ul>
+  <p class="fine">Bản tin tổng hợp tự động theo khung CFO Morning Brief · Ấn bản 07/09/2026 · Biểu đồ là minh họa dựng từ số liệu nguồn mô tả · Chỉ dùng nội dung nguồn cung cấp, phần suy luận đánh dấu (I) · Số liệu vĩ mô tháng 8 do Cục Thống kê công bố ngày 03/09; thị trường chứng khoán chỉ giao dịch 2 phiên trong tuần 03–04/09 sau nghỉ lễ Quốc khánh · Lưu trữ các số cũ: <a href="./archive/2026-09-07.html">./archive/</a></p>
+</footer>
+
+</div>
+<script>
+  document.querySelectorAll('.dev-head').forEach(function(h) {
+    h.addEventListener('click', function() { h.parentElement.classList.toggle('open'); });
+  });
+  var tabs = document.querySelectorAll('#tabbar button');
+  tabs.forEach(function(b) {
+    b.addEventListener('click', function() {
+      tabs.forEach(function(x) { x.classList.remove('active'); });
+      b.classList.add('active');
+      var id = b.getAttribute('data-tab');
+      document.querySelectorAll('.tabpanel').forEach(function(p) { p.classList.toggle('active', p.id === id); });
+      var np = document.getElementById(id);
+      if (np) { np.querySelectorAll('.reveal').forEach(function(el) { el.classList.add('in'); }); }
+      window.scrollTo({ top: 0 });
+    });
+  });
+  var chips = document.querySelectorAll('#chips .chip');
+  chips.forEach(function(c) {
+    c.addEventListener('click', function() {
+      chips.forEach(function(x) { x.classList.remove('active'); });
+      c.classList.add('active');
+      var f = c.getAttribute('data-f');
+      document.querySelectorAll('.dev').forEach(function(d) {
+        var tags = d.getAttribute('data-f').split(' ');
+        d.classList.toggle('hidden', f !== 'all' && tags.indexOf(f) === -1);
+      });
+    });
+  });
+
+  // hiện dần khi cuộn tới — không có IntersectionObserver thì hiện hết ngay
+  (function() {
+    var els = document.querySelectorAll('.reveal');
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce || !('IntersectionObserver' in window)) {
+      els.forEach(function(el) { el.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(en) {
+        if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.04 });
+    els.forEach(function(el) { io.observe(el); });
+  })();
+</script>
+</body>
+</html>
